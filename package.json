@@ -1,0 +1,17 @@
+{
+  "name": "kickstarter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.1.2",
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^18.2.1"
+  }
+}
