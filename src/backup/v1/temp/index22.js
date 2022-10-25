@@ -133,26 +133,19 @@ const getEndpoint = async (url) => {
 }
 
 
-
-
-
 const showMeTheMoney = async () => {
 	const mainCategory = await getMainCategory();
 
 	//const subCategory = await getSubCategory(mainCategory);	//	fail
 
 	const subCategory = [];
-//	for(let i=0; i<mainCategory.length; i++){		// temp
-	for(let i=0; i<1; i++){
+	for(let i=0; i<mainCategory.length; i++){		// temp
 		subCategory.push(await getSubCategory_v2(mainCategory[i]));
 	}
 
-	const a_total_of_url = subCategory.reduce((prev, curr) => {return prev += curr.length}, 0);
-	console.log(`"There are ${mainCategory.length} main-category, and a total of ${a_total_of_url} sub-category."`)
-	console.log('parameter: ', subCategory[0][0].url)
+	console.log('M: ', mainCategory);
+	console.log('S: ', subCategory);
 
-	const finDestination = await getEndpoint(subCategory[0][0].url);
-	console.log('go to: ', finDestination);
 }
 
 showMeTheMoney();

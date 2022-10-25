@@ -1,0 +1,50 @@
+[
+  { mainCategory: 'Arts', subCategory: 'Art', categoryId: '' },
+  { mainCategory: 'Arts', subCategory: 'Dance', categoryId: '' },
+  { mainCategory: 'Arts', subCategory: 'Photography', categoryId: '' },
+  { mainCategory: 'Arts', subCategory: 'Theater', categoryId: '' },
+  {
+    mainCategory: 'Comics & Illustration',
+    subCategory: 'Comics',
+    categoryId: ''
+  },
+  {
+    mainCategory: 'Comics & Illustration',
+    subCategory: 'Illustration',
+    categoryId: ''
+  },
+  {
+    mainCategory: 'Design & Tech',
+    subCategory: 'Design',
+    categoryId: ''
+  },
+  {
+    mainCategory: 'Design & Tech',
+    subCategory: 'Technology',
+    categoryId: ''
+  },
+  { mainCategory: 'Film', subCategory: 'Film & Video', categoryId: '' },
+  {
+    mainCategory: 'Food & Craft',
+    subCategory: 'Crafts',
+    categoryId: ''
+  },
+  {
+    mainCategory: 'Food & Craft',
+    subCategory: 'Fashion',
+    categoryId: ''
+  },
+  { mainCategory: 'Food & Craft', subCategory: 'Food', categoryId: '' },
+  { mainCategory: 'Games', subCategory: 'Games', categoryId: '' },
+  { mainCategory: 'Music', subCategory: 'Music', categoryId: '' },
+  {
+    mainCategory: 'Publishing',
+    subCategory: 'Journalism',
+    categoryId: ''
+  },
+  {
+    mainCategory: 'Publishing',
+    subCategory: 'Publishing',
+    categoryId: ''
+  }
+]

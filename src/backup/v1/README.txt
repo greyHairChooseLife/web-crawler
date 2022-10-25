@@ -25,4 +25,4 @@
 	결과와 이유
 
 - 18개 subCategory의 default url은 확보. 그러나 1~200페이지를 순회할 수 있는 본격적인(?) uri는 확보하지 못함.
-- 사람이 직접 브라우저를 구동시켜보면 'Load more'버튼을 누르면서 동시에 2페이지가 로딩되고, 그와 동시에 default url에서 재사용 가능한 완전한 uri로 바뀐다. 그러나 puppeteer로 접속하고 해당 element를 클릭 해도 이와같은 이벤트들이 일어나지 않는다.
+- 사람이 직접 브라우저를 구동시켜보면 'Load more'버튼을 누르면 2페이지가 appending되고, 그와 동시에 default url에서 재사용 가능한 완전한 uri로 바뀐다. 그러나 puppeteer로 접속하고 해당 element를 클릭 해도 이와같은 이벤트들이 일어나지 않는다.
