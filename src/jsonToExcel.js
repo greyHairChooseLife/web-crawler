@@ -47,7 +47,7 @@ const makeColumns = () => {
 		'number_of_new_backers', 'number_of_returning_backers'
 	]
 
-	const all = [...fromThumbnailWithHeader, ...fromCreator, ...fromCampaign, ...fromSupport, ...fromFAQ, ...fromUpdates, ...fromComments, ...fromCommunitiy];
+	const all = ['created_at', ...fromThumbnailWithHeader, ...fromCreator, ...fromCampaign, ...fromSupport, ...fromFAQ, ...fromUpdates, ...fromComments, ...fromCommunitiy];
 	return all.map(ele => {
 		return {header: ele, key: ele}
 	})
@@ -62,7 +62,8 @@ sheet1.columns = [
 
 const data = [
 	{
-		project_url: r.p.project_name,
+		created_at: r.p.created_at,
+		project_url: r.p.project_url,
 		project_name: r.p.project_name,
 		project_description: r.p.project_description,
 		rate_of_funded: r.p.rate_of_funded,
