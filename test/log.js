@@ -1,0 +1,1 @@
+exports.thing = {'name': 'sykim'};
