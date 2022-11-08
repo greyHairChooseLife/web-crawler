@@ -17,7 +17,7 @@ exports.getNumberOfProjectByCategory = async (categoryId) => {
 	const page = await browser.newPage();     
 	await page.setUserAgent(userAgent.random().toString());
 
-	const url = baseURL + `/discover/advanced?category_id=${categoryId}&sort=migic&seed=${startingSeed}&page=1`;
+	const url = baseURL + `/discover/advanced?category_id=${categoryId}&sort=magic&seed=${startingSeed}&page=1`;
 	await page.goto(url, { waitUntil: 'networkidle0', });
 
 	const result = await page.$eval('#projects > div.grid-container > h3 > b', ele => ele.textContent);

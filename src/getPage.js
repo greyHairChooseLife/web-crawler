@@ -5,6 +5,7 @@ const userAgent = require('user-agents');
 
 const util = require('util');
 
+const now = new Date().toLocaleString();
 const waitRandom = (randomDelay) => new Promise((resolve) => setTimeout(resolve, randomDelay))	//	setTimeout() 함수가 강제로 프로미스를 반환하도록 만들어준다. 원래는 await 못씀.
 const getRandom = () => {return Math.floor(Math.random() * 20)}
 
@@ -143,6 +144,21 @@ exports.getPage = {
 			//	펀딩 옵션에도 제한 수량이 있다. 모두 팔리면 pledge__info클래스를 가진 element는 사라지고 All gone!이라는 textContent만 남는다.
 			if(await page.evaluate(ele => ele.querySelector('div.pledge__info')?.outerHTML, option) === undefined) contents_of_support_options.push(await page.evaluate(ele => ele.outerHTML, option))
 		}
+
+		let fundingPeriod = {
+			start: undefined,
+			end: undefined,
+			duration: undefined
+		}
+		try{
+			fundingPeriod = await page.$eval('#content-wrap > div.NS_projects__content > section.js-project-content.js-project-description-content.project-content > div > div > div > div.col.col-4.js-rewards-column.max-w62.sticky-rewards > div > div.NS_campaigns__funding_period > p', ele => {
+				return {
+					start: ele.querySelector('time:nth-child(1)').textContent,
+					end: ele.querySelector('time:nth-child(2)').textContent,
+					duration: ele.textContent.match(/\(.*\)/)[0].split(' ')[0].slice(1) *1
+				}
+			})
+		}catch(err){}
 
 		const number_of_FAQ = await page.$eval('#faq-emoji', ele => { return ele.querySelector('span') ? ele.querySelector('span')?.textContent : '0'});
 		const number_of_updates = await page.$eval('#updates-emoji', ele => { return ele.querySelector('span')?.textContent; });
@@ -283,6 +299,7 @@ exports.getPage = {
 		await browser.close(); // ➐ 작업이 완료되면 브라우저 종료
 
 		return {
+			createdAt: now,
 			...fromHeaderAndCreator,
 			...fromCampaign,
 			number_of_support_options: number_of_support_options,
@@ -293,7 +310,8 @@ exports.getPage = {
 			contents_of_FAQ: contents_of_FAQ,
 			...community,
 			project_profile_background_imageURL: project_profile_background_imageURL,
-			last_updated: last_updated
+			last_updated: last_updated,
+			...fundingPeriod,
 		}
 	},
 	submitted: async (url) => {
@@ -426,6 +444,7 @@ exports.getPage = {
 						project_description: data.data.project.description,
 						category: data.data.project.category.name,
 						location: data.data.project.location.displayableName,
+						numberOfFollowers: data.data.project.watchesCount,
 
 						creator_name: data.data.project.creator.name,
 						creator_location: data.data.project.creator.location.displayableName,
@@ -451,8 +470,12 @@ exports.getPage = {
 		})
 
 		await page.goto(url, { waitUntil: 'networkidle0', });
+
 		await browser.close();
-		return result 
+		return {
+			createdAt: now,
+			...result 
+		}
 	},
 	successful: async (url) => {
 		const browser = await puppeteer.launch({executablePath: '/opt/google/chrome/google-chrome',
@@ -469,91 +492,6 @@ exports.getPage = {
 		const slugMake = url.split('/');
 		const slug = slugMake[slugMake.length-2] + '/' + slugMake[slugMake.length-1];
 
-//		let count = 0;
-//		let xcsrfToken;
-//
-//		await page.on('request', async request => {
-//			if(request.url().includes('/graph') && request.method() === 'POST'){
-//				xcsrfToken = await request.headers()["x-csrf-token"];
-//				switch(count){
-//					case 0:		//	getComments	
-//						await request.continue({
-//							headers: {
-//								...request.headers(),
-//								"x-csrf-token": xcsrfToken,
-//								'User-Agent': userAgent.random().toString()
-//							},
-//							method: 'POST',
-//							postData: JSON.stringify({
-//								"query": `
-//									query CreatorSection($slug: String!) {
-//									  project(slug: $slug) {
-//										id
-//										verifiedIdentity
-//										creator {
-//										  id
-//										  name
-//										  imageUrl(width: 100)
-//										  url
-//										  lastLogin
-//										  biography
-//										  isFacebookConnected
-//										  allowsFollows
-//										  backingsCount
-//										  location {
-//											displayableName
-//										  }
-//										  launchedProjects {
-//											totalCount
-//										  }
-//										  websites {
-//											url
-//											domain
-//										  }
-//										}
-//										collaborators {
-//										  edges {
-//											node {
-//											  name
-//											  imageUrl(width: 200)
-//											  url
-//											}
-//											title
-//										  }
-//										}
-//									  }
-//									}`,
-//								"variables": {
-//									"slug": slug
-//								}
-//							}),
-//						})
-//						console.log('req intercepted, slug: ', slug)
-//						count++;
-//						break;
-//					default:
-//						request.continue();
-//				}
-//			}else{
-//				await request.continue()
-//			}
-//		})
-//
-//		let result_ = [];
-//		await page.on('response', async response => {
-//			// Ignore OPTIONS requests
-//			if(response.request().method() !== 'POST') return
-//			if(response.url().includes('/graph')) {
-//				try{
-//					const data = await response.json()
-//					//	다른 graphQL요청을 abort() 하면 일반적인 html 읽기에 실패한다. 그래서 받아오는 graphQL 정보를 모두 배열에 때려박고 원하는 것만 취하기로 한다.
-//					result_.push(data);
-//				}catch(err){
-//					console.error(err);
-//				}
-//			}
-//		})
-
 		await page.goto(url, { waitUntil: 'networkidle0', });
 
 
@@ -565,6 +503,21 @@ exports.getPage = {
 			//	펀딩 옵션에도 제한 수량이 있다. 모두 팔리면 pledge__info클래스를 가진 element는 사라지고 All gone!이라는 textContent만 남는다.
 			if(await page.evaluate(ele => ele.querySelector('div.pledge__info')?.outerHTML, option) === undefined) contents_of_support_options.push(await page.evaluate(ele => ele.outerHTML, option))
 		}
+
+		let fundingPeriod = {
+			start: undefined,
+			end: undefined,
+			duration: undefined
+		}
+		try{
+			fundingPeriod = await page.$eval('#content-wrap > div.NS_projects__content > section.js-project-content.js-project-description-content.project-content > div > div > div > div.col.col-4.js-rewards-column.max-w62.sticky-rewards > div > div.NS_campaigns__funding_period > p', ele => {
+				return {
+					start: ele.querySelector('time:nth-child(1)').textContent,
+					end: ele.querySelector('time:nth-child(2)').textContent,
+					duration: ele.textContent.match(/\(.*\)/)[0].split(' ')[0].slice(1) *1
+				}
+			})
+		}catch(err){}
 
 		const fromCampaign = await page.$eval('#react-campaign', ele => {
 			const page_of_story = ele.querySelector('#story + div.rte__content').outerHTML;
@@ -588,8 +541,7 @@ exports.getPage = {
 				number_of_comments_depth_all: data.commentsCount,
 			}
 		})
-
-		const project_description = await page.$eval('#content-wrap > section > div.project-profile__content > div.grid-container.pb3.pb10-sm > div > div.grid-col-12.grid-col-4-lg > div.NS_project_profiles__blurb > div.project-profile__blurb.editable-field > span > span', ele => ele.textContent);
+		const project_description = await page.$eval('#content-wrap > section > div.project-profile__content > div.grid-container.pb3.pb10-sm > div > div.grid-col-12.grid-col-4-lg > div.NS_project_profiles__blurb > div.project-profile__blurb.editable-field > span > span', ele => ele.textContent.substr(1, ele.textContent.length-2));
 
 		let project_profile_background_imageURL;
 		try{
@@ -647,18 +599,15 @@ exports.getPage = {
 				category = leftGroup[2];
 			}
 
+			let amount_of_goal = numberize(goal); 
+			let amount_of_pledged = numberize(pledgedOrigin); 
+			let rate_of_funded = Math.floor(amount_of_pledged/amount_of_goal *100); 
+
 			let currency_type = undefined; 
 			let currency_symbol = undefined; 
-			let amount_of_goal = undefined; 
-			let amount_of_pledged = undefined; 
-			let rate_of_funded = undefined; 
-
 			if(spliter !== undefined){
 				currency_type = pledgedOrigin.split(spliter)[0] === '' ? 'US' : pledgedOrigin.split(spliter)[0];
 				currency_symbol = spliter;
-				amount_of_goal = goal.split(spliter)[1];
-				amount_of_pledged = pledgedOrigin.split(spliter)[1];
-				rate_of_funded = Math.floor(numberize(pledgedOrigin.split(spliter)[1]) / numberize(goal.split(spliter)[1]) * 100);
 			}
 
 			return {
@@ -814,6 +763,7 @@ exports.getPage = {
 		let creatorGraphQL = await getCreatorData(slug, url);
 
 		return {
+			createdAt: now,
 			slug: slug,
 			project_url: url,
 			number_of_support_options: number_of_support_options,
@@ -824,11 +774,12 @@ exports.getPage = {
 			project_description: project_description,
 			project_profile_background_imageURL, project_profile_background_imageURL,
 			project_imageURL: project_imageURL,
-			last_updated: last_updated,
 			deadline: undefined,
 			project_name: project_name,
 			...bodyHeader,
 			...community,
+			...fundingPeriod,
+			last_updated: last_updated,
 
 			creator_name: creatorGraphQL.creator.name,
 			creator_location: creatorGraphQL.creator.location.displayableName,
@@ -846,15 +797,7 @@ exports.getPage = {
 			creator_url: creatorGraphQL.creator.url,
 		} 
 	},
-//	failed: async (url) => {
-//		similar with live state
-//	},
-//	canceled: async (url) => {
-//		similar with live state
-//	},
 };
-
-
 
 const getCreatorData = async (slug, url) => {
 	const browser = await puppeteer.launch({executablePath: '/opt/google/chrome/google-chrome',
@@ -959,7 +902,7 @@ const getCreatorData = async (slug, url) => {
 
 //(
 //	async () => {
-//		const url = `https://www.kickstarter.com/projects/blayzebuseth/tomsadventure`
+//		const url = `https://www.kickstarter.com/projects/1545829275/meadow-ceramics`
 //		const a = await getPage.successful(url);
 //
 //		//const a = await getCreatorData(slug)
