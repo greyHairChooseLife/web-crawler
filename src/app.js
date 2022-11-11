@@ -145,9 +145,9 @@ const runApp = () => {
 				targetPool = require(`./targets/${categoryPool[z].subCategory}`).targets	//	STAGE 2에서 업데이트 됐을 가능성 있음.
 				//	유저가 선택한 (sub)category의 폴더가 ./log/ 내부에 존재하지 않는다면 새롭게 만든다.
 				try{
-					fs.readdirSync(`${dirName}/log/${categoryPool[z].subCategory}`);
+					fs.readdirSync(`../log/${categoryPool[z].subCategory}`);
 				}catch(err){
-					fs.mkdirSync(`${dirName}/log/${categoryPool[z].subCategory}`);
+					fs.mkdirSync(`../log/${categoryPool[z].subCategory}`);
 					console.log(`[${categoryPool[z].subCategory}] 폴더가 만들어졌습니다.`);
 				}
 
@@ -156,9 +156,9 @@ const runApp = () => {
 					console.time(`${i}번째 target time taken`)
 					//	유저가 선택한 (sub)category의 폴더 내부에 해당 순번(0 ~ numberOfProjectByCategory)을 이름으로 갖는 폴더가 존재하지 않는다면 새롭게 만든다.
 					try{
-						fs.readdirSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}`);
+						fs.readdirSync(`../log/${categoryPool[z].subCategory}/${i}`);
 					}catch(err){
-						fs.mkdirSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}`);
+						fs.mkdirSync(`../log/${categoryPool[z].subCategory}/${i}`);
 						console.log(`\n\n[${categoryPool[z].subCategory}/${i}] 폴더가 만들어졌습니다.`);
 					}
 					
@@ -180,14 +180,14 @@ const runApp = () => {
 										...targetPool[i],
 										foundPage: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getPage함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
 								}
 								await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 							}else if(targetPool[i].foundPage){	//	pageData만 완성되고 commentsData는 크롤링 해야 할 때에도 commentableId는 구해줘야한다.
-								const {data} = require(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData`)
+								const {data} = require(`../log/${categoryPool[z].subCategory}/${i}/pageData`)
 								commentableId = data.commentable_id;
 								projectSlug = data.slug.split('/')[1];
 							}
@@ -206,7 +206,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundUpdates: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getUpdates함수 실행 완료. ${i}번째 target의 .../updatesData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getUpdates함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
@@ -223,7 +223,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundComments: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getComments함수 실행 완료. ${i}번째 target의 .../commentsData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getComments함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
@@ -242,7 +242,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundPage: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getPage함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
@@ -263,14 +263,14 @@ const runApp = () => {
 										...targetPool[i],
 										foundPage: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getPage함수 실행이 실패했습니다.\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
 								}
 								await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 							}else if(targetPool[i].foundPage){	//	pageData만 완성되고 commentsData는 크롤링 해야 할 때에도 commentableId는 구해줘야한다.
-								const {data} = require(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData`)
+								const {data} = require(`../log/${categoryPool[z].subCategory}/${i}/pageData`)
 								commentableId = data.commentable_id;
 								projectSlug = data.slug.split('/')[1];
 							}
@@ -289,7 +289,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundUpdates: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getUpdates함수 실행 완료. ${i}번째 target의 .../updatesData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getUpdates함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
@@ -306,7 +306,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundComments: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getComments함수 실행 완료. ${i}번째 target의 .../commentsData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getComments함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
@@ -327,14 +327,14 @@ const runApp = () => {
 										...targetPool[i],
 										foundPage: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getPage함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
 								}
 								await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 							}else if(targetPool[i].foundPage){	//	pageData만 완성되고 commentsData는 크롤링 해야 할 때에도 commentableId는 구해줘야한다.
-								const {data} = require(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData`)
+								const {data} = require(`../log/${categoryPool[z].subCategory}/${i}/pageData`)
 								commentableId = data.commentable_id;
 								projectSlug = data.slug.split('/')[1];
 							}
@@ -353,7 +353,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundUpdates: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getUpdates함수 실행 완료. ${i}번째 target의 .../updatesData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getUpdates함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
@@ -370,7 +370,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundComments: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getComments함수 실행 완료. ${i}번째 target의 .../commentsData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getComments함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
@@ -391,14 +391,14 @@ const runApp = () => {
 										...targetPool[i],
 										foundPage: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getPage함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
 								}
 								await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 							}else if(targetPool[i].foundPage){	//	pageData만 완성되고 commentsData는 크롤링 해야 할 때에도 commentableId는 구해줘야한다.
-								const {data} = require(`${dirName}/log/${categoryPool[z].subCategory}/${i}/pageData`)
+								const {data} = require(`../log/${categoryPool[z].subCategory}/${i}/pageData`)
 								commentableId = data.commentable_id;
 								projectSlug = data.slug.split('/')[1];
 							}
@@ -417,7 +417,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundUpdates: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getUpdates함수 실행 완료. ${i}번째 target의 .../updatesData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getUpdates함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
@@ -434,7 +434,7 @@ const runApp = () => {
 										...targetPool[i],
 										foundComments: true
 									})
-									fs.writeFileSync(`${dirName}/log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
+									fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
 									console.log(`getComments함수 실행 완료. ${i}번째 target의 .../commentsData.js 파일이 생성되었습니다.`)
 								}catch(err){
 									console.log(`getComments함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
