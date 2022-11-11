@@ -1,0 +1,1 @@
+exports.data = [{"node":{"type":"launch","timestamp":1662096253,"data":{"goal":{"currency":"USD","amount":"4000.0","__typename":"Money"},"pledged":{"currency":"USD","amount":"1252.0","__typename":"Money"},"backersCount":19,"__typename":"Project"},"__typename":"ProjectTimelineEvent"},"__typename":"ProjectTimelineEventEdge"}]
