@@ -3,6 +3,8 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 const userAgent = require('user-agents');
 
+const {globalVariable} = require('./public/global');
+
 const dirName = '/home/sy/kickstarter';
 const baseURL = 'https://www.kickstarter.com';
 
@@ -13,7 +15,7 @@ const baseURL = 'https://www.kickstarter.com';
  *
  */
 exports.getTargets = async (categoryId, seed, pageNumber) => {
-	const browser = await puppeteer.launch({executablePath: '/opt/google/chrome/google-chrome',
+	const browser = await puppeteer.launch({executablePath: globalVariable.browserPath,
 	//	userDataDir: '/home/sy/.config/google-chrome/Default', 
 		args:[
 		//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`

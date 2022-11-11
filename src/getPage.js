@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 const userAgent = require('user-agents');
+const {globalVariable} = require('./public/global');
 
 const util = require('util');
 
@@ -13,7 +14,7 @@ const getRandom = () => {return Math.floor(Math.random() * 20)}
 //const getPage = {
 exports.getPage = {
 	liveOrFailOrCancel: async (url) => {
-		const browser = await puppeteer.launch({executablePath: '/opt/google/chrome/google-chrome',
+		const browser = await puppeteer.launch({executablePath: globalVariable.browserPath,
 		//	userDataDir: '/home/sy/.config/google-chrome/Default', 
 			args:[
 			//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`
@@ -316,7 +317,7 @@ exports.getPage = {
 	},
 	submitted: async (url) => {
 
-		const browser = await puppeteer.launch({executablePath: '/opt/google/chrome/google-chrome',
+		const browser = await puppeteer.launch({executablePath: globalVariable.browserPath,
 		//	userDataDir: '/home/sy/.config/google-chrome/Default', 
 			args:[
 			//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`
@@ -478,7 +479,7 @@ exports.getPage = {
 		}
 	},
 	successful: async (url) => {
-		const browser = await puppeteer.launch({executablePath: '/opt/google/chrome/google-chrome',
+		const browser = await puppeteer.launch({executablePath: globalVariable.browserPath,
 		//	userDataDir: '/home/sy/.config/google-chrome/Default', 
 			args:[
 			//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`
@@ -800,7 +801,7 @@ exports.getPage = {
 };
 
 const getCreatorData = async (slug, url) => {
-	const browser = await puppeteer.launch({executablePath: '/opt/google/chrome/google-chrome',
+	const browser = await puppeteer.launch({executablePath: globalVariable.browserPath,
 	//	userDataDir: '/home/sy/.config/google-chrome/Default', 
 		args:[
 		//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`

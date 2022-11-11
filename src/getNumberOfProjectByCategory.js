@@ -2,13 +2,14 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 const userAgent = require('user-agents');
+const {globalVariable} = require('./public/global');
 
 const baseURL = 'https://www.kickstarter.com';
 
 const startingSeed = '233'+Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+Math.floor(Math.random()*10); // not sure this cause problem..
 
 exports.getNumberOfProjectByCategory = async (categoryId) => {
-	const browser = await puppeteer.launch({executablePath: '/opt/google/chrome/google-chrome',
+	const browser = await puppeteer.launch({executablePath: globalVariable.browserPath,
 	//	userDataDir: '/home/sy/.config/google-chrome/Default', 
 		args:[
 		//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`
