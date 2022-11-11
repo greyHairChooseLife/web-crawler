@@ -44,7 +44,7 @@ const runApp = () => {
 						console.log('STAGE 1 start...\n')
 						console.time('STAGE 1 time taken')
 						const numberOfProject = await getNumberOfProjectByCategory(userAnswer);
-						categoryPool.splice(i, 1, {
+						categoryPool.splice(z, 1, {
 							...categoryPool[z],
 							numberOfProject: numberOfProject,
 							createdAt: now
