@@ -1,16 +1,13 @@
 const {categoryPool} = require('./categoryPool');
+const readline = require('readline');
 const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 
-const nested = categoryPool.reduce((prev, curr) => {
-	if(curr.mainCategory === 'Art') prev.push(curr)
+rl.question('카테고리 아이디를 입력 해 주세요: ', async userAnswer => {
+	const nested = categoryPool.reduce((prev, curr) => {
+		if(curr.mainCategory === userAnswer) prev.push(curr)
 
-	return prev
-}, [])
+		return prev
+	}, [])
 
-(
-	() => {
-		rl.
-	}
-)()
-console.log(nested.length)
-
+	console.table(nested)
+})
