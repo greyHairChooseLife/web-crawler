@@ -24,6 +24,8 @@ exports.getPage = {
 		await page.setUserAgent(userAgent.random().toString());
 		await page.setBypassCSP(true)
 
+		try{
+
 		//	page.goto
 		//	page.goto
 		//	page.goto
@@ -114,7 +116,6 @@ exports.getPage = {
 				return data_.split(`url('`)[1].split(`')`)[0];
 			});
 		}catch(err){
-			console.log('project_profile_background를 찾을 수 없습니다.')
 		}
 
 		let last_updated;
@@ -314,9 +315,14 @@ exports.getPage = {
 			last_updated: last_updated,
 			...fundingPeriod,
 		}
+
+		}catch(err){}
+		finally{
+			browser.close(); // ➐ 작업이 완료되면 브라우저 종료
+		}
+
 	},
 	submitted: async (url) => {
-
 		const browser = await puppeteer.launch({executablePath: globalVariable.browserPath,
 		//	userDataDir: '/home/sy/.config/google-chrome/Default', 
 			args:[
@@ -327,6 +333,8 @@ exports.getPage = {
 		await page.setUserAgent(userAgent.random().toString());
 		await page.setRequestInterception(true)
 		await page.setBypassCSP(true)
+
+		try{
 
 		let count = 0;
 		let xcsrfToken;
@@ -477,6 +485,11 @@ exports.getPage = {
 			createdAt: now,
 			...result 
 		}
+
+		}catch(err){}
+		finally{
+			browser.close(); // ➐ 작업이 완료되면 브라우저 종료
+		}
 	},
 	successful: async (url) => {
 		const browser = await puppeteer.launch({executablePath: globalVariable.browserPath,
@@ -489,6 +502,8 @@ exports.getPage = {
 		await page.setUserAgent(userAgent.random().toString());
 		//await page.setRequestInterception(true)
 		await page.setBypassCSP(true)
+
+		try{
 
 		const slugMake = url.split('/');
 		const slug = slugMake[slugMake.length-2] + '/' + slugMake[slugMake.length-1];
@@ -551,7 +566,6 @@ exports.getPage = {
 				return data_.split(`url('`)[1].split(`')`)[0];
 			});
 		}catch(err){
-			//console.log('project_profile_background를 찾을 수 없습니다.')
 		}
 
 		const project_imageURL = await page.$eval('#content-wrap > section > div.project-profile__content > div.grid-container.pb3.pb10-sm > div > div.grid-col-12.grid-col-8-lg > div > div > div > img', ele => ele.getAttribute('src'))
@@ -797,6 +811,11 @@ exports.getPage = {
 			creator_image: creatorGraphQL.creator.imageUrl,
 			creator_url: creatorGraphQL.creator.url,
 		} 
+
+		}catch(err){}
+		finally{
+			browser.close(); // ➐ 작업이 완료되면 브라우저 종료
+		}
 	},
 };
 
@@ -811,6 +830,8 @@ const getCreatorData = async (slug, url) => {
 	await page.setUserAgent(userAgent.random().toString());
 	await page.setRequestInterception(true)
 	await page.setBypassCSP(true)
+
+	try{
 
 	let xcsrfToken;
 
@@ -897,6 +918,11 @@ const getCreatorData = async (slug, url) => {
 
 	await browser.close();
 	return creatorData;
+
+	}catch(err){}
+	finally{
+		browser.close(); // ➐ 작업이 완료되면 브라우저 종료
+	}
 }
 
 

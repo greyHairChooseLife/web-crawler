@@ -1,4 +1,4 @@
 exports.globalVariable = {
-	browserPath: '',
-	//browserPath: '/opt/google/chrome/google-chrome'
+	//browserPath: '',
+	browserPath: '/opt/google/chrome/google-chrome'
 }

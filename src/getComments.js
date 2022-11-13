@@ -18,6 +18,8 @@ const getComment = async (targetUrl, commentableId, endCursor) => {
 	await page.setUserAgent(userAgent.random().toString());
 	await page.setRequestInterception(true)
 
+	try{
+
 	let count = 0;
 	let xcsrfToken;
 
@@ -130,6 +132,11 @@ const getComment = async (targetUrl, commentableId, endCursor) => {
 	await page.goto(targetUrl, {waitUntil: 'networkidle0'})
 	await browser.close()
 	return results
+
+	}catch(err){}
+	finally{
+		browser.close(); // ➐ 작업이 완료되면 브라우저 종료
+	}
 }
 
 exports.getComments = async (targetUrl, commentableId) => {

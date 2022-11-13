@@ -18,6 +18,8 @@ const getUpdate = async (targetUrl, projectSlug, endCursor) => {
 	await page.setUserAgent(userAgent.random().toString());
 	await page.setRequestInterception(true)
 
+	try{
+
 	let count = 1;
 	let xcsrfToken;
 
@@ -170,6 +172,11 @@ const getUpdate = async (targetUrl, projectSlug, endCursor) => {
 	await page.goto(targetUrl, {waitUntil: 'networkidle0'})
 	await browser.close()
 	return result
+
+	}catch(err){}
+	finally{
+		browser.close(); // ➐ 작업이 완료되면 브라우저 종료
+	}
 }
 
 exports.getUpdates = async (targetUrl, projectSlug) => {
