@@ -162,6 +162,7 @@ const app = async (isAll) => {
 				let commentableId;
 				let projectSlug;
 				switch(targetPool[i].state){
+					case 'started' :
 					case 'live':
 						if(targetPool[i].foundPage === undefined){
 							console.log('getPage함수가 실행됩니다...')
@@ -445,6 +446,8 @@ const app = async (isAll) => {
 							await waitRandom(Math.floor(Math.random()*10) + 35 * 1000)
 						}
 						break;
+					default:
+						console.log(`${i}번째 target의 state값이 잘못되었습니다. : ${targetPool[i].state}`)
 				}
 
 				fs.writeFileSync(`./targets/${categoryPool[z].subCategory}.js`, `exports.targets = ${JSON.stringify(targetPool)}`)		//	데이터 수집이 완료된 타겟들은 targets폴더의 파일에 반영 해 준다
