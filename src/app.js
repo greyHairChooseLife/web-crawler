@@ -1,5 +1,3 @@
-const readline = require('readline');
-const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 const fs = require('fs');
 const {categoryPool} = require('./categoryPool');
 const {getNumberOfProjectByCategory} = require('./getNumberOfProjectByCategory');	//	STAGE 1
@@ -8,7 +6,6 @@ const {getPage} = require('./getPage');		//	STAGE 3
 const {getUpdates} = require('./getUpdates');		//	STAGE 3
 const {getComments} = require('./getComments');		//	STAGE 3
 
-const dirName = '/home/sy/kickstarter';
 const now = new Date().toLocaleString().replace(/\//g, '_');
 const waitRandom = (randomDelay) => new Promise((resolve) => setTimeout(resolve, randomDelay))	//	setTimeout() 함수가 강제로 프로미스를 반환하도록 만들어준다. 원래는 await 못씀.
 
@@ -116,7 +113,7 @@ for(let z=0; z<categoryPool.length; z++){
 					//	만들게 된다면 fail_page_number 파일을 참조해서 마저 찾아줘라..
 					console.log(`\ntarget이 완전히 확보되지 않았습니다. /targets/${categoryPool[z].subCategory}_fail_page_number.js.파일을 확인하세요.\n\n프로그램을 종료합니다.`)
 					console.log('from STAGE 2')
-			//		process.exit(1);
+					process.exit(1);
 				}
 			}
 		}catch(err){
@@ -494,7 +491,7 @@ for(let z=0; z<categoryPool.length; z++){
 }
 
 if(!isFound){	//	유저가 입력한 categoryId를 categoryPool.js에서 찾을 수 없을 때.
-	console.log(`\n없는 카테고리 아이디 입니다. 카테고리 아이디는 [.../src/categoryPool.js]에서 확인하세요.\n`);
+	console.log(`\n없는 카테고리 아이디 입니다. 아래를 실행하세요.\n\nnode showCategory.js\n`);
 	process.exit(1);
 }
 
