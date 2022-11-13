@@ -2,12 +2,13 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 const userAgent = require('user-agents');
+const {globalVariable} = require('./public/global');
 
 const waitRandom = (randomDelay) => new Promise((resolve) => setTimeout(resolve, randomDelay))	//	setTimeout() 함수가 강제로 프로미스를 반환하도록 만들어준다. 원래는 await 못씀.
 
 const getUpdate = async (targetUrl, projectSlug, endCursor) => {
 	const browser = await puppeteer.launch({
-		executablePath: '/opt/google/chrome/google-chrome',
+		executablePath: globalVariable.browserPath,
 		args:[
 		], 
 		headless: false
