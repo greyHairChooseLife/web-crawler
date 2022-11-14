@@ -929,10 +929,11 @@ const getCreatorData = async (slug, url) => {
 
 //(
 //	async () => {
-//		const url = `https://www.kickstarter.com/projects/1545829275/meadow-ceramics`
-//		const a = await getPage.successful(url);
+//		const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`
+//		const a = await getPage.liveOrFailOrCancel(url);
 //
 //		//const a = await getCreatorData(slug)
 //		console.log(util.inspect(a, {depth: null}));
+//
 //	}
 //)()
