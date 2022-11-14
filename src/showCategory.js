@@ -7,8 +7,8 @@ const mainCategory = categoryPool
 		return {...ele, id: idx}
 	})
 	.reduce((prev, curr) => {
-		const isAlreadyFound = prev.find(ele => ele['카테고리'] === curr.mainCategory)
-		if(!isAlreadyFound) prev.push({'카테고리': curr.mainCategory, '분류번호': curr.id})
+		const isAlreadyFound = prev.find(ele => ele['메인 카테고리'] === curr.mainCategory)
+		if(!isAlreadyFound) prev.push({'메인 카테고리': curr.mainCategory, '분류번호': curr.id})
 
 		return prev
 	}, []);
@@ -82,7 +82,7 @@ const app = () => {
 					categoryId: Number(ele.categoryId)
 				}
 
-				result = {...result, '진행률(%)': ele.numberOfProject !== 0 ? Math.floor(ele.numberOfScraped / ele.numberOfProject)*100 : 0}
+				result = {...result, '진행률(%)': ele.numberOfProject !== 0 ? Math.floor(ele.numberOfScraped / ele.numberOfProject *100) : 0}
 
 				if(ele.numberOfProject !== 0 && ele.numberOfScraped !== ele.numberOfProject) result = {...result, '예상 소요시간(h)': Math.floor((ele.numberOfProject - ele.numberOfScraped)*2/60)}
 
@@ -93,7 +93,8 @@ const app = () => {
 			console.log('\n\n')
 			console.table(nested)
 			console.log('\n\n')
-			console.log('크롤링을 시작하려면 아래와 같이 실행 해 주세요\n\n\n', new Array(5).join(' '), 'node app.js 위_테이블의_categoryId_번호\n\n', new Array(5).join(' '),'ex) node app.js 35', '\n\n')
+			console.log('크롤링을 시작하려면 아래와 같이 실행 해 주세요.\n\n\n', new Array(5).join(' '), 'node app.js 위_테이블의_categoryId_번호\n\n', new Array(5).join(' '),'ex) node app.js 35', '\n\n')
+			console.log('또는 메인 카테고리를 선택하여 포함된 모든 세부 카테고리를 수집할 수 있습니다.\n\n\n', new Array(5).join(' '), 'node app.js 맨_위_테이블의_분류번호 all\n\n', new Array(5).join(' '),'ex) node app.js 0 all', '\n\n')
 		}
 
 		rl.close()
