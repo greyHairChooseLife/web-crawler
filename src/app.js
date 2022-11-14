@@ -90,17 +90,19 @@ const app = async (isAll) => {
 						}
 						//	2단계 : 오류나서 못찾은 페이지 15분 기다렸다 다시 시도 해 본다.
 						if(failPageNumber.length > 0){
+							console.log('failed page: ', failPageNumber)
 							await waitRandom(15 * 60 * 1000)	//	15 minutes
 							const originalFailedLength = failPageNumber.length;
-							for(let i=1; i<=originalFailedLength; i++){
+							let i = 0;
+							while(i<originalFailedLength) {
 								let advantage = 0;
 								try{
 									targetArray = [...targetArray, ... await getTargets(userAnswer, startingSeed, failPageNumber[i])]
-									failPageNumber.splice(i, 1)
+									i++;
 								}catch(err){
 									advantage = 300;	//	5 minutes
 								}
-								const randomDelay = Math.floor(Math.random()*10) + 30 + advantage
+								const randomDelay = Math.floor(Math.random()*20) + 30 + advantage
 								await waitRandom(randomDelay * 1000)
 							}
 						}
