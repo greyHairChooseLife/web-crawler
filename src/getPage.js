@@ -19,6 +19,7 @@ exports.getPage = {
 			args:[
 			//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`
 		], 
+		defaultViewport: {width: 1366, height: 768},
 			headless: false, }); 
 		const page = await browser.newPage();     
 		await page.setUserAgent(userAgent.random().toString());
@@ -30,6 +31,19 @@ exports.getPage = {
 		//	page.goto
 		//	page.goto
 		await page.goto(url, { waitUntil: 'networkidle0', });
+
+		try{
+			let clickElement = await page.$('#px-captcha')
+			let clickArea = await clickElement.boundingBox()
+
+			//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+			await page.mouse.move(350, 250)
+			await page.mouse.down()
+			await page.waitForTimeout(20*1000)
+			await page.mouse.up()
+			await page.waitForTimeout(10*1000)
+			await page.reload({ waitUntil: 'networkidle0', })
+		}catch(err){}
 
 		const fromHeaderAndCreator = await page.$eval('#react-project-header', ele => {
 			//	data-initial 속성에 필요한 데이터를 로드 해 놓아서 활용한다.
@@ -174,6 +188,19 @@ exports.getPage = {
 			await waitRandom((getRandom() + 30) * 1000);
 			await page.goto(url+'/faqs', { waitUntil: 'networkidle0', });
 
+			try{
+				let clickElement = await page.$('#px-captcha')
+				let clickArea = await clickElement.boundingBox()
+
+				//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+				await page.mouse.move(350, 250)
+				await page.mouse.down()
+				await page.waitForTimeout(20*1000)
+				await page.mouse.up()
+				await page.waitForTimeout(10*1000)
+				await page.reload({ waitUntil: 'networkidle0', })
+			}catch(err){}
+
 			const fromFAQ = await page.$$('#project-faqs > div > div > div.grid-row.mb6.flex.flex-row-sm.flex-column-reverse > ul > li');
 			for(question of fromFAQ){
 				contents_of_FAQ.push(await page.evaluate(ele => ele.outerHTML, question))
@@ -231,6 +258,19 @@ exports.getPage = {
 			// instead of click >> page.goto
 			await waitRandom((getRandom() + 25) * 1000);
 			await page.goto(url+'/community', { waitUntil: 'networkidle0', });
+
+			try{
+				let clickElement = await page.$('#px-captcha')
+				let clickArea = await clickElement.boundingBox()
+
+				//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+				await page.mouse.move(350, 250)
+				await page.mouse.down()
+				await page.waitForTimeout(20*1000)
+				await page.mouse.up()
+				await page.waitForTimeout(10*1000)
+				await page.reload({ waitUntil: 'networkidle0', })
+			}catch(err){}
 
 			if(await page.$('div.community-section__small_community') === null){
 				const fromCommunityCities = await page.$$eval('div.community-section__locations_cities > div > div > div', eles => {
@@ -328,6 +368,7 @@ exports.getPage = {
 			args:[
 			//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`
 		], 
+		defaultViewport: {width: 1366, height: 768},
 			headless: false, }); 
 		const page = await browser.newPage();     
 		await page.setUserAgent(userAgent.random().toString());
@@ -480,6 +521,19 @@ exports.getPage = {
 
 		await page.goto(url, { waitUntil: 'networkidle0', });
 
+		try{
+			let clickElement = await page.$('#px-captcha')
+			let clickArea = await clickElement.boundingBox()
+
+			//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+			await page.mouse.move(350, 250)
+			await page.mouse.down()
+			await page.waitForTimeout(20*1000)
+			await page.mouse.up()
+			await page.waitForTimeout(10*1000)
+			await page.reload({ waitUntil: 'networkidle0', })
+		}catch(err){}
+
 		await browser.close();
 		return {
 			createdAt: now,
@@ -497,6 +551,7 @@ exports.getPage = {
 			args:[
 			//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`
 		], 
+		defaultViewport: {width: 1366, height: 768},
 			headless: false, }); 
 		const page = await browser.newPage();     
 		await page.setUserAgent(userAgent.random().toString());
@@ -510,6 +565,18 @@ exports.getPage = {
 
 		await page.goto(url, { waitUntil: 'networkidle0', });
 
+		try{
+			let clickElement = await page.$('#px-captcha')
+			let clickArea = await clickElement.boundingBox()
+
+			//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+			await page.mouse.move(350, 250)
+			await page.mouse.down()
+			await page.waitForTimeout(20*1000)
+			await page.mouse.up()
+			await page.waitForTimeout(10*1000)
+			await page.reload({ waitUntil: 'networkidle0', })
+		}catch(err){}
 
 		const fromOptions = await page.$$('#content-wrap > div.NS_projects__content > section.js-project-content.js-project-description-content.project-content > div > div > div > div.col.col-4.js-rewards-column.max-w62.sticky-rewards > div > div.mobile-hide > div > ol > li');
 		const number_of_support_options = fromOptions.length;
@@ -693,6 +760,19 @@ exports.getPage = {
 			await waitRandom((getRandom() + 30) * 1000);
 			await page.goto(url+'/faqs', { waitUntil: 'networkidle0', });
 
+			try{
+				let clickElement = await page.$('#px-captcha')
+				let clickArea = await clickElement.boundingBox()
+
+				//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+				await page.mouse.move(350, 250)
+				await page.mouse.down()
+				await page.waitForTimeout(20*1000)
+				await page.mouse.up()
+				await page.waitForTimeout(10*1000)
+				await page.reload({ waitUntil: 'networkidle0', })
+			}catch(err){}
+
 			const fromFAQ = await page.$$('#project-faqs > div > div > div.grid-row.mb6.flex.flex-row-sm.flex-column-reverse > ul > li');
 			for(question of fromFAQ){
 				contents_of_FAQ.push(await page.evaluate(ele => ele.outerHTML, question))
@@ -705,6 +785,19 @@ exports.getPage = {
 			// instead of click >> page.goto
 			await waitRandom((getRandom() + 35) * 1000);
 			await page.goto(url+'/community', { waitUntil: 'networkidle0', });
+
+			try{
+				let clickElement = await page.$('#px-captcha')
+				let clickArea = await clickElement.boundingBox()
+
+				//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+				await page.mouse.move(350, 250)
+				await page.mouse.down()
+				await page.waitForTimeout(20*1000)
+				await page.mouse.up()
+				await page.waitForTimeout(10*1000)
+				await page.reload({ waitUntil: 'networkidle0', })
+			}catch(err){}
 
 			if(await page.$('div.community-section__small_community') === null){
 				const fromCommunityCities = await page.$$eval('div.community-section__locations_cities > div > div > div', eles => {
@@ -825,6 +918,7 @@ const getCreatorData = async (slug, url) => {
 		args:[
 		//`--proxy-server=${proxy[Math.floor(Math.random()*10 % proxy.length)]}`
 	], 
+		defaultViewport: {width: 1366, height: 768},
 		headless: false, }); 
 	const page = await browser.newPage();     
 	await page.setUserAgent(userAgent.random().toString());
@@ -910,6 +1004,19 @@ const getCreatorData = async (slug, url) => {
 	})
 
 	await page.goto(url, { waitUntil: 'networkidle0', });
+
+	try{
+		let clickElement = await page.$('#px-captcha')
+		let clickArea = await clickElement.boundingBox()
+
+		//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+		await page.mouse.move(350, 250)
+		await page.mouse.down()
+		await page.waitForTimeout(20*1000)
+		await page.mouse.up()
+		await page.waitForTimeout(10*1000)
+		await page.reload({ waitUntil: 'networkidle0', })
+	}catch(err){}
 
 	let creatorData;
 	results.forEach(ele => {

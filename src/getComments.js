@@ -11,6 +11,7 @@ const getComment = async (targetUrl, commentableId, endCursor) => {
 		executablePath: globalVariable.browserPath,
 		args:[
 		], 
+		defaultViewport: {width: 1366, height: 768},
 		headless: false
 	}); 
 
@@ -130,6 +131,21 @@ const getComment = async (targetUrl, commentableId, endCursor) => {
 	})
 
 	await page.goto(targetUrl, {waitUntil: 'networkidle0'})
+
+	try{
+		let clickElement = await page.$('#px-captcha')
+		let clickArea = await clickElement.boundingBox()
+
+		//await page.mouse.move(clickArea.x + clickArea.width /2, clickArea.y + clickArea.height / 2)
+		await page.mouse.move(350, 250)
+		await page.mouse.down()
+		await page.waitForTimeout(20*1000)
+		await page.mouse.up()
+		await page.waitForTimeout(10*1000)
+		await page.reload({ waitUntil: 'networkidle0', })
+	}catch(err){}
+
+
 	await browser.close()
 	return results
 
