@@ -80,8 +80,12 @@ const app = async (isAll) => {
 						for(let pageNumber=1; pageNumber<=totalPage; pageNumber++){
 							let advantage = 0;
 							try{
-								targetArray = [...targetArray, ... await getTargets(userAnswer, startingSeed, pageNumber)]
+								console.log('target searching...')
+								const searchedTargets = await getTargets(userAnswer, startingSeed, pageNumber);
+								if(searchedTargets.length === 0) throw new Error()
+								targetArray = [...targetArray, ...searchedTargets]
 							}catch(err){
+								console.log('err occured at pageNumber: ', pageNumber)
 								advantage = 300;	//	5 minutes
 								failPageNumber.push(pageNumber);
 							}
@@ -97,9 +101,13 @@ const app = async (isAll) => {
 							while(i<originalFailedLength) {
 								let advantage = 0;
 								try{
-									targetArray = [...targetArray, ... await getTargets(userAnswer, startingSeed, failPageNumber[i])]
+									console.log('target searching...')
+									const searchedTargets = await getTargets(userAnswer, startingSeed, failPageNumber[i]);
+									if(searchedTargets.length === 0) throw new Error()
+									targetArray = [...targetArray, ...searchedTargets]
 									i++;
 								}catch(err){
+									console.log('err occured at pageNumber: ', failPageNumber[i])
 									advantage = 300;	//	5 minutes
 								}
 								const randomDelay = Math.floor(Math.random()*20) + 30 + advantage
