@@ -153,6 +153,7 @@ const app = async (isAll) => {
 				console.log(`[${categoryPool[z].subCategory}] 폴더가 만들어졌습니다.`);
 			}
 
+			let countReject = 0;	// check how many ban in raw to punish
 			let numberOfScraping = 0;
 			let jobComplete = true;
 			let i = 0;
@@ -172,7 +173,6 @@ const app = async (isAll) => {
 				let commentableId;
 				let projectSlug;
 				switch(targetPool[i].state){
-					case 'started' :
 					case 'live':
 						if(targetPool[i].foundPage === undefined){
 							console.log('getPage함수가 실행됩니다...')
@@ -188,8 +188,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getPage함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 						}else if(targetPool[i].foundPage){	//	pageData만 완성되고 commentsData는 크롤링 해야 할 때에도 commentableId는 구해줘야한다.
@@ -215,8 +217,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getUpdates함수 실행 완료. ${i}번째 target의 .../updatesData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getUpdates함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 25 * 1000)
 						}
@@ -233,12 +237,15 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getComments함수 실행 완료. ${i}번째 target의 .../commentsData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getComments함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 35 * 1000)
 						}
 						break;
+					case 'started' :
 					case 'submitted':
 						if(targetPool[i].foundPage === undefined){
 							console.log('getPage함수가 실행됩니다...')
@@ -252,8 +259,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getPage함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 						}
@@ -273,8 +282,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getPage함수 실행이 실패했습니다.\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 						}else if(targetPool[i].foundPage){	//	pageData만 완성되고 commentsData는 크롤링 해야 할 때에도 commentableId는 구해줘야한다.
@@ -300,8 +311,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getUpdates함수 실행 완료. ${i}번째 target의 .../updatesData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getUpdates함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 25 * 1000)
 						}
@@ -318,8 +331,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getComments함수 실행 완료. ${i}번째 target의 .../commentsData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getComments함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 35 * 1000)
 						}
@@ -339,8 +354,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getPage함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 						}else if(targetPool[i].foundPage){	//	pageData만 완성되고 commentsData는 크롤링 해야 할 때에도 commentableId는 구해줘야한다.
@@ -366,8 +383,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getUpdates함수 실행 완료. ${i}번째 target의 .../updatesData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getUpdates함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 25 * 1000)
 						}
@@ -384,8 +403,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getComments함수 실행 완료. ${i}번째 target의 .../commentsData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getComments함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 35 * 1000)
 						}
@@ -405,8 +426,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/pageData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getPage함수 실행 완료. ${i}번째 target의 .../pageData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getPage함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 20 * 1000)
 						}else if(targetPool[i].foundPage){	//	pageData만 완성되고 commentsData는 크롤링 해야 할 때에도 commentableId는 구해줘야한다.
@@ -432,8 +455,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/updatesData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getUpdates함수 실행 완료. ${i}번째 target의 .../updatesData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getUpdates함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 25 * 1000)
 						}
@@ -450,8 +475,10 @@ const app = async (isAll) => {
 								})
 								fs.writeFileSync(`../log/${categoryPool[z].subCategory}/${i}/commentsData.js`, `exports.data = ${JSON.stringify(result)}`);
 								console.log(`getComments함수 실행 완료. ${i}번째 target의 .../commentsData.js 파일이 생성되었습니다.`)
+								countReject = 0;
 							}catch(err){
 								console.log(`getComments함수 실행이 실패했습니다.\n\nfrom\ncategoryNumber: ${userAnswer}\ncategoryName: ${categoryPool[z].subCategory}\n${i}번째 target\n`)
+								countReject++;
 							}
 							await waitRandom(Math.floor(Math.random()*10) + 35 * 1000)
 						}
@@ -487,7 +514,17 @@ const app = async (isAll) => {
 				console.timeEnd(`time taken`)
 				console.log()
 
-				i++
+				i++;
+
+				//	연속 5회 캡챠 밴 대응
+				console.log('countReject: ', countReject);
+				if(countReject >= 5) {
+					console.log('there might be ban for a while. 약 15분 대기 후 진행됩니다.');
+					await waitRandom(Math.floor(Math.random()*10) + 15 * 1000 * 60);	//	15분 ~ 20분
+					countReject = 0;	// release it
+				}
+
+				//	마지막 타겟까지 조사했지만 jobComplete이 false라면 처음부터 다시 시작한다.
 				if(i === targetPool.length && !jobComplete) {
 					i = 0;
 					jobComplete = true;
