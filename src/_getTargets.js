@@ -14,9 +14,11 @@ const getTargets = async (url) => {
 
 	await page.goto(url, {waitUntil: 'networkidle0'});
 	await solveCaptchar(page);
+	await page.waitForTimeout(globalVariable.randomTime.fifteenSec);
 	
 	await page.click('#projects > div.load_more.mt3 > a');
 	await page.waitForNavigation({waitUntil: 'networkidle0'});
+	await page.waitForTimeout(globalVariable.randomTime.fifteenSec);
 
 	const autoScroll = async () => {
 		let scrollHeight = await page.evaluate(() => {
@@ -42,6 +44,7 @@ const getTargets = async (url) => {
 	const executeAutoScroll = async () => {
 		for(const _ of numberOfScrollJob) {
 			await autoScroll(numberOfScrollJob.length);
+			await page.waitForTimeout(globalVariable.randomTime.halfMin);
 		}
 	}
 	await executeAutoScroll();
