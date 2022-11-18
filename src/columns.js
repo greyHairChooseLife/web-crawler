@@ -20,7 +20,6 @@ const fromTargetInfo = [
 	'project_location',
 	'project_img',
 	'deadline',
-	'days_to_go',
 
 	'currency',
 	'currency_symbol',
@@ -41,32 +40,35 @@ const fromCampaignGraph = [
 	'risk',
 	'budget',
 ]
+
 const fromStory = [
 	'story_text',
 	'story_links',
 	'story_images',
 	'story_videos'
+//////////////////////////////////////////////////
 ]
 
-const fromCreatorGraph = [
+const fromHeader = [
 	'creator_name',
 	'creator_location',
-	'creator_description',
+	'creator_biography',
 	'creator_image',
 	'creator_url',
 	'creator_verified_identity',
 	'creator_last_login',
-	'creator_connected_to_facebook',
-	'creator_number_of_created_project',
-	'creator_number_of_backed_project',
-
+	'creator_is_facebook_connected',
+	'creator_contents_of_launched_projects',
+	'creator_number_of_backing_projects',
 	'creator_contents_of_collaborators', 
-	'creator_contents_of_attatched_links'
+	'creator_contents_of_websites'
+//////////////////////////////////////////////////
 ]
 
 const fromFAQ = [
 	'number_of_FAQ', 
 	'contents_of_FAQ'
+//////////////////////////////////////////////////
 ];
 const fromCommunitiy = [
 	'top_cities_location_1st', 'top_cities_number_of_backers_1st',
@@ -90,20 +92,30 @@ const fromCommunitiy = [
 	'top_countries_location_9st', 'top_countries_number_of_backers_9st',
 	'top_countries_location_10st', 'top_countries_number_of_backers_10st',
 	'number_of_new_backers', 'number_of_returning_backers'
+//////////////////////////////////////////////////
 ]
 
 const fromEtc = [
+	'shown_number_of_updates',
+	'shown_number_of_comments',
+	'days_to_go',
 	'all_or_nothing',
+//////////////////////////////////////////////////
 ]
 const fromOptions = [
-	'supported_options',
+	'contents_of_support_options',
+//////////////////////////////////////////////////
 ]
 const finishedOnly = [
-	'funding_period',
+	'funding_period_start',
+	'funding_period_end',
+	'funding_period_duration',
 	'last_updated'
+//////////////////////////////////////////////////
 ]
 const submittedOnly = [
 	'number_of_followers'
+//////////////////////////////////////////////////
 ]
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////

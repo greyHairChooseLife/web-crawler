@@ -12,5 +12,7 @@ exports.globalVariable = {
 		twoMin: (Math.floor(Math.random() *10) + 120) *1000,		//	2  min
 		fiveMin: (Math.floor(Math.random() *10) + 300) *1000,		//	5  min
 		fifteenMin: (Math.floor(Math.random() *10) + 1500) *1000,	//  15 min
-	}
+	},
+	now: new Date().toLocaleString(),
+
 }
