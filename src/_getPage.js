@@ -198,7 +198,6 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 		await browser.close(); // ➐ 작업이 완료되면 브라우저 종료
 
 		return {
-			createdAt: globalVariable.now,
 			commentableId: fromCampaignGraph.id,
 			fromCampaignGraph: fromCampaignGraph,
 			...creatorData,
