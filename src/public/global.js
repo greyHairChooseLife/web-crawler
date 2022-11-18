@@ -14,5 +14,6 @@ exports.globalVariable = {
 		fifteenMin: (Math.floor(Math.random() *10) + 1500) *1000,	//  15 min
 	},
 	now: new Date().toLocaleString(),
-
+	motherUrls : [
+	]
 }

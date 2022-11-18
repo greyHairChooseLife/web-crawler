@@ -6,11 +6,13 @@ const {globalVariable} = require('./public/global');
 const {installMouseHelper} = require('./util/install-mouse-helper');
 const {solveCaptchar} = require('./util/solve-captcha');
 
-const getTargets = async (url) => {
+const getTargets = async (subCategoryId) => {
 	const browser = await puppeteer.launch(globalVariable.browserOptions); 
 	const page = await browser.newPage();
 	await page.setUserAgent(userAgent.random().toString());
 	installMouseHelper(page);
+
+	const url = `https://www.kickstarter.com/discover/advanced?category_id=${subCategoryId}&sort=magic&seed=2780996&page=1`;
 
 	await page.goto(url, {waitUntil: 'networkidle0'});
 	await solveCaptchar(page);
@@ -38,7 +40,8 @@ const getTargets = async (url) => {
 
 		return numberize(ele.textContent.split(' ')[0])
 	});
-	const numberOfScrollJob = new Array(Math.floor(TOTAL_LENGTH /12) +1 -1 -1);	//	전체 페이지 수에서 기본 접속 페이지(1페이지) 한번 빼고, 클릭 페이지(2페이지) 한번 뺀다.
+	//const numberOfScrollJob = new Array(Math.floor(TOTAL_LENGTH /12) +1 -1 -1);	//	전체 페이지 수에서 기본 접속 페이지(1페이지) 한번 빼고, 클릭 페이지(2페이지) 한번 뺀다.
+	const numberOfScrollJob = new Array(1);	//	전체 페이지 수에서 기본 접속 페이지(1페이지) 한번 빼고, 클릭 페이지(2페이지) 한번 뺀다.
 
 	//	just for iterating
 	const executeAutoScroll = async () => {
@@ -52,7 +55,14 @@ const getTargets = async (url) => {
 	const result = [];
 	const listOf12Projects = await page.$$('#projects_list > div > div');
 	for(project of listOf12Projects){
-		result.push(await page.evaluate(ele => ele.getAttribute('data-project'), project));
+		result.push({
+			data: await page.evaluate(ele => ele.getAttribute('data-project'), project),
+			isDone: {
+				pageData: false,
+				updateData: false,
+				commentData: false,
+			}
+		});
 	}
 
 	await browser.close();
@@ -71,12 +81,11 @@ module.exports = {getTargets};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-(
-	async () => {
-		const url = 'https://www.kickstarter.com/discover/advanced?category_id=257&sort=magic&seed=2780996&page=1'
-
-		const result = await getTargets(url)
-		console.log(result.length, result[0])
-	}
-)()
-
+//(
+//	async () => {
+//		const subCategoryId = 287
+//
+//		const result = await getTargets(subCategoryId)
+//		console.log(result.length, result[0])
+//	}
+//)()

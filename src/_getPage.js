@@ -198,7 +198,7 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 		await browser.close(); // ➐ 작업이 완료되면 브라우저 종료
 
 		return {
-			commentableId: fromCampaignGraph.id,
+			commentableID: fromCampaignGraph.id,
 			fromCampaignGraph: fromCampaignGraph,
 			...creatorData,
 			allOrNothing: allOrNothing,
@@ -374,18 +374,18 @@ module.exports = {grepLiveSuccessFailCancel, grepSubmitStart};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const util = require('util');
-
-(
-	async () => {
-		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
-		const url = `https://www.kickstarter.com/projects/davidgukasyan/crewtify-a-watch-party-community-for-online-music-events`;
-		const slug = 'exploding-kittens';
-
-		const a = await getCreatorData(url, slug);
-
-		//const a = await getCreatorData(slug)
-		console.log(util.inspect(a, {depth: null}));
-
-	}
-)()
+//const util = require('util');
+//
+//(
+//	async () => {
+//		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
+//		const url = `https://www.kickstarter.com/projects/davidgukasyan/crewtify-a-watch-party-community-for-online-music-events`;
+//		const slug = 'exploding-kittens';
+//
+//		const a = await getCreatorData(url, slug);
+//
+//		//const a = await getCreatorData(slug)
+//		console.log(util.inspect(a, {depth: null}));
+//
+//	}
+//)()

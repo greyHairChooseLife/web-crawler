@@ -5,7 +5,7 @@ const userAgent = require('user-agents');
 const {globalVariable} = require('./public/global');
 const {waitTime} = require('./util/my-util')
 
-const getComment = async (motherUrl, commentableId, totalCommentLength) => {
+const getComments = async (motherUrl, commentableId) => {
 	const browser = await puppeteer.launch(globalVariable.browserOptions)
 
 	const page = await browser.newPage()
@@ -138,7 +138,8 @@ const getComment = async (motherUrl, commentableId, totalCommentLength) => {
 		await page.waitForTimeout(globalVariable.randomTime.fifteenSec)		//	waitForNavigation만으로 충분히 기다리지 않아서 대응(req와 res가 순서를 보장하지 않고 비동기적으로 진행된다.)
 	}
 
-	const roll = new Array(Math.ceil(totalCommentLength /25) +10);
+	//const roll = new Array(Math.ceil(totalCommentLength /25) +10);
+	const roll = new Array(200);	// isHitLast will save my ass
 
 	const executeAutoScroll = async () => {
 		for(const _ of roll) {
@@ -153,7 +154,7 @@ const getComment = async (motherUrl, commentableId, totalCommentLength) => {
 	return results
 }
 
-module.exports = {getComment};
+module.exports = {getComments};
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,17 +165,17 @@ module.exports = {getComment};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const util = require('util');
-
-(
-	async () => {
-	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
-		const url = 'https://www.kickstarter.com/discover/advanced?category_id=22&woe_id=0&sort=magic&ref=category&seed=2781111&page=1'
-		const commentableId = 'RnJlZWZvcm1Qb3N0LTE2MTMxMjQ=';
-
-		const result = await getComment(url, commentableId, 168);
-
-		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
-		
-	}
-)()
+//const util = require('util');
+//
+//(
+//	async () => {
+//	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
+//		const url = 'https://www.kickstarter.com/discover/advanced?category_id=22&woe_id=0&sort=magic&ref=category&seed=2781111&page=1'
+//		const commentableId = 'RnJlZWZvcm1Qb3N0LTE2MTMxMjQ=';
+//
+//		const result = await getComments(url, commentableId, 168);
+//
+//		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
+//		
+//	}
+//)()

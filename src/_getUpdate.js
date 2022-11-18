@@ -5,7 +5,7 @@ const userAgent = require('user-agents');
 const {globalVariable} = require('./public/global');
 const {waitTime} = require('./util/my-util')
 
-const getUpdates = async (motherUrl, projectSlug, totalUpdateLength) => {
+const getUpdates = async (motherUrl, projectSlug) => {
 	const browser = await puppeteer.launch(globalVariable.browserOptions)
 
 	const page = await browser.newPage()
@@ -154,7 +154,8 @@ const getUpdates = async (motherUrl, projectSlug, totalUpdateLength) => {
 				if(!data.data.project.timeline.pageInfo.hasNextPage) isHitLast = true;
 				//console.log('res next Cursor', endCursor)
 				try{
-					results.push(data.data);
+					const nodes = data.data.project.timeline.edges;
+					results.push(...nodes);
 				}catch(err){
 					console.error(err);
 				}
@@ -163,6 +164,7 @@ const getUpdates = async (motherUrl, projectSlug, totalUpdateLength) => {
 	})
 
 	await page.goto(motherUrl, {waitUntil: 'networkidle0'})
+	await page.waitForTimeout(globalVariable.randomTime.halfMin)
 
 	await page.click('#projects > div.load_more.mt3 > a');
 	await page.waitForNavigation({waitUntil: 'networkidle0'});
@@ -176,12 +178,14 @@ const getUpdates = async (motherUrl, projectSlug, totalUpdateLength) => {
 		})
 		await page.mouse.wheel({deltaY: scrollHeight})
 		await page.waitForNavigation({waitUntil: 'networkidle0'})
-		await page.waitForTimeout(globalVariable.randomTime.fifteenSec)		//	waitForNavigation만으로 충분히 기다리지 않아서 대응(req와 res가 순서를 보장하지 않고 비동기적으로 진행된다.)
+		await page.waitForTimeout(globalVariable.randomTime.halfMin)		//	waitForNavigation만으로 충분히 기다리지 않아서 대응(req와 res가 순서를 보장하지 않고 비동기적으로 진행된다.)
 	}
 
-	const roll = new Array(Math.ceil(totalUpdateLength /20) +5);
+	//const roll = new Array(Math.ceil(totalUpdateLength /20) +5);
+	const roll = new Array(200);	//	isHitLast will save my ass
 
 	const executeAutoScroll = async () => {
+		await page.waitForTimeout(globalVariable.randomTime.halfMin)
 		for(const _ of roll) {
 			if(!isHitLast) await autoScroll(roll.length);
 		}
@@ -205,17 +209,17 @@ module.exports = {getUpdates};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const util = require('util');
-
-(
-	async () => {
-	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
-		const url = 'https://www.kickstarter.com/discover/advanced?category_id=22&woe_id=0&sort=magic&ref=category&seed=2781111&page=1'
-		const projectSlug = 'exploding-kittens';
-
-		const result = await getUpdates(url, projectSlug, 41);
-
-		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
-		
-	}
-)()
+//const util = require('util');
+//
+//(
+//	async () => {
+//	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
+//		const url = 'https://www.kickstarter.com/discover/advanced?category_id=22&woe_id=0&sort=magic&ref=category&seed=2781111&page=1'
+//		const projectSlug = 'slay-the-spire-the-board-game';
+//
+//		const result = await getUpdates(url, projectSlug);
+//
+//		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
+//		
+//	}
+//)()
