@@ -30,8 +30,8 @@ async function crawlSubcategory(sub_category_id) {
 				...POOL,
 				numberOfProject: scrapedTargets.length
 			}
-			categoryPool.splice(POOL_INDEX, 1, updatedPOOL);
-			await writeFile(`./categoryPool.js`, categoryPool);
+			TOTAL_POOL.splice(POOL_INDEX, 1, updatedPOOL);
+			await writeFile(`./categoryPool.js`, TOTAL_POOL);
 			await writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/targets.js`, scrapedTargets);
 
 			console.log(chalk.blue('\n타겟 생성이 완료되었습니다.\n'));
@@ -39,6 +39,7 @@ async function crawlSubcategory(sub_category_id) {
 		catch(err) {
 			console.log(chalk.bold.red('타겟을 얻는데 실패했습니다.'));
 			console.error(chalk.bold.red(err));
+			return
 		}
 		console.timeEnd('target job: ');
 	}
