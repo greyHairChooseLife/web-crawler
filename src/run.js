@@ -264,16 +264,57 @@ async function crawlSubcategory(sub_category_id) {
 						subCommentFileIdx++;
 						if(await isFileBeing(baseDir +`/subCommentData_${subCommentFileIdx}.js`)) {
 							checkIsDone++;
+							if(updateData.length === checkIsDone) {
+								//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
+								updatedTarget = {
+									...updatedTarget,
+									isDone: {
+										...updatedTarget.isDone,
+										updateData: true
+									}
+								}
+								TARGETS.splice(targetIdx, 1, updatedTarget)
+
+								console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
+							}
 							continue;
 						}
 
 						if(eachUpdate.node.type !== 'update') {
 							await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, []);
+							checkIsDone++;
+							if(updateData.length === checkIsDone) {
+								//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
+								updatedTarget = {
+									...updatedTarget,
+									isDone: {
+										...updatedTarget.isDone,
+										updateData: true
+									}
+								}
+								TARGETS.splice(targetIdx, 1, updatedTarget)
+
+								console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
+							}
 							continue;
 						}
 
 						if(Number(eachUpdate.node.data.commentsCount) === 0) {
 							await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, []);
+							checkIsDone++;
+							if(updateData.length === checkIsDone) {
+								//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
+								updatedTarget = {
+									...updatedTarget,
+									isDone: {
+										...updatedTarget.isDone,
+										updateData: true
+									}
+								}
+								TARGETS.splice(targetIdx, 1, updatedTarget)
+
+								console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
+							}
 							continue;
 						}
 						
