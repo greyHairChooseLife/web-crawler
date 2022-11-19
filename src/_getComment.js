@@ -3,7 +3,8 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 const userAgent = require('user-agents');
 const {globalVariable} = require('./public/global');
-const {waitTime} = require('./util/my-util')
+const {waitTime} = require('./util/my-util');
+const {solveCaptchar} = require('./util/solve-captcha');
 
 const getComments = async (motherUrl, commentableId) => {
 	const browser = await puppeteer.launch(globalVariable.browserOptions)
@@ -123,9 +124,11 @@ const getComments = async (motherUrl, commentableId) => {
 
 	try {
 		await page.goto(motherUrl, {waitUntil: 'networkidle0'})
+		await solveCaptchar(page);
 		await page.waitForTimeout(globalVariable.randomTime.halfMin)
 
 		await page.click('#projects > div.load_more.mt3 > a');
+		await solveCaptchar(page);
 		await page.waitForNavigation({waitUntil: 'networkidle0'});
 
 		//	스크롤을 한번 내릴 때부터 시작하고, 한번 내릴 때마다 한번의  graph POST 요청을 가로채 활용한다.
