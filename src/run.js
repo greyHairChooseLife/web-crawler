@@ -3,7 +3,6 @@ const chalk = require('chalk');
 const {waitTime} = require('./util/my-util');
 const {data} = require('./categoryPool');
 const {globalVariable} = require('./public/global');
-const motherUrl = globalVariable.motherUrls[Math.floor(Math.random() * globalVariable.motherUrls.length)];
 
 const {getTargets} = require('./_getTargets');
 const {grepLiveSuccessFailCancel, grepSubmitStart} = require('./_getPage');
@@ -53,6 +52,7 @@ async function crawlSubcategory(sub_category_id) {
 	//	타겟의 반복 수집 작업을 시작한다.
 	let targetIdx = 0;
 	for (const target of TARGETS) {
+		const motherUrl = globalVariable.motherUrls[Math.floor(Math.random() * globalVariable.motherUrls.length)];
 		console.log(chalk.blue('\n\n\n\n[', targetIdx, ']번째 작업을 시작합니다.\n\n'));
 
 		//	공통 사용 변수 선언

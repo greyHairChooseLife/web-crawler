@@ -20,7 +20,10 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 			// Ignore OPTIONS requests
 			if(response.request().method() !== 'POST') return
 			if(response.url().includes('/graph')) {
-				const data = await response?.json()
+				let data;
+				try{
+					data = await response?.json()
+				}catch(err){}
 
 				if(data[0]?.data?.project?.story === undefined) return
 				else fromCampaignGraph = data[0].data.project;

@@ -104,7 +104,7 @@ const getComments = async (motherUrl, commentableId) => {
 		if(response.url().includes('/graph')) {
 			let data;
 			try{
-			data = await response.json()
+				data = await response.json()
 			}catch(err){}
 
 			if(data?.data?.commentable?.comments !== undefined){
@@ -123,6 +123,7 @@ const getComments = async (motherUrl, commentableId) => {
 
 	try {
 		await page.goto(motherUrl, {waitUntil: 'networkidle0'})
+		await page.waitForTimeout(globalVariable.randomTime.halfMin)
 
 		await page.click('#projects > div.load_more.mt3 > a');
 		await page.waitForNavigation({waitUntil: 'networkidle0'});
@@ -143,7 +144,9 @@ const getComments = async (motherUrl, commentableId) => {
 		const roll = new Array(200);	// isHitLast will save my ass
 
 		const executeAutoScroll = async () => {
+			await page.waitForTimeout(globalVariable.randomTime.halfMin)
 			for(const _ of roll) {
+				await page.waitForTimeout(globalVariable.randomTime.halfMin)
 				if(!isHitLast) await autoScroll(roll.length);
 			}
 		}

@@ -145,7 +145,7 @@ const getUpdates = async (motherUrl, projectSlug) => {
 		if(response.url().includes('/graph')) {
 			let data;
 			try{
-			data = await response.json()
+				data = await response.json()
 			}catch(err){}
 
 			if(data.data.project.timeline.pageInfo.__typename === 'PageInfo'){
