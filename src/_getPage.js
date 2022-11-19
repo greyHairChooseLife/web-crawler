@@ -4,6 +4,7 @@ puppeteer.use(StealthPlugin());
 const userAgent = require('user-agents');
 const {globalVariable} = require('./public/global');
 const {solveCaptchar} = require('./util/solve-captcha');
+const {numberize} = require('./util/my-util');
 
 const util = require('util');
 
@@ -147,8 +148,8 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 						];
 					})
 				});
-				const numberOfNewBackers = await page.$eval('div.new-backers > div.count', ele => ele.textContent * 1)
-				const numberOfReturningBackers = await page.$eval('div.existing-backers > div.count', ele => ele.textContent * 1)
+				const numberOfNewBackers = await page.$eval('div.new-backers > div.count', ele => numberize(ele.textContent) * 1)
+				const numberOfReturningBackers = await page.$eval('div.existing-backers > div.count', ele => numberize(ele.textContent) * 1)
 				community = {
 					topCityL1: fromCommunityCities[0]?.[0],
 					topCityB1: fromCommunityCities[0]?.[1],
@@ -377,16 +378,16 @@ module.exports = {grepLiveSuccessFailCancel, grepSubmitStart};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//(
-//	async () => {
-//		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
-//		const url = `https://www.kickstarter.com/projects/kittygorian/rani-the-froggie-a-ceramic-mug-and-lid-set`;
-//		const slug = 'rani-the-froggie-a-ceramic-mug-and-lid-set';
-//
-//		const a = await grepLiveSuccessFailCancel(url, slug);
-//
-//		//const a = await getCreatorData(slug)
-//		console.log(util.inspect(a, {depth: null}));
-//
-//	}
-//)()
+(
+	async () => {
+		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
+		const url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
+		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
+
+		const a = await grepLiveSuccessFailCancel(url, true, slug);
+
+		//const a = await getCreatorData(slug)
+		console.log(util.inspect(a, {depth: null}));
+
+	}
+)()

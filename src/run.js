@@ -94,11 +94,11 @@ async function crawlSubcategory(sub_category_id) {
 					case 'successful':
 					case 'failed':
 					case 'canceled':
-						pageData = await grepLiveSuccessFailCancel(targetData.urls.web.project, targetData.state === 'successful' ? true : false, targetData.slug);
+						pageData = await grepLiveSuccessFailCancel(targetData.urls.web.project.split('?')[0], targetData.state === 'successful' ? true : false, targetData.slug);
 						break;
 					case 'submitted':
 					case 'started' :
-						pageData = await grepSubmitStart(targetData.urls.web.project);
+						pageData = await grepSubmitStart(targetData.urls.web.project.split('?')[0]);
 						break;
 					default :
 						throw new Error(`처음 보는 타입의 프로젝트입니다. state : [${targetData.state}]`)
@@ -163,6 +163,8 @@ async function crawlSubcategory(sub_category_id) {
 						const {data} = require(baseDir +'/pageData');
 						commentableID = data.data.commentableID;
 					}
+
+					if(commentableID === undefined) throw new Error('pageData가 없기 때문에 commenableID를 얻을 수 업습니다.')
 
 					commentData = await getComments(motherUrl, commentableID);
 
