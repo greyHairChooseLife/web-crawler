@@ -161,7 +161,7 @@ async function crawlSubcategory(sub_category_id) {
 					else {
 						//	pageData가 과거에 완성되어 있었다면 파일에서 읽어 온다.
 						const {data} = require(baseDir +'/pageData');
-						commentableID = data.commentableID;
+						commentableID = data.data.commentableID;
 					}
 
 					commentData = await getComments(motherUrl, commentableID);

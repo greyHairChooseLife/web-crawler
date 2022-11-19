@@ -179,18 +179,21 @@ const getUpdates = async (motherUrl, projectSlug) => {
 			})
 			await page.mouse.wheel({deltaY: scrollHeight})
 			await page.waitForNavigation({waitUntil: 'networkidle0'})
-			await page.waitForTimeout(globalVariable.randomTime.halfMin)		//	waitForNavigation만으로 충분히 기다리지 않아서 대응(req와 res가 순서를 보장하지 않고 비동기적으로 진행된다.)
+			await page.waitForTimeout(globalVariable.randomTime.fifteenSec)		//	waitForNavigation만으로 충분히 기다리지 않아서 대응(req와 res가 순서를 보장하지 않고 비동기적으로 진행된다.)
 		}
 
 		//const roll = new Array(Math.ceil(totalUpdateLength /20) +5);
 		const roll = new Array(200);	//	isHitLast will save my ass
 
 		const executeAutoScroll = async () => {
-			await page.waitForTimeout(globalVariable.randomTime.halfMin)
 			for(const _ of roll) {
-				if(!isHitLast) await autoScroll(roll.length);
+				if(!isHitLast) {
+					await page.waitForTimeout(globalVariable.randomTime.halfMin)
+					await autoScroll(roll.length);
+				}
 			}
 		}
+		await page.waitForTimeout(globalVariable.randomTime.halfMin)
 		await executeAutoScroll();
 
 		await browser.close()

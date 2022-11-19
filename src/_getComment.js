@@ -144,10 +144,11 @@ const getComments = async (motherUrl, commentableId) => {
 		const roll = new Array(200);	// isHitLast will save my ass
 
 		const executeAutoScroll = async () => {
-			await page.waitForTimeout(globalVariable.randomTime.halfMin)
 			for(const _ of roll) {
-				await page.waitForTimeout(globalVariable.randomTime.halfMin)
-				if(!isHitLast) await autoScroll(roll.length);
+				if(!isHitLast) {
+					await page.waitForTimeout(globalVariable.randomTime.halfMin)
+					await autoScroll(roll.length);
+				}
 			}
 		}
 		await executeAutoScroll();
@@ -178,17 +179,17 @@ module.exports = {getComments};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//const util = require('util');
-//
-//(
-//	async () => {
-//	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
-//		const url = 'https://www.kickstarter.com/discover/advanced?category_id=22&woe_id=0&sort=magic&ref=category&seed=2781111&page=1'
-//		const commentableId = 'RnJlZWZvcm1Qb3N0LTE2MTMxMjQ=';
-//
-//		const result = await getComments(url, commentableId, 168);
-//
-//		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
-//		
-//	}
-//)()
+const util = require('util');
+
+(
+	async () => {
+	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
+		const url = 'https://www.kickstarter.com/discover/advanced?category_id=22&woe_id=0&sort=magic&ref=category&seed=2781111&page=1'
+		const commentableId = 'UHJvamVjdC0xNzY4MDA2Nzgy';
+
+		const result = await getComments(url, commentableId, 168);
+
+		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
+		
+	}
+)()
