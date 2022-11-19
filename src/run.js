@@ -130,6 +130,8 @@ async function crawlSubcategory(sub_category_id) {
 			console.timeEnd('page job: ');
 		}
 
+		//	일단 스크랩 실행 결과(isDone상황판)를 TARGETS에 업데이트 해 준다
+		await writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/targets.js`, TARGETS);
 		
 		//	
 		//		COMMENT PART
@@ -194,6 +196,8 @@ async function crawlSubcategory(sub_category_id) {
 			console.timeEnd('comment job: ');
 		}
 
+		//	일단 스크랩 실행 결과(isDone상황판)를 TARGETS에 업데이트 해 준다
+		await writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/targets.js`, TARGETS);
 
 		//	
 		//		UPDATE PART
