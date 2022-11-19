@@ -5,6 +5,7 @@ const userAgent = require('user-agents');
 const {globalVariable} = require('./public/global');
 const {solveCaptchar} = require('./util/solve-captcha');
 
+const util = require('util');
 
 async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTargetData) {
 	const browser = await puppeteer.launch(globalVariable.browserOptions);
@@ -21,9 +22,8 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 			if(response.url().includes('/graph')) {
 				const data = await response?.json()
 
-				if(data[0]?.data?.project?.stroy !== undefined) {
-					fromCampaignGraph = data[0].data.project;
-				}
+				if(data[0]?.data?.project?.story === undefined) return
+				else fromCampaignGraph = data[0].data.project;
 			}
 		})
 
@@ -374,15 +374,13 @@ module.exports = {grepLiveSuccessFailCancel, grepSubmitStart};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//const util = require('util');
-//
 //(
 //	async () => {
 //		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
-//		const url = `https://www.kickstarter.com/projects/davidgukasyan/crewtify-a-watch-party-community-for-online-music-events`;
-//		const slug = 'exploding-kittens';
+//		const url = `https://www.kickstarter.com/projects/kittygorian/rani-the-froggie-a-ceramic-mug-and-lid-set`;
+//		const slug = 'rani-the-froggie-a-ceramic-mug-and-lid-set';
 //
-//		const a = await getCreatorData(url, slug);
+//		const a = await grepLiveSuccessFailCancel(url, slug);
 //
 //		//const a = await getCreatorData(slug)
 //		console.log(util.inspect(a, {depth: null}));

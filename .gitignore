@@ -3,7 +3,7 @@
 /test
 /targets
 /log
-/SCRAPED_RAW_DATA
+/SCRAPED_RAW_DATA/*
 
 
 */temp

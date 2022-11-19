@@ -163,39 +163,49 @@ const getUpdates = async (motherUrl, projectSlug) => {
 		}
 	})
 
-	await page.goto(motherUrl, {waitUntil: 'networkidle0'})
-	await page.waitForTimeout(globalVariable.randomTime.halfMin)
-
-	await page.click('#projects > div.load_more.mt3 > a');
-	await page.waitForNavigation({waitUntil: 'networkidle0'});
-
-	//	스크롤을 한번 내릴 때부터 시작하고, 한번 내릴 때마다 한번의  graph POST 요청을 가로채 활용한다.
-	const autoScroll = async () => {
-		isFirstRequest = true;
-		//console.log('scrolling')
-		let scrollHeight = await page.evaluate(() => {
-			return document.body.scrollHeight;
-		})
-		await page.mouse.wheel({deltaY: scrollHeight})
-		await page.waitForNavigation({waitUntil: 'networkidle0'})
-		await page.waitForTimeout(globalVariable.randomTime.halfMin)		//	waitForNavigation만으로 충분히 기다리지 않아서 대응(req와 res가 순서를 보장하지 않고 비동기적으로 진행된다.)
-	}
-
-	//const roll = new Array(Math.ceil(totalUpdateLength /20) +5);
-	const roll = new Array(200);	//	isHitLast will save my ass
-
-	const executeAutoScroll = async () => {
+	try {
+		await page.goto(motherUrl, {waitUntil: 'networkidle0'})
 		await page.waitForTimeout(globalVariable.randomTime.halfMin)
-		for(const _ of roll) {
-			if(!isHitLast) await autoScroll(roll.length);
+
+		await page.click('#projects > div.load_more.mt3 > a');
+		await page.waitForNavigation({waitUntil: 'networkidle0'});
+
+		//	스크롤을 한번 내릴 때부터 시작하고, 한번 내릴 때마다 한번의  graph POST 요청을 가로채 활용한다.
+		const autoScroll = async () => {
+			isFirstRequest = true;
+			//console.log('scrolling')
+			let scrollHeight = await page.evaluate(() => {
+				return document.body.scrollHeight;
+			})
+			await page.mouse.wheel({deltaY: scrollHeight})
+			await page.waitForNavigation({waitUntil: 'networkidle0'})
+			await page.waitForTimeout(globalVariable.randomTime.halfMin)		//	waitForNavigation만으로 충분히 기다리지 않아서 대응(req와 res가 순서를 보장하지 않고 비동기적으로 진행된다.)
 		}
+
+		//const roll = new Array(Math.ceil(totalUpdateLength /20) +5);
+		const roll = new Array(200);	//	isHitLast will save my ass
+
+		const executeAutoScroll = async () => {
+			await page.waitForTimeout(globalVariable.randomTime.halfMin)
+			for(const _ of roll) {
+				if(!isHitLast) await autoScroll(roll.length);
+			}
+		}
+		await executeAutoScroll();
+
+		await browser.close()
+
+		//	25개 댓글을 담은 객체의 배열
+		return results
 	}
-	await executeAutoScroll();
-
-	await browser.close()
-
-	//	25개 댓글을 담은 객체의 배열
-	return results
+	catch(err) {
+		console.log('getUpdates함수 실행이 실패했습니다.')
+		console.log()
+		console.error(err)
+	}
+	finally {
+		browser.close();	// 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
+	}
 }
 
 module.exports = {getUpdates};

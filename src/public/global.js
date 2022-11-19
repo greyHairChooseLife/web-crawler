@@ -15,5 +15,20 @@ exports.globalVariable = {
 	},
 	now: new Date().toLocaleString(),
 	motherUrls : [
+		'https://www.kickstarter.com/discover/advanced?category_id=1&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=3&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=26&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=6&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=7&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=9&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=11&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=10&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=12&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=13&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=14&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=15&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=18&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=16&sort=magic&seed=2781390&page=1',
+		'https://www.kickstarter.com/discover/advanced?category_id=17&sort=magic&seed=2781390&page=1'
 	]
 }

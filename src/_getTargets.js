@@ -40,8 +40,8 @@ const getTargets = async (subCategoryId) => {
 
 		return numberize(ele.textContent.split(' ')[0])
 	});
-	//const numberOfScrollJob = new Array(Math.floor(TOTAL_LENGTH /12) +1 -1 -1);	//	전체 페이지 수에서 기본 접속 페이지(1페이지) 한번 빼고, 클릭 페이지(2페이지) 한번 뺀다.
-	const numberOfScrollJob = new Array(1);	//	전체 페이지 수에서 기본 접속 페이지(1페이지) 한번 빼고, 클릭 페이지(2페이지) 한번 뺀다.
+	const numberOfScrollJob = new Array(Math.floor(TOTAL_LENGTH /12) +1 -1 -1);	//	전체 페이지 수에서 기본 접속 페이지(1페이지) 한번 빼고, 클릭 페이지(2페이지) 한번 뺀다.
+//	const numberOfScrollJob = new Array(1);	//	전체 페이지 수에서 기본 접속 페이지(1페이지) 한번 빼고, 클릭 페이지(2페이지) 한번 뺀다.
 
 	//	just for iterating
 	const executeAutoScroll = async () => {
