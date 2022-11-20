@@ -151,11 +151,19 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 		//const roll = new Array(Math.ceil(totalCommentLength /25) +10);
 		const roll = new Array(200);	// isHitLast will save my ass
 
+		let deadRollCheck = 0;
 		const executeAutoScroll = async () => {
 			for(const _ of roll) {
 				if(!isHitLast) {
 					await page.waitForTimeout(globalVariable.randomTime.fifteenSec)
 					await autoScroll(roll.length);
+
+					deadRollCheck++;
+					try {
+						await page.$eval(`#projects_list > div:nth-child(${deadRollCheck *2 +3})`, ele => {})
+					} catch(err) {
+						throw new Error('스크롤에 반응하지 않습니다. 이번 시도를 마칩니다.')
+					}
 				}
 			}
 		}
