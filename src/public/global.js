@@ -3,7 +3,7 @@ exports.globalVariable = {
 		executablePath: '/opt/google/chrome/google-chrome',
 		//args: ['--disable-web-security'],
 		args:[], 
-		defaultViewport: {width: 1366, height: 768},
+		defaultViewport: {width: 1366 + Math.floor(Math.random() *50), height: 768 + Math.floor(Math.random() *50)},
 		headless: false
 	},
 	randomTime: {
