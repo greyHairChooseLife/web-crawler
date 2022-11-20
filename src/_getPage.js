@@ -150,8 +150,26 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 						];
 					})
 				});
-				const numberOfNewBackers = await page.$eval('div.new-backers > div.count', ele => numberize(ele.textContent) * 1)
-				const numberOfReturningBackers = await page.$eval('div.existing-backers > div.count', ele => numberize(ele.textContent) * 1)
+				const numberOfNewBackers = await page.$eval('div.new-backers > div.count', ele => {
+					function numberize(str) {
+						return Number(str.split('').reduce((prev, curr) => {
+							if(curr.charCodeAt(0) >= 48 && curr.charCodeAt(0) <= 57) return prev+curr
+							else return prev
+						}, ''))
+					}
+
+					numberize(ele.textContent) * 1
+				});
+				const numberOfReturningBackers = await page.$eval('div.existing-backers > div.count', ele => {
+					function numberize(str) {
+						return Number(str.split('').reduce((prev, curr) => {
+							if(curr.charCodeAt(0) >= 48 && curr.charCodeAt(0) <= 57) return prev+curr
+							else return prev
+						}, ''))
+					}
+
+					numberize(ele.textContent) * 1
+				});
 				community = {
 					topCityL1: fromCommunityCities[0]?.[0],
 					topCityB1: fromCommunityCities[0]?.[1],
