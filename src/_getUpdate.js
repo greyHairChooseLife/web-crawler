@@ -167,13 +167,18 @@ const getUpdates = async (motherUrl, projectSlug) => {
 	})
 
 	try {
-		await page.goto(motherUrl, {waitUntil: 'networkidle0'})
+		await page.goto(motherUrl, {waitUntil: 'networkidle0'});
 		await solveCaptchar(page);
-		await page.waitForTimeout(globalVariable.randomTime.halfMin)
+		await page.waitForTimeout(globalVariable.randomTime.fifteenSec);
 
 		await page.click('#projects > div.load_more.mt3 > a');
-		await solveCaptchar(page);
 		await page.waitForNavigation({waitUntil: 'networkidle0'});
+		try {
+			await page.$eval('#projects_list > div:nth-child(3)', ele => {})
+		} catch(err) {
+			await page.reload({ waitUntil: 'networkidle0', });
+		}
+		await solveCaptchar(page);
 
 		//	스크롤을 한번 내릴 때부터 시작하고, 한번 내릴 때마다 한번의  graph POST 요청을 가로채 활용한다.
 		const autoScroll = async () => {
