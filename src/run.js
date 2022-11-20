@@ -290,7 +290,8 @@ async function crawlSubcategory(sub_category_id) {
 						subCommentFileIdx++;
 
 						if(eachUpdate.node.type !== 'update') {
-							await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, []);
+							if(!await isFileBeing(baseDir +`/subCommentData_${subCommentFileIdx}.js`)) await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, []);
+
 							checkIsDone++;
 							if(updateData.length === checkIsDone) {
 								//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
@@ -309,7 +310,8 @@ async function crawlSubcategory(sub_category_id) {
 						}
 
 						if(Number(eachUpdate.node.data.commentsCount) === 0) {
-							await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, []);
+							if(!await isFileBeing(baseDir +`/subCommentData_${subCommentFileIdx}.js`)) await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, []);
+
 							checkIsDone++;
 							if(updateData.length === checkIsDone) {
 								//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
