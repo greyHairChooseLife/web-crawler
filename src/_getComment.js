@@ -156,11 +156,11 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 			for(const _ of roll) {
 				if(!isHitLast) {
 					await page.waitForTimeout(globalVariable.randomTime.fifteenSec)
-					await autoScroll(roll.length);
+					await autoScroll();
 
 					deadRollCheck++;
 					try {
-						await page.$eval(`#projects_list > div:nth-child(${deadRollCheck *2 +3})`, ele => {})
+						await page.$eval(`#projects_list > div:nth-child(${deadRollCheck +3})`, ele => {})
 					} catch(err) {
 						throw new Error('스크롤에 반응하지 않습니다. 이번 시도를 마칩니다.')
 					}
