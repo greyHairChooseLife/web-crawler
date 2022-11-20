@@ -147,9 +147,11 @@ const getUpdates = async (motherUrl, projectSlug) => {
 			let data;
 			try{
 				data = await response.json()
-			}catch(err){}
+			}catch(err){
+				return
+			}
 
-			if(data.data.project.timeline.pageInfo.__typename === 'PageInfo'){
+			if(data?.data?.project?.timeline?.pageInfo?.__typename === 'PageInfo'){
 				//console.log('res before Cursor', endCursor)
 				endCursor = data.data.project.timeline.pageInfo.endCursor;
 				if(!data.data.project.timeline.pageInfo.hasNextPage) isHitLast = true;
@@ -160,7 +162,7 @@ const getUpdates = async (motherUrl, projectSlug) => {
 				}catch(err){
 					console.error(err);
 				}
-			}
+			} else return
 		}
 	})
 
