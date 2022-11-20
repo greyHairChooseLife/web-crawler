@@ -154,38 +154,60 @@ async function crawlSubcategory(sub_category_id) {
 			} 
 			else {
 				try {
-					console.log(chalk.blue('\ncomment data가 없습니다. 수집을 시작합니다...\n'));
+					console.log(chalk.blue('\ncomment data가 없거나 완성되지 않았습니다. (이어서)수집을 시작합니다...\n'));
 					console.log(chalk.blue('waiting for 30sec'));
 					await waitTime(30 * 1000);
 
 					let commentableID;
+					let endCursor;
+					let updatedCommentData = [];
+					//	pageData를 이번에 새롭게 얻었다면,
 					if(pageData !== undefined) commentableID = pageData.commentableID;
+					//	pageData가 이미 존재했다면,
 					else {
-						//	pageData가 과거에 완성되어 있었다면 파일에서 읽어 온다.
-						const {data} = require(baseDir +'/pageData');
-						commentableID = data.data.commentableID;
+						//	pageData가 과거에 완성되어 있었다면, 두 가지 경우가 발생한다. 해당 comment data를 처음 수집하거나, 하던 것을 마저 이어서 하거나.
+						//
+						//	case 처음 수집 :
+						if(!await isFileBeing(baseDir +'/commentData.js')) {
+							const {data} = require(baseDir +'/pageData');
+							commentableID = data.data.commentableID;
+						}
+						//	case 이어서 수집 :
+						else {
+							const {data} = require(baseDir +'/commentData');
+							updatedCommentData = [ ...data.data ];
+							commentableID = data.data[0].commentable.id;
+							endCursor = data.data[data.data.length -1].commentable.comments.pageInfo.endCursor;
+						}
 					}
 
 					if(commentableID === undefined) throw new Error('pageData가 없기 때문에 commenableID를 얻을 수 업습니다.')
 
-					commentData = await getComments(motherUrl, commentableID);
+					commentData = await getComments(motherUrl, commentableID, endCursor);
 
 					if(commentData === undefined) throw new Error(`comment data가 undefined입니다. 파일을 생성하지 못했습니다.`)
 					else {
-						//	모든 것이 성공했을 때,
-						//	
-						//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
-						updatedTarget = {
-							...updatedTarget,
-							isDone: {
-								...updatedTarget.isDone,
-								commentData: true
-							}
+						//	수집에 일부 성공했을 때,
+						if(commentData[commentData.length -1].commentable.comments.pageInfo.hasNextPage) {
+							//raw data 저장하는 파일 생성
+							await writeFile(baseDir +'/commentData.js', {createdAt: globalVariable.now, data:[ ...updatedCommentData, ...commentData]});
+							console.log(chalk.blue('\ncomment data (일부) 생성되었습니다.\n'));
 						}
-						TARGETS.splice(targetIdx, 1, updatedTarget)
-						//raw data 저장하는 파일 생성
-						await writeFile(baseDir +'/commentData.js', {createdAt: globalVariable.now, data:commentData});
-						console.log(chalk.blue('\ncomment data 생성이 완료되었습니다.\n'));
+						//	수집에 완전히 성공했을 때
+						//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
+						else {
+							updatedTarget = {
+								...updatedTarget,
+								isDone: {
+									...updatedTarget.isDone,
+									commentData: true
+								}
+							}
+							TARGETS.splice(targetIdx, 1, updatedTarget)
+							//raw data 저장하는 파일 생성
+							await writeFile(baseDir +'/commentData.js', {createdAt: globalVariable.now, data:[ ...updatedCommentData, ...commentData]});
+							console.log(chalk.blue('\ncomment data 생성이 완료되었습니다.\n'));
+						}
 					}
 				}
 				catch(err) {
@@ -266,22 +288,27 @@ async function crawlSubcategory(sub_category_id) {
 					let subCommentFileIdx = -1;
 					for (const eachUpdate of updateData) {
 						subCommentFileIdx++;
-						if(await isFileBeing(baseDir +`/subCommentData_${subCommentFileIdx}.js`)) {
-							checkIsDone++;
-							if(updateData.length === checkIsDone) {
-								//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
-								updatedTarget = {
-									...updatedTarget,
-									isDone: {
-										...updatedTarget.isDone,
-										updateData: true
-									}
-								}
-								TARGETS.splice(targetIdx, 1, updatedTarget)
 
-								console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
+						if(await isFileBeing(baseDir +`/subCommentData_${subCommentFileIdx}.js`)) {
+							//파일이 있으면서 동시에 그 파일이 완성 된 파일인 경우에만 그냥 넘겨주는 것이다. 이것은 파일을 읽고, 그 마지막 데이터의 hasNextPage의 값을 통해 판단 할 수 있다.
+							const {data} = require(baseDir +`/subCommentData_${subCommentFileIdx}`);
+							if(!data.data[data.data.length -1].commentable.comments.pageInfo.hasNextPage) {
+								checkIsDone++;
+								if(updateData.length === checkIsDone) {
+									//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
+									updatedTarget = {
+										...updatedTarget,
+										isDone: {
+											...updatedTarget.isDone,
+											updateData: true
+										}
+									}
+									TARGETS.splice(targetIdx, 1, updatedTarget)
+
+									console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
+								}
+								continue;
 							}
-							continue;
 						}
 
 						if(eachUpdate.node.type !== 'update') {
@@ -324,29 +351,44 @@ async function crawlSubcategory(sub_category_id) {
 						
 						await waitTime(30 * 1000);
 						const commentableID = eachUpdate.node.data.id;
-						const subCommentData = await getComments(motherUrl, commentableID);
+						let endCursor;
+						let updatedSubCommentData = [];
+
+						//	기존 파일이 있다면 이어서 수집하기 위한 endCursor값을 가져와준다.
+						if(await isFileBeing(baseDir +`/subCommentData_${subCommentFileIdx}.js`)) {
+							const {data} = require(baseDir +`/subCommentData_${subCommentFileIdx}`);
+							updatedSubCommentData = [ ...data.data ];
+							endCursor = data.data[data.data.length -1].commentable.comments.pageInfo.endCursor;
+						}
+
+						const subCommentData = await getComments(motherUrl, commentableID, endCursor);
 
 						if(subCommentData === undefined) throw new Error(`sub_comment data가 undefined입니다. 파일을 생성하지 못했습니다.`)
 						else {
-							//	모든 것이 성공했을 때,
-							//	
-							//virgin check to update categoryPool
-							//
-							//raw data 저장하는 파일 생성
-							await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, {createdAt: globalVariable.now, data: subCommentData});
-							checkIsDone++;
-							if(updateData.length === checkIsDone) {
-								//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
-								updatedTarget = {
-									...updatedTarget,
-									isDone: {
-										...updatedTarget.isDone,
-										updateData: true
+							//	수집에 일부 성공했을 때,
+							if(subCommentData[subCommentData.length -1].commentable.comments.pageInfo.hasNextPage) {
+								//raw data 저장하는 파일 생성
+								await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, {createdAt: globalVariable.now, data: [...updatedSubCommentData, ...subCommentData]});
+								console.log(chalk.blue('\nsub_comment data (일부) 생성되었습니다.\n'));
+							}
+							//	수집에 완전히 성공했을 때
+							else {
+								//raw data 저장하는 파일 생성
+								await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, {createdAt: globalVariable.now, data: [...updatedSubCommentData, ...subCommentData]});
+								checkIsDone++;
+								if(updateData.length === checkIsDone) {
+									//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
+									updatedTarget = {
+										...updatedTarget,
+										isDone: {
+											...updatedTarget.isDone,
+											updateData: true
+										}
 									}
-								}
-								TARGETS.splice(targetIdx, 1, updatedTarget)
+									TARGETS.splice(targetIdx, 1, updatedTarget)
 
-								console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
+									console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
+								}
 							}
 						}
 					}

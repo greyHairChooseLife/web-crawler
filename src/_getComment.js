@@ -6,7 +6,7 @@ const {globalVariable} = require('./public/global');
 const {waitTime} = require('./util/my-util');
 const {solveCaptchar} = require('./util/solve-captcha');
 
-const getComments = async (motherUrl, commentableId) => {
+const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 	const browser = await puppeteer.launch(globalVariable.browserOptions)
 
 	const page = await browser.newPage()
@@ -15,7 +15,7 @@ const getComments = async (motherUrl, commentableId) => {
 
 	let isHitLast = false;
 	let isFirstRequest = false;
-	let endCursor;
+	let endCursor = givenEndCursor;
 
 	await page.on('request', async request => {
 		if(request.url().includes('/graph') && request.method() === 'POST'){
@@ -154,7 +154,7 @@ const getComments = async (motherUrl, commentableId) => {
 		const executeAutoScroll = async () => {
 			for(const _ of roll) {
 				if(!isHitLast) {
-					await page.waitForTimeout(globalVariable.randomTime.halfMin)
+					await page.waitForTimeout(globalVariable.randomTime.fifteenSec)
 					await autoScroll(roll.length);
 				}
 			}
@@ -173,6 +173,7 @@ const getComments = async (motherUrl, commentableId) => {
 	}
 	finally {
 		browser.close();	// 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
+		return results
 	}
 }
 
@@ -188,16 +189,17 @@ module.exports = {getComments};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //const util = require('util');
+//const motherUrl = globalVariable.motherUrls[Math.floor(Math.random() * globalVariable.motherUrls.length)];
 //
 //(
 //	async () => {
 //	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
-//		const url = 'https://www.kickstarter.com/discover/advanced?category_id=22&woe_id=0&sort=magic&ref=category&seed=2781111&page=1'
-//		const commentableId = 'UHJvamVjdC0xNzY4MDA2Nzgy';
+//		const url = motherUrl;
+//		const commentableId = 'UHJvamVjdC02MDQxMDkyMTA=';	//	many roll
+//		const commentableId2 = 'UHJvamVjdC0xNzk0Nzg0MjE5';	//	count number less than 25 (1 roll)
 //
-//		const result = await getComments(url, commentableId, 168);
+//		const result = await getComments(url, commentableId, 'WyItMSIsIjIwMjAtMTItMjdUMDc6MTE6MzUuMDAwWiIsMzEwNTYzNTVd');
 //
 //		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
-//		
 //	}
 //)()
