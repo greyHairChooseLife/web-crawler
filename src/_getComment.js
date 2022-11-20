@@ -108,7 +108,7 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 				data = await response.json()
 			}catch(err){}
 
-			if(data?.data?.commentable?.comments !== undefined){
+			if(data?.data?.commentable?.comments !== undefined) {
 				//console.log('res before Cursor', endCursor)
 				endCursor = data.data.commentable.comments.pageInfo.endCursor;
 				if(!data.data.commentable.comments.pageInfo.hasNextPage) isHitLast = true;

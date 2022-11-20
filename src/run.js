@@ -289,28 +289,6 @@ async function crawlSubcategory(sub_category_id) {
 					for (const eachUpdate of updateData) {
 						subCommentFileIdx++;
 
-						if(await isFileBeing(baseDir +`/subCommentData_${subCommentFileIdx}.js`)) {
-							//파일이 있으면서 동시에 그 파일이 완성 된 파일인 경우에만 그냥 넘겨주는 것이다. 이것은 파일을 읽고, 그 마지막 데이터의 hasNextPage의 값을 통해 판단 할 수 있다.
-							const {data} = require(baseDir +`/subCommentData_${subCommentFileIdx}`);
-							if(!data.data[data.data.length -1].commentable.comments.pageInfo.hasNextPage) {
-								checkIsDone++;
-								if(updateData.length === checkIsDone) {
-									//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
-									updatedTarget = {
-										...updatedTarget,
-										isDone: {
-											...updatedTarget.isDone,
-											updateData: true
-										}
-									}
-									TARGETS.splice(targetIdx, 1, updatedTarget)
-
-									console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
-								}
-								continue;
-							}
-						}
-
 						if(eachUpdate.node.type !== 'update') {
 							await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, []);
 							checkIsDone++;
@@ -349,6 +327,28 @@ async function crawlSubcategory(sub_category_id) {
 							continue;
 						}
 						
+						if(await isFileBeing(baseDir +`/subCommentData_${subCommentFileIdx}.js`)) {
+							//파일이 있으면서 동시에 그 파일이 완성 된 파일인 경우에만 그냥 넘겨주는 것이다. 이것은 파일을 읽고, 그 마지막 데이터의 hasNextPage의 값을 통해 판단 할 수 있다.
+							const {data} = require(baseDir +`/subCommentData_${subCommentFileIdx}`);
+							if(!data.data[data.data.length -1].commentable.comments.pageInfo.hasNextPage) {
+								checkIsDone++;
+								if(updateData.length === checkIsDone) {
+									//targets.js 파일 업데이트용 변수 업데이트(isDone: true)
+									updatedTarget = {
+										...updatedTarget,
+										isDone: {
+											...updatedTarget.isDone,
+											updateData: true
+										}
+									}
+									TARGETS.splice(targetIdx, 1, updatedTarget)
+
+									console.log(chalk.blue('\n모든 sub_comment data 수집이 완료되었습니다.\n'));
+								}
+								continue;
+							}
+						}
+
 						await waitTime(30 * 1000);
 						const commentableID = eachUpdate.node.data.id;
 						let endCursor;
