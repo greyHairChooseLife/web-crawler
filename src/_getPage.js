@@ -158,7 +158,7 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 						}, ''))
 					}
 
-					numberize(ele.textContent) * 1
+					return numberize(ele.textContent) * 1
 				});
 				const numberOfReturningBackers = await page.$eval('div.existing-backers > div.count', ele => {
 					function numberize(str) {
@@ -168,7 +168,7 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 						}, ''))
 					}
 
-					numberize(ele.textContent) * 1
+					return numberize(ele.textContent) * 1
 				});
 				community = {
 					topCityL1: fromCommunityCities[0]?.[0],
@@ -408,16 +408,16 @@ module.exports = {grepLiveSuccessFailCancel, grepSubmitStart};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//(
-//	async () => {
-//		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
-//		const url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
-//		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
-//
-//		const a = await grepLiveSuccessFailCancel(url, true, slug);
-//
-//		//const a = await getCreatorData(slug)
-//		console.log(util.inspect(a, {depth: null}));
-//
-//	}
-//)()
+(
+	async () => {
+		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
+		const url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
+		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
+
+		const a = await grepSubmitStart('https://www.kickstarter.com/projects/valueselect/mirth-pop-cd', true, slug);
+
+		//const a = await getCreatorData(slug)
+		console.log(util.inspect(a, {depth: null}));
+
+	}
+)()

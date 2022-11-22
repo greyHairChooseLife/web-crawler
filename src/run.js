@@ -14,6 +14,8 @@ const TOTAL_POOL = data;
 async function crawlSubcategory(sub_category_id) {
 	const POOL = TOTAL_POOL.find(ele => ele.subCategoryID === Number(sub_category_id));
 	const POOL_INDEX = TOTAL_POOL.findIndex(ele => ele.subCategoryID === sub_category_id);
+	
+	let updatedPOOL = {...POOL};
 
 	//	서브카테고리 디렉토리가 없으면 생성 해 준다.
 	if(!await isDirBeing(`../SCRAPED_RAW_DATA/${POOL.subCategory}`)) await makeDir(`../SCRAPED_RAW_DATA/${POOL.subCategory}`)
@@ -24,9 +26,9 @@ async function crawlSubcategory(sub_category_id) {
 		try {
 			console.log(chalk.blue('\n타겟이 준비되지 않았습니다. 타겟 수집을 시작합니다...\n'));
 
-			const scrapedTargets = await getTargets(sub_category_id);;
-			const updatedPOOL = {
-				...POOL,
+			const scrapedTargets = await getTargets(sub_category_id);
+			updatedPOOL = {
+				...updatedPOOL,
 				numberOfProject: scrapedTargets.length
 			}
 			TOTAL_POOL.splice(POOL_INDEX, 1, updatedPOOL);
@@ -408,9 +410,9 @@ async function crawlSubcategory(sub_category_id) {
 
 		//	모두 성공적인데, 이번 타겟이 virgin : true 라면 categoryPool의 numberOfScraped를 업데이트 해 준다
 		if(TARGETS[targetIdx].isDone.pageData && TARGETS[targetIdx].isDone.commentData && TARGETS[targetIdx].isDone.updateData && isVirgin) {
-			const updatedPOOL = {
-				...POOL,
-				numberOfScraped: POOL.numberOfScraped +1
+			updatedPOOL = {
+				...updatedPOOL,
+				numberOfScraped: updatedPOOL.numberOfScraped +1
 			}
 			TOTAL_POOL.splice(POOL_INDEX, 1, updatedPOOL);
 			await writeFile('./categoryPool.js', TOTAL_POOL)
