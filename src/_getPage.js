@@ -328,7 +328,12 @@ const getCreatorData = async (url, slug) => {
 			// Ignore OPTIONS requests
 			if(response.request().method() !== 'POST') return
 			if(response.url().includes('/graph')) {
-				const data = await response?.json();
+				let data;
+				try{
+					data = await response.json()
+				}catch(err){
+					return
+				}
 				if(data?.data?.project?.creator?.name !== undefined) result = data.data.project;
 			}
 		})
@@ -363,7 +368,12 @@ async function grepSubmitStart(url) {
 			// Ignore OPTIONS requests
 			if(response.request().method() !== 'POST') return
 			if(response.url().includes('/graph')) {
-				const data = await response?.json()
+				let data;
+				try{
+					data = await response.json()
+				}catch(err){
+					return
+				}
 
 				if(data[0]?.data?.project !== undefined) result = data[0]?.data?.project;
 			}
