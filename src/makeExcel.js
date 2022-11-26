@@ -11,7 +11,9 @@ const sheet1 = workbook.addWorksheet('sheet1');
 const makeColumns = () => {
 
 	const fromFile = [
-		'created_at'
+		'created_at_page',
+		'created_at_update',
+		'created_at_comment',
 	]
 
 	const fromTargetInfo = [
@@ -43,8 +45,11 @@ const makeColumns = () => {
 	const fromStory = [
 		'story_text',
 		'story_links',
+		'story_links_count',
 		'story_images',
-		'story_videos'
+		'story_images_count',
+		'story_videos',
+		'story_videos_count'
 	]
 
 	const fromCreator = [
@@ -220,9 +225,9 @@ for (const target of targets) {
 	const rawData = readFiles(targetIdx);
 
 	const createdAt = {
-		page: rawData.pageData.createdAt,
-		comment: rawData?.commentData?.createdAt,
-		update: rawData?.updateData?.createdAt,
+		created_at_page: rawData.pageData.createdAt,
+		created_at_update: rawData?.updateData?.createdAt,
+		created_at_comment: rawData?.commentData?.createdAt,
 	}
 
 	let _ = rawData.targetData;
@@ -252,8 +257,11 @@ for (const target of targets) {
 		pageData = {
 			story_text: getTextContentExcludeFigureElement(_.fromCampaignGraph.story),
 			story_links: getLinks(_.fromCampaignGraph.story),
+			story_links_count: getLinks(_.fromCampaignGraph.story).length,
 			story_images: getImages(_.fromCampaignGraph.story),
+			story_images_count: getImages(_.fromCampaignGraph.story).length,
 			story_videos: getVideos(_.fromCampaignGraph.story),
+			story_videos_count: getVideos(_.fromCampaignGraph.story).length,
 
 			risk: _.fromCampaignGraph.risks,
 
@@ -427,7 +435,7 @@ for (const target of targets) {
 	
 //	if(targetIdx === 0) console.log(pageData)
 
-	const data = [{created_at: createdAt, ...targetData, ...pageData, ...commentData, ...updateData}];
+	const data = [{...createdAt, ...targetData, ...pageData, ...commentData, ...updateData}];
 	sheet1.addRows(data)
 }
 

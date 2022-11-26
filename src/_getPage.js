@@ -408,16 +408,16 @@ module.exports = {grepLiveSuccessFailCancel, grepSubmitStart};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-(
-	async () => {
-		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
-		const url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
-		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
-
-		const a = await grepSubmitStart('https://www.kickstarter.com/projects/valueselect/mirth-pop-cd', true, slug);
-
-		//const a = await getCreatorData(slug)
-		console.log(util.inspect(a, {depth: null}));
-
-	}
-)()
+//(
+//	async () => {
+//		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
+//		const url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
+//		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
+//
+//		const a = await grepSubmitStart('https://www.kickstarter.com/projects/valueselect/mirth-pop-cd', true, slug);
+//
+//		//const a = await getCreatorData(slug)
+//		console.log(util.inspect(a, {depth: null}));
+//
+//	}
+//)()

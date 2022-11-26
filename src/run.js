@@ -120,7 +120,7 @@ async function crawlSubcategory(sub_category_id) {
 					}
 					TARGETS.splice(targetIdx, 1, updatedTarget)
 					//raw data 저장하는 파일 생성
-					await writeFile(baseDir +'/pageData.js', {createdAt: globalVariable.now, data: pageData});
+					await writeFile(baseDir +'/pageData.js', {createdAt: globalVariable.now(), data: pageData});
 					console.log(chalk.blue('\npage data 수집이 완료되었습니다.\n'));
 				}
 
@@ -192,7 +192,7 @@ async function crawlSubcategory(sub_category_id) {
 						//	수집에 일부 성공했을 때,
 						if(commentData[commentData.length -1].commentable.comments.pageInfo.hasNextPage) {
 							//raw data 저장하는 파일 생성
-							await writeFile(baseDir +'/commentData.js', {createdAt: globalVariable.now, data:[ ...updatedCommentData, ...commentData]});
+							await writeFile(baseDir +'/commentData.js', {createdAt: globalVariable.now(), data:[ ...updatedCommentData, ...commentData]});
 							console.log(chalk.blue('\ncomment data (일부) 생성되었습니다.\n'));
 						}
 						//	수집에 완전히 성공했을 때
@@ -207,7 +207,7 @@ async function crawlSubcategory(sub_category_id) {
 							}
 							TARGETS.splice(targetIdx, 1, updatedTarget)
 							//raw data 저장하는 파일 생성
-							await writeFile(baseDir +'/commentData.js', {createdAt: globalVariable.now, data:[ ...updatedCommentData, ...commentData]});
+							await writeFile(baseDir +'/commentData.js', {createdAt: globalVariable.now(), data:[ ...updatedCommentData, ...commentData]});
 							console.log(chalk.blue('\ncomment data 생성이 완료되었습니다.\n'));
 						}
 					}
@@ -257,7 +257,7 @@ async function crawlSubcategory(sub_category_id) {
 							//	모든 것이 성공했을 때,
 							//	
 							//raw data 저장하는 파일 생성
-							await writeFile(baseDir +'/updateData.js', {createdAt: globalVariable.now, data: updateData});
+							await writeFile(baseDir +'/updateData.js', {createdAt: globalVariable.now(), data: updateData});
 							console.log(chalk.blue('\nupdate data 수집이 완료되었습니다.\n'));
 						}
 					}
@@ -372,13 +372,13 @@ async function crawlSubcategory(sub_category_id) {
 							//	수집에 일부 성공했을 때,
 							if(subCommentData[subCommentData.length -1].commentable.comments.pageInfo.hasNextPage) {
 								//raw data 저장하는 파일 생성
-								await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, {createdAt: globalVariable.now, data: [...updatedSubCommentData, ...subCommentData]});
+								await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, {createdAt: globalVariable.now(), data: [...updatedSubCommentData, ...subCommentData]});
 								console.log(chalk.blue('\nsub_comment data (일부) 생성되었습니다.\n'));
 							}
 							//	수집에 완전히 성공했을 때
 							else {
 								//raw data 저장하는 파일 생성
-								await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, {createdAt: globalVariable.now, data: [...updatedSubCommentData, ...subCommentData]});
+								await writeFile(baseDir +`/subCommentData_${subCommentFileIdx}.js`, {createdAt: globalVariable.now(), data: [...updatedSubCommentData, ...subCommentData]});
 								checkIsDone++;
 								if(updateData.length === checkIsDone) {
 									//targets.js 파일 업데이트용 변수 업데이트(isDone: true)

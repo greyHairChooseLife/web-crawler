@@ -13,7 +13,7 @@ exports.globalVariable = {
 		fiveMin: (Math.floor(Math.random() *10) + 300) *1000,		//	5  min
 		fifteenMin: (Math.floor(Math.random() *10) + 1500) *1000,	//  15 min
 	},
-	now: new Date().toLocaleString(),
+	now: () => {return new Date().toLocaleString()},
 	motherUrls : [
 		'https://www.kickstarter.com/discover/advanced?category_id=1&sort=magic&seed=2781390&page=1',
 		'https://www.kickstarter.com/discover/advanced?category_id=3&sort=magic&seed=2781390&page=1',
