@@ -65,12 +65,31 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 							  id
 							  body
 							  createdAt
+							  parentId
 							  author {
 								id
 								imageUrl(width: 200)
 								name
 								url
+								__typename
 							  }
+							  removedPerGuidelines
+							  authorBadges
+							  canReport
+							  canDelete
+							  canPin
+							  hasFlaggings
+							  deletedAuthor
+							  deleted
+							  sustained
+							  pinnedAt
+							  authorCanceledPledge
+							  authorBacking {
+								backingUrl
+								id
+								__typename
+							  }
+							  __typename
 							}
 
 							fragment CommentReplies on Comment {

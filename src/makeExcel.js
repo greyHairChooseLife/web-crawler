@@ -2,18 +2,37 @@ const excel = require('exceljs');
 const cheerio = require('cheerio');
 const util = require('util');
 const fs = require('fs');
+const TOTAL_CATEGORY_POOLS = require('./categoryPool').data;
 
-// 
-// Make new workbook and sheet, set columns
-// 
-const workbook = new excel.Workbook();
-const sheet1 = workbook.addWorksheet('sheet1');
-const makeColumns = () => {
+const POOL = TOTAL_CATEGORY_POOLS.find(ele => ele.subCategoryID === Number(process.argv[2]));
+
+if(POOL === undefined) {
+	console.log('존재하지 않는 서브 카테고리 아이디입니다.');
+	process.exit(1);
+}
+
+//////////////////////////////////////////////////// Make new workbook and sheet, set columns
+//////////////////////////////////////////////////// Make new workbook and sheet, set columns
+//////////////////////////////////////////////////// Make new workbook and sheet, set columns
+const workbookPage = new excel.Workbook();
+const sheet1Page = workbookPage.addWorksheet('sheet1');
+
+const workbookComment = new excel.Workbook();
+const sheet1Comment = workbookComment.addWorksheet('sheet1');
+
+const workbookUpdate = new excel.Workbook();
+const sheet1Update = workbookUpdate.addWorksheet('sheet1');
+
+const workbookUpdateComment = new excel.Workbook();
+const sheet1UpdateComment = workbookUpdateComment.addWorksheet('sheet1');
+
+////////////////////////////////////////////////////	set columns
+////////////////////////////////////////////////////	set columns
+////////////////////////////////////////////////////	set columns
+const makePageColumns = () => {
 
 	const fromFile = [
-		'created_at_page',
-		'created_at_update',
-		'created_at_comment',
+		'scraped_at',
 	]
 
 	const fromTargetInfo = [
@@ -118,75 +137,7 @@ const makeColumns = () => {
 		'number_of_followers'
 	]
 
-	const fromUpdates = [
-		//'contents_of_updates'
-		'update_1_title',
-		'update_1_publishedAt',
-		'update_1_authorName',
-		'update_1_authorRole',
-		'update_1_likesCount',
-		'update_1_commentsCount',
-		'update_1_body_text',
-		'update_1_body_img',
-		'update_2_title',
-		'update_2_publishedAt',
-		'update_2_authorName',
-		'update_2_authorRole',
-		'update_2_likesCount',
-		'update_2_commentsCount',
-		'update_2_body_text',
-		'update_2_body_img',
-		'update_3_title',
-		'update_3_publishedAt',
-		'update_3_authorName',
-		'update_3_authorRole',
-		'update_3_likesCount',
-		'update_3_commentsCount',
-		'update_3_body_text',
-		'update_3_body_img',
-		'update_4_title',
-		'update_4_publishedAt',
-		'update_4_authorName',
-		'update_4_authorRole',
-		'update_4_likesCount',
-		'update_4_commentsCount',
-		'update_4_body_text',
-		'update_4_body_img',
-		'update_5_title',
-		'update_5_publishedAt',
-		'update_5_authorName',
-		'update_5_authorRole',
-		'update_5_likesCount',
-		'update_5_commentsCount',
-		'update_5_body_text',
-		'update_5_body_img',
-	];
-
-	const fromComments = [
-		//'contents_of_comments'
-		'comment_1_name',
-		'comment_1_desc',
-		'comment_2_name',
-		'comment_2_desc',
-		'comment_3_name',
-		'comment_3_desc',
-		'comment_4_name',
-		'comment_4_desc',
-		'comment_5_name',
-		'comment_5_desc',
-		'comment_6_name',
-		'comment_6_desc',
-		'comment_7_name',
-		'comment_7_desc',
-		'comment_8_name',
-		'comment_8_desc',
-		'comment_9_name',
-		'comment_9_desc',
-		'comment_10_name',
-		'comment_10_desc',
-	];
-
-	const allColumns = [
+	return [
 		...fromFile,
 		...fromTargetInfo,
 		...fromCampaignGraph,
@@ -198,42 +149,90 @@ const makeColumns = () => {
 		...fromOptions,
 		...finishedOnly,
 		...submittedOnly,
-		...fromUpdates,
-		...fromComments,
 	];
-
-	return allColumns.map(ele => {
-		return {header: ele, key: ele}
-	})
 };
+sheet1Page.columns = makePageColumns()
+	.map(ele => ({header: ele, key: ele}));
 
-sheet1.columns = [
-	...makeColumns()
-]
+sheet1Comment.columns = [
+	'scraped_at',
+	'project_url',
+	'name',
+	'date',
+	'label',			//	author_role
+	'content',
+	'reply_name',
+	'reply_date',
+	'reply_label',
+	'reply_content',
+].map(ele => ({header: ele, key: ele}));
 
-const targets = require('../SCRAPED_RAW_DATA/3D Printing/targets').data;
+sheet1Update.columns = [
+	'scraped_at',
+	'project_url',
 
+	'order',
+	'type',
+	'published_at',
+
+	'title',
+	'author_name',
+	'author_role',
+	'likes_count',
+	'comments_count',
+	'text',
+	'links',
+	'links_count',
+	'imgs',
+	'imgs_count',
+	'videos',
+	'videos_count'
+].map(ele => ({header: ele, key: ele}));
+
+sheet1UpdateComment.columns = [
+	'scraped_at',
+	'project_url',
+	'update_number',
+	'name',
+	'date',
+	'label',			//	author_role
+	'content',
+	'reply_name',
+	'reply_date',
+	'reply_label',
+	'reply_content',
+].map(ele => ({header: ele, key: ele}));
+
+////////////////////////////////////////////////////	get total targets
+////////////////////////////////////////////////////	get total targets
+////////////////////////////////////////////////////	get total targets
+const totolTarget = require(`../SCRAPED_RAW_DATA/${POOL.subCategory}/targets`).data;
+
+////////////////////////////////////////////////////	iterate all targets to add raw each
+////////////////////////////////////////////////////	iterate all targets to add raw each
+////////////////////////////////////////////////////	iterate all targets to add raw each
 let targetIdx = -1;
-for (const target of targets) {
+for (const target of totolTarget) {
 	targetIdx++;
-//	if(target.isDone.pageData === false ||
-	if(target.isDone.pageData === false
-//		target.isDone.updateData === false ||
-//		target.isDone.commentData === false
+
+	if(target.isDone.pageData === false	||			//	pageData 수집이 완료되지 않은 target은 거른다.
+		target.isDone.commentData === false	||		//	commentData 수집이 완료되지 않은 target은 거른다.
+		target.isDone.updateData === false			//	updateData 수집이 완료되지 않은 target은 거른다.
 	) continue;
 
-	const rawData = readFiles(targetIdx);
+	const [rawTargetData, rawPageData, rawCommentData, rawUpdateData, rawUpdateCommentData] = readFiles(targetIdx);
 
-	const createdAt = {
-		created_at_page: rawData.pageData.createdAt,
-		created_at_update: rawData?.updateData?.createdAt,
-		created_at_comment: rawData?.commentData?.createdAt,
-	}
+	const project_url = rawTargetData.urls.web.project.split('?')[0];
 
-	let _ = rawData.targetData;
-	const targetData = {
+	let _;
+
+	//	TARGET	
+	//	TARGET	
+	//	TARGET	
+	_ = rawTargetData;
+	const targetDataPairs = {
 		project_state: _.state,
-		project_url: _.urls.web.project,
+		project_url: project_url,
 		project_category: _.category.name,
 		project_name: _.name,
 		project_description: _.blurb,
@@ -245,16 +244,24 @@ for (const target of targets) {
 		currency_symbol: _.currency_symbol,
 		pledged: _.pledged,
 		goal: _.goal,
-		percent_funded: _.percent_funded,
+		percent_funded: _.state === 'live' ? _.percent_funded : _.pledged /_.goal *100,		//	percent_funded property might be shown on live type project
 		backers_count: _.backers_count,
 
 		staff_pick: _.staff_pick,
 	}
 
-	_ = rawData.pageData.data;
-	let pageData;
-	if(targetData.project_state !== 'submitted' && targetData.project_state !== 'started') {
-		pageData = {
+	//	PAGE
+	//	PAGE
+	//	PAGE
+	_ = rawPageData.data;
+	let pageDataPairs;
+
+//	console.log(project_url)
+//	console.log(doo(_.contentsOfSupportOptions[_.contentsOfSupportOptions.length-1]))
+//	break;
+//
+	if(targetDataPairs.project_state !== 'submitted' && targetDataPairs.project_state !== 'started') {
+		pageDataPairs = {
 			story_text: getTextContentExcludeFigureElement(_.fromCampaignGraph.story),
 			story_links: getLinks(_.fromCampaignGraph.story),
 			story_links_count: getLinks(_.fromCampaignGraph.story).length,
@@ -273,7 +280,7 @@ for (const target of targets) {
 			creator_verified_identity: _.creatorVerifiedIdentity,
 			creator_last_login: _.creatorLastLogin,
 			creator_is_facebook_connected: _.creatorIsFacebookConnected,
-			creator_number_of_launched_projects: _.creatorNumberOfLauncedProjects.totalCount,
+			creator_number_of_launched_projects: targetDataPairs.project_state === 'successful' ? _.creatorNumberOfLauncedProjects : _.creatorNumberOfLauncedProjects.totalCount,
 			creator_number_of_backing_projects: _.creatorNumberOfBackingProjects,
 			creator_contents_of_collaborators: _.creatorContentsOfCollaborators,
 			creator_contents_of_websites: _.creatorContentsOfWebsites,
@@ -337,8 +344,13 @@ for (const target of targets) {
 			funding_period_duration: _.duration,
 			last_updated: _.lastUpdated,
 		}
+		if(_.contentsOfFAQ.length > 0) {
+			console.log(project_url)
+			console.log(doo(_.contentsOfFAQ[0]))
+			break;
+		}
 	} else {
-		pageData = {
+		pageDataPairs = {
 			creator_name: _.creator.name,
 			creator_location: _.creator.location.displayableName,
 			creator_biography: _.creator.biography,
@@ -356,121 +368,157 @@ for (const target of targets) {
 		}
 	}
 
-	_ = rawData.commentData?.data?.[0]?.commentable?.comments?.edges;
-	const commentData = {
-		'comment_1_name': _?.[0]?.node?.author?.name,
-		'comment_1_desc': _?.[0]?.node?.body,
-		'comment_2_name': _?.[1]?.node?.author?.name,
-		'comment_2_desc': _?.[1]?.node?.body,
-		'comment_3_name': _?.[2]?.node?.author?.name,
-		'comment_3_desc': _?.[2]?.node?.body,
-		'comment_4_name': _?.[3]?.node?.author?.name,
-		'comment_4_desc': _?.[3]?.node?.body,
-		'comment_5_name': _?.[4]?.node?.author?.name,
-		'comment_5_desc': _?.[4]?.node?.body,
-		'comment_6_name': _?.[5]?.node?.author?.name,
-		'comment_6_desc': _?.[5]?.node?.body,
-		'comment_7_name': _?.[6]?.node?.author?.name,
-		'comment_7_desc': _?.[6]?.node?.body,
-		'comment_8_name': _?.[7]?.node?.author?.name,
-		'comment_8_desc': _?.[7]?.node?.body,
-		'comment_9_name': _?.[8]?.node?.author?.name,
-		'comment_9_desc': _?.[8]?.node?.body,
-		'comment_10_name': _?.[9]?.node?.author?.name,
-		'comment_10_desc': _?.[9]?.node?.body,
-	}
+	const pageRow = [{scraped_at: rawPageData.createdAt, ...targetDataPairs, ...pageDataPairs}];
+	sheet1Page.addRows(pageRow);
 
-	_ = rawData.updateData?.data;
-	const updateData = {
-		update_1_title: _?.[0]?.node?.data?.title,
-		update_1_publishedAt: _?.[0]?.node?.data?.publishedAt,
-		update_1_authorName: _?.[0]?.node?.data?.author?.name,
-		update_1_authorRole: _?.[0]?.node?.data?.authorRole,
-		update_1_likesCount: _?.[0]?.node?.data?.likesCount,
-		update_1_commentsCount: _?.[0]?.node?.data?.commentsCount,
-		update_1_body_text: getTextContentExcludeFigureElement(_?.[0]?.node?.data?.body),
-		update_1_body_img: getImages(_?.[0]?.node?.data?.body),
-
-		update_2_title: _?.[1]?.node?.data?.title,
-		update_2_publishedAt: _?.[1]?.node?.data?.publishedAt,
-		update_2_authorName: _?.[1]?.node?.data?.author?.name,
-		update_2_authorRole: _?.[1]?.node?.data?.authorRole,
-		update_2_likesCount: _?.[1]?.node?.data?.likesCount,
-		update_2_commentsCount: _?.[1]?.node?.data?.commentsCount,
-		update_2_body_text: getTextContentExcludeFigureElement(_?.[1]?.node?.data?.body),
-		update_2_body_img: getImages(_?.[1]?.node?.data?.body),
-
-		update_3_title: _?.[2]?.node?.data?.title,
-		update_3_publishedAt: _?.[2]?.node?.data?.publishedAt,
-		update_3_authorName: _?.[2]?.node?.data?.author?.name,
-		update_3_authorRole: _?.[2]?.node?.data?.authorRole,
-		update_3_likesCount: _?.[2]?.node?.data?.likesCount,
-		update_3_commentsCount: _?.[2]?.node?.data?.commentsCount,
-		update_3_body_text: getTextContentExcludeFigureElement(_?.[2]?.node?.data?.body),
-		update_3_body_img: getImages(_?.[2]?.node?.data?.body),
-
-		update_4_title: _?.[3]?.node?.data?.title,
-		update_4_publishedAt: _?.[3]?.node?.data?.publishedAt,
-		update_4_authorName: _?.[3]?.node?.data?.author?.name,
-		update_4_authorRole: _?.[3]?.node?.data?.authorRole,
-		update_4_likesCount: _?.[3]?.node?.data?.likesCount,
-		update_4_commentsCount: _?.[3]?.node?.data?.commentsCount,
-		update_4_body_text: getTextContentExcludeFigureElement(_?.[3]?.node?.data?.body),
-		update_4_body_img: getImages(_?.[3]?.node?.data?.body),
-
-		update_5_title: _?.[4]?.node?.data?.title,
-		update_5_publishedAt: _?.[4]?.node?.data?.publishedAt,
-		update_5_authorName: _?.[4]?.node?.data?.author?.name,
-		update_5_authorRole: _?.[4]?.node?.data?.authorRole,
-		update_5_likesCount: _?.[4]?.node?.data?.likesCount,
-		update_5_commentsCount: _?.[4]?.node?.data?.commentsCount,
-		update_5_body_text: getTextContentExcludeFigureElement(_?.[4]?.node?.data?.body),
-		update_5_body_img: getImages(_?.[4]?.node?.data?.body),
-	}
-
-
-//	_ = rawData.subCommentData;
-//	const subCommentData = []
-//
 	
-//	if(targetIdx === 0) console.log(pageData)
+	//	COMMENT
+	//	COMMENT
+	//	COMMENT
+	if(rawCommentData !== undefined) {
+		for (const group of rawCommentData.data) {
 
-	const data = [{...createdAt, ...targetData, ...pageData, ...commentData, ...updateData}];
-	sheet1.addRows(data)
+			for (const {
+				node: forehead,				//	원댓글
+				node: {
+					replies: {
+						nodes: replies		//	대댓글
+					}
+				}
+			} of group.commentable.comments.edges) {
+
+				const commentDataPairs = {
+					name: forehead.author?.name,				//	탈퇴한 사용자의 경우 author가 null이 된다. 그래서 옵셔널 체이닝 걸어준다.
+					date: forehead.createdAt,
+					label: forehead.authorBadges?.join(', '),
+					content: forehead.body,
+					reply_name: replies[0]?.author?.name,		//	탈퇴한 사용자의 경우 author가 null이 된다. 그래서 옵셔널 체이닝 걸어준다.
+					reply_date: replies[0]?.createdAt,
+					reply_label: replies[0]?.authorBadges?.join(', '),
+					reply_content: replies[0]?.body,
+				}
+
+				const commentRow = [{scraped_at: rawCommentData.createdAt, project_url: project_url, ...commentDataPairs}];
+				sheet1Comment.addRows(commentRow);
+			}
+		}
+	}
+
+
+	if(rawUpdateData !== undefined) {
+	//	UPDATE	
+	//	UPDATE	
+	//	UPDATE	
+		let order = 1;
+		for (const {node: each} of rawUpdateData.data.reverse()) {
+
+			const updateDataPairs = {
+				order: order++,
+				type: each.type,
+				published_at: each.timestamp,
+
+				title: each.data.title,
+				author_name: each.data.author?.name,
+				author_role: each.data.authorRole,
+				likes_count: each.data.likesCount,
+				comments_count: each.data.commentsCount,
+				text: getTextContentExcludeFigureElement(each.data.body),
+				links: getLinks(each.data.body),
+				links_count: getLinks(each.data.body)?.length,
+				imgs: getImages(each.data.body),
+				imgs_count: getImages(each.data.body)?.length,
+				videos: getVideos(each.data.body),
+				videos_count: getVideos(each.data.body)?.length,
+			}
+
+			const updateRow = [{scraped_at: rawUpdateData.createdAt, project_url: project_url, ...updateDataPairs}];
+			sheet1Update.addRows(updateRow);
+		}
+
+	//	UPDATE COMMENT	
+	//	UPDATE COMMENT	
+	//	UPDATE COMMENT	
+		order = 0;
+		for (const groups of rawUpdateCommentData.reverse()) {
+			order++;
+			if(Array.isArray(groups)) continue;		//	댓글이 없는 update는 빈 배열인 updateCommentData를 가지고 있다.
+
+			const scraped_at = groups.createdAt;
+
+			for (const {
+				commentable: {
+					comments: {
+						edges
+					}
+				}
+			} of groups.data) {
+
+				for (const {
+					node: forehead,
+					node: {
+						replies: {
+							nodes: replies
+						}
+					}
+				} of edges) {
+
+					const updateCommentDataPairs = {
+						order: order,
+
+						name: forehead.author?.name,				//	탈퇴한 사용자의 경우 author가 null이 된다. 그래서 옵셔널 체이닝 걸어준다.
+						date: forehead.createdAt,
+						label: forehead.authorBadges?.join(', '),
+						content: forehead.body,
+						reply_name: replies[0]?.author?.name,		//	탈퇴한 사용자의 경우 author가 null이 된다. 그래서 옵셔널 체이닝 걸어준다.
+						reply_date: replies[0]?.createdAt,
+						reply_label: replies[0]?.authorBadges?.join(', '),
+						reply_content: replies[0]?.body,
+					}
+
+					const updateCommentRow = [{scraped_at: scraped_at, project_url: project_url, ...updateCommentDataPairs}];
+					sheet1UpdateComment.addRows(updateCommentRow);
+				}
+			}
+		}
+	}
 }
 
-workbook.xlsx.writeFile('../SCRAPED_RAW_DATA/3D Printing/excel.xlsx');
+workbookPage.xlsx.writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/page.xlsx`);
+workbookComment.xlsx.writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/comments.xlsx`);
+workbookUpdate.xlsx.writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/updates.xlsx`);
+workbookUpdateComment.xlsx.writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/update_comments.xlsx`);
+
+
 
 function readFiles(targetIdx) {
+	const baseDir = `../SCRAPED_RAW_DATA/${POOL.subCategory}/${targetIdx}`;
 
-	const targetData = require(`../SCRAPED_RAW_DATA/3D Printing/${targetIdx}/targetData`).data
+	const targetData = require(baseDir +'/targetData').data;
 
-	const pageData = require(`../SCRAPED_RAW_DATA/3D Printing/${targetIdx}/pageData`).data
+	const pageData = require(baseDir +'/pageData').data;
 
-	let commentData = [];
-	try{
-		commentData = require(`../SCRAPED_RAW_DATA/3D Printing/${targetIdx}/commentData`).data
-	}catch(err){}
+	let commentData;
+	try { commentData = require(baseDir +'/commentData').data; }
+	catch(err){}
 
-	let updateData = []; 
-	try{
-		updateData = require(`../SCRAPED_RAW_DATA/3D Printing/${targetIdx}/updateData`).data
-	}catch(err){}
+	let updateData;
+	try{ updateData = require(baseDir +'/updateData').data; }
+	catch(err){}
 
-	const subCommentData = [];
-	try{
-		subCommentData.push(require(`../SCRAPED_RAW_DATA/3D Printing/${targetIdx}/subCommentData_0`).data)
-		subCommentData.push(require(`../SCRAPED_RAW_DATA/3D Printing/${targetIdx}/subCommentData_1`).data)
-	}catch(err){
+	let subCommentData
+	if(updateData !== undefined) {
+		subCommentData = [];
+		for(let i = 0; i <updateData.data.length; i++)
+			subCommentData.push(require(baseDir +'/subCommentData_' +i).data)
 	}
 	
-	return {
-		targetData: targetData,
-		pageData: pageData,
-		commentData: commentData,
-		updateData: updateData,
-		subCommentData: subCommentData
-	}
+	return [
+		targetData,
+		pageData,
+		commentData,
+		updateData,
+		subCommentData,
+	]
 }
 
 function getTextContentExcludeFigureElement(html) {
@@ -527,4 +575,12 @@ function getVideos(html) {
 		})
 	}
 	return result
+}
+
+function doo(html) {
+	if(html === undefined || html === null) return undefined;
+
+	const storyDom = cheerio.load(html)
+
+	return storyDom.html()
 }

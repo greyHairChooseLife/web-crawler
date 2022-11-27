@@ -82,8 +82,7 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 		})
 
 		const lastUpdated = await page.evaluate(() => {
-			const ele = document.querySelector('#react-project-header > div > div > div.grid-row.order2-md.hide-lg.mb3-md > div > div.flex.items-center.mt4 > span > a')
-			return ele ? ele.textContent : null
+			return document.querySelector('#content-wrap > section > div.project-profile__content > div.grid-container.pb3.pb10-sm > div > div.grid-col-12.grid-col-4-lg > div.NS_campaigns__spotlight_stats > div > div > span:nth-child(2) > a > time')?.textContent
 		})
 
 		const contentsOfSupportOptions =[];
@@ -410,11 +409,13 @@ module.exports = {grepLiveSuccessFailCancel, grepSubmitStart};
 //
 //(
 //	async () => {
-//		//const url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
-//		const url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
+//		const live_url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
+//		const successful_url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
+//		const submitted_url = `https://www.kickstarter.com/projects/valueselect/mirth-pop-cd`;
 //		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
 //
-//		const a = await grepSubmitStart('https://www.kickstarter.com/projects/valueselect/mirth-pop-cd', true, slug);
+//		const a = await grepLiveSuccessFailCancel(successful_url, true, slug);
+//		//const a = await grepSubmitStart('https://www.kickstarter.com/projects/valueselect/mirth-pop-cd', true, slug);
 //
 //		//const a = await getCreatorData(slug)
 //		console.log(util.inspect(a, {depth: null}));
