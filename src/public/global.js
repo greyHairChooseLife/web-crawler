@@ -1,8 +1,10 @@
 exports.globalVariable = {
 	browserOptions: {
 		executablePath: '/opt/google/chrome/google-chrome',
-		//args: ['--disable-web-security'],
-		args:[], 
+		args: [
+			'--disable-web-security',
+			`--proxy-server=usa.rotating.proxyrack.net:9000`
+		],
 		defaultViewport: {width: 1366 + Math.floor(Math.random() *50), height: 768 + Math.floor(Math.random() *50)},
 		headless: false
 	},
@@ -12,6 +14,10 @@ exports.globalVariable = {
 		twoMin: (Math.floor(Math.random() *10) + 120) *1000,		//	2  min
 		fiveMin: (Math.floor(Math.random() *10) + 300) *1000,		//	5  min
 		fifteenMin: (Math.floor(Math.random() *10) + 1500) *1000,	//  15 min
+	},
+	proxyInfo: {
+		name: 'sangyeon',
+		pw: 'dc1fef-1a66c2-a9c11c-d84a8b-31b1e5',
 	},
 	now: () => {return new Date().toLocaleString()},
 	motherUrls : [

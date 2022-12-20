@@ -23,6 +23,9 @@ const getUpdate = async (url) => {
 
 	await page.goto(url);
 
+
+
+
 	if(false){
 	await solveCaptchar(page);
 
@@ -91,8 +94,9 @@ const getUpdate = async (url) => {
 (
 	async () => {
 		const url = 'https://ppss.kr/';
+		const url2 = 'https://ipinfo.io/';
 
-		const result = await getUpdate(url);
+		const result = await getUpdate(url2);
 		console.log('final return: ', util.inspect(result, {depth: null}));
 	}
 )()

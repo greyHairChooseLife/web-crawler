@@ -96,7 +96,7 @@ async function crawlSubcategory(sub_category_id) {
 					case 'successful':
 					case 'failed':
 					case 'canceled':
-						pageData = await grepLiveSuccessFailCancel(targetData.urls.web.project.split('?')[0], targetData.state === 'successful' ? true : false, targetData.slug);
+						pageData = await grepLiveSuccessFailCancel(targetData.urls.web.project.split('?')[0], targetData.state, targetData.slug);
 						break;
 					case 'submitted':
 					case 'started' :

@@ -8,7 +8,8 @@ const {numberize} = require('./util/my-util');
 
 const util = require('util');
 
-async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTargetData) {
+//async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTargetData) {
+async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) {
 	const browser = await puppeteer.launch(globalVariable.browserOptions);
 	const page = await browser.newPage();     
 	await page.setUserAgent(userAgent.random().toString());
@@ -37,9 +38,10 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 		await solveCaptchar(page);
 
 		let creatorData;
-		if(!isSuccessfulProject) {
-			creatorData = await page.evaluate(() => {
-				const dataInitialObj = JSON.parse(document.querySelector('#react-project-header').getAttribute('data-initial'));	//	data-initial 속성에 필요한 데이터를 로드 해 놓아서 활용한다.
+		//if(!isSuccessfulProject) {
+		if(projectState !== 'successful') {
+			creatorData = await page.$eval('#react-project-header', ele => {
+				const dataInitialObj = JSON.parse(ele.getAttribute('data-initial'));	//	data-initial 속성에 필요한 데이터를 로드 해 놓아서 활용한다.
 
 				return {
 					creatorName: dataInitialObj.project.creator.name,
@@ -57,7 +59,7 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 				}
 			});
 		} else {
-			await page.waitForTimeout(globalVariable.randomTime.halfMin);
+			await page.waitForTimeout(globalVariable.randomTime.fifteenSec);
 			data_ = await getCreatorData(url, slugFromTargetData);
 			creatorData = {
 				creatorName: data_.creator.name,
@@ -75,15 +77,27 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 			}
 		}
 
-		const allOrNothing = await page.evaluate(() => {
-			const ele = document.querySelector('#react-project-header > div > div.grid-container.flex.flex-column > div.grid-row.order2-md.hide-lg.mb3-md > div > div > p > span.link-soft-black.medium > a');
-			if(ele?.textContent === 'All or nothing.') return true
-			return false
-		})
+		let allOrNothing;
+		//	live 프로젝트에만 존재하는 요소
+		if(projectState === 'live') {
+			allOrNothing = await page.$eval('#react-project-header > div > div.grid-container.flex.flex-column > div.grid-row.order2-md.hide-lg.mb3-md > div > div > p > span.link-soft-black.medium > a', ele => {
+				if(ele.textContent === 'All or nothing.') return true
+				return false
+			})
+		}
 
-		const lastUpdated = await page.evaluate(() => {
-			return document.querySelector('#content-wrap > section > div.project-profile__content > div.grid-container.pb3.pb10-sm > div > div.grid-col-12.grid-col-4-lg > div.NS_campaigns__spotlight_stats > div > div > span:nth-child(2) > a > time')?.textContent
-		})
+		let lastUpdated;
+		//	successful, failed, canceled 프로젝트에만 존재하는 요소
+		if(projectState === 'successful') {
+			lastUpdated = await page.$eval('#content-wrap > section > div.project-profile__content > div.grid-container.pb3.pb10-sm > div > div.grid-col-12.grid-col-4-lg > div.NS_campaigns__spotlight_stats > div > div > span:nth-child(2) > a > time', ele => {
+				return ele.textContent
+			})
+		}
+		else if(projectState !== 'live') {
+			lastUpdated = await page.$eval('#react-project-header > div > div > div.grid-row.order2-md.hide-lg.mb3-md > div > div.flex.items-center.mt4 > span > a', ele => {
+				return ele.textContent
+			})
+		}
 
 		const contentsOfSupportOptions =[];
 		const optionsList = await page.$$('#content-wrap > div.NS_projects__content > section.js-project-content.js-project-description-content.project-content > div > div > div > div.col.col-4.js-rewards-column.max-w62.sticky-rewards > div > div.mobile-hide > div > ol > li');
@@ -93,30 +107,33 @@ async function grepLiveSuccessFailCancel(url, isSuccessfulProject, slugFromTarge
 			if(await page.evaluate(ele => ele.querySelector('div.pledge__info')?.outerHTML, option) === undefined) contentsOfSupportOptions.push(await page.evaluate(ele => ele?.outerHTML, option))
 		}
 
-		const fundingPeriod = await page.evaluate(() => {
-			const ele = document.querySelector('#content-wrap > div.NS_projects__content > section.js-project-content.js-project-description-content.project-content > div > div > div > div.col.col-4.js-rewards-column.max-w62.sticky-rewards > div > div.NS_campaigns__funding_period > p')
-			if(ele) {
+		let fundingPeriod = {
+			start: undefined,
+			end: undefined,
+			duration: undefined
+		};
+		if(projectState !== 'live') {
+			fundingPeriod = await page.$eval('#content-wrap > div.NS_projects__content > section.js-project-content.js-project-description-content.project-content > div > div > div > div.col.col-4.js-rewards-column.max-w62.sticky-rewards > div > div.NS_campaigns__funding_period > p', ele => {
 				return {
-					start: ele.querySelector('time:nth-child(1)')?.textContent,
-					end: ele.querySelector('time:nth-child(2)')?.textContent,
-					duration: ele.textContent?.match(/\(.*\)/)[0]?.split(' ')[0]?.slice(1) *1
+//					start: ele.querySelector('time:nth-child(1)')?.textContent,
+//					end: ele.querySelector('time:nth-child(2)')?.textContent,
+//					duration: ele.textContent?.match(/\(.*\)/)[0]?.split(' ')[0]?.slice(1) *1
+					start: ele.querySelector('time:nth-child(1)').textContent,
+					end: ele.querySelector('time:nth-child(2)').textContent,
+					duration: ele.textContent.match(/\(.*\)/)[0].split(' ')[0].slice(1) *1
 				}
-			}
-			return {
-				start: null,
-				end: null,
-				duration: null
-			}
-		})
+			})
+		}
 
 		const countingDataPot = await page.$('#react-campaign-nav');
+		if(countingDataPot === null) throw new Error('#react-campaign-nav를 찾을 수 없습니다.')
 		const shownNumberOfFAQ = await page.evaluate(ele => JSON.parse(ele.getAttribute('data-campaign')).projectFAQsCount, countingDataPot);
 		const shownNumberOfUpdates = await page.evaluate(ele => JSON.parse(ele.getAttribute('data-campaign')).updateCount, countingDataPot);
 		const shownNumberOfComments = await page.evaluate(ele => JSON.parse(ele.getAttribute('data-campaign')).commentsCount, countingDataPot);
 
 		const contentsOfFAQ =[];	// FAQ가 존재하지 않는다면 빈 배열로 남는다.
 		if(shownNumberOfFAQ !== 0){
-			await page.waitForTimeout(globalVariable.randomTime.halfMin);
+			await page.waitForTimeout(globalVariable.randomTime.fifteenSec);
 			await page.goto(url+'/faqs', { waitUntil: 'networkidle0', });
 			await solveCaptchar(page);
 
@@ -412,9 +429,10 @@ module.exports = {grepLiveSuccessFailCancel, grepSubmitStart};
 //		const live_url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
 //		const successful_url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
 //		const submitted_url = `https://www.kickstarter.com/projects/valueselect/mirth-pop-cd`;
+//		const canceled_url = 'https://www.kickstarter.com/projects/1012285011/hand-painted-mugs-that-will-make-you-smile-loveina';
 //		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
 //
-//		const a = await grepLiveSuccessFailCancel(successful_url, true, slug);
+//		const a = await grepLiveSuccessFailCancel(canceled_url, 'canceled', slug);
 //		//const a = await grepSubmitStart('https://www.kickstarter.com/projects/valueselect/mirth-pop-cd', true, slug);
 //
 //		//const a = await getCreatorData(slug)

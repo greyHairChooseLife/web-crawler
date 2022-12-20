@@ -87,7 +87,8 @@ const makePageColumns = () => {
 	]
 
 	const fromFAQ = [
-		'contents_of_FAQ'
+		'contents_of_FAQ',
+		'FAQ_count'
 	];
 
 	const fromCommunitiy = [
@@ -122,9 +123,19 @@ const makePageColumns = () => {
 		'all_or_nothing',
 	]
 
+
 	const fromOptions = [
 		'contents_of_support_options',
 	]
+
+	for(let i =0; i <30; i++) {
+		fromOptions.push(
+			`option_${i+1}_amount`,
+			`option_${i+1}_title`,
+			`option_${i+1}_backers_count`,
+			`option_${i+1}_describe`,
+		)
+	}
 
 	const finishedOnly = [
 		'funding_period_start',
@@ -255,12 +266,24 @@ for (const target of totolTarget) {
 	//	PAGE
 	_ = rawPageData.data;
 	let pageDataPairs;
-
-//	console.log(project_url)
-//	console.log(doo(_.contentsOfSupportOptions[_.contentsOfSupportOptions.length-1]))
-//	break;
-//
 	if(targetDataPairs.project_state !== 'submitted' && targetDataPairs.project_state !== 'started') {
+		let parsedOptions = {};
+		let optionIdx =0;
+		for(const optionHTML of _.contentsOfSupportOptions) {
+
+			const parsed = parseOptions(optionHTML)
+
+			parsedOptions = {
+				...parsedOptions, 
+				[`option_${optionIdx+1}_amount`]: parsed.amount,
+				[`option_${optionIdx+1}_title`]: parsed.title,
+				[`option_${optionIdx+1}_backers_count`]: parsed.backers_count,
+				[`option_${optionIdx+1}_describe`]: parsed.describe
+			}
+
+			optionIdx++;
+		}
+
 		pageDataPairs = {
 			story_text: getTextContentExcludeFigureElement(_.fromCampaignGraph.story),
 			story_links: getLinks(_.fromCampaignGraph.story),
@@ -286,6 +309,7 @@ for (const target of totolTarget) {
 			creator_contents_of_websites: _.creatorContentsOfWebsites,
 
 			contents_of_FAQ: _.contentsOfFAQ,
+			FAQ_count: _.contentsOfFAQ.length,
 
 			top_cities_location_1st: _.topCityL1,
 			top_cities_number_of_backers_1st: _.topCityB1,
@@ -338,16 +362,12 @@ for (const target of totolTarget) {
 			all_or_nothing: _.allOrNothing,
 
 			contents_of_support_options: _.contentsOfSupportOptions,
+			...parsedOptions,
 
 			funding_period_start: _.start,
 			funding_period_end: _.end,
 			funding_period_duration: _.duration,
 			last_updated: _.lastUpdated,
-		}
-		if(_.contentsOfFAQ.length > 0) {
-			console.log(project_url)
-			console.log(doo(_.contentsOfFAQ[0]))
-			break;
 		}
 	} else {
 		pageDataPairs = {
@@ -371,6 +391,7 @@ for (const target of totolTarget) {
 	const pageRow = [{scraped_at: rawPageData.createdAt, ...targetDataPairs, ...pageDataPairs}];
 	sheet1Page.addRows(pageRow);
 
+	
 	
 	//	COMMENT
 	//	COMMENT
@@ -488,8 +509,6 @@ workbookComment.xlsx.writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/comments
 workbookUpdate.xlsx.writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/updates.xlsx`);
 workbookUpdateComment.xlsx.writeFile(`../SCRAPED_RAW_DATA/${POOL.subCategory}/update_comments.xlsx`);
 
-
-
 function readFiles(targetIdx) {
 	const baseDir = `../SCRAPED_RAW_DATA/${POOL.subCategory}/${targetIdx}`;
 
@@ -577,10 +596,56 @@ function getVideos(html) {
 	return result
 }
 
-function doo(html) {
-	if(html === undefined || html === null) return undefined;
+function parseOptions(html) {
+	//	종종 삭제 된 경우가 있다. 그 때에도 여전히 틀이 되는 태그는 남아있는 것으로 추정 됨.
+	if(html === undefined || html === null) {
+		return {
+			amount: 'Deleted',
+			title: undefined,
+			backers_count: undefined,
+			describe: undefined
+		}
+	};
 
-	const storyDom = cheerio.load(html)
+	const storyDom = cheerio.load(html);
+	storyDom('a.hide').remove();
 
-	return storyDom.html()
+	//	Pledge without a reward 인 경우
+	if(storyDom('h2.pledge__amount').text().includes('Pledge without a reward')) {
+		return {
+			amount: 'Pledge without a reward',
+			title: undefined,
+			backers_count: undefined,
+			describe:undefined 
+		}
+	}
+
+	//	All gone! 인 경우
+	if(storyDom.text().includes('All gone!')) {
+		return {
+			amount: 'All gone!',
+			title: undefined,
+			backers_count: undefined,
+			describe:undefined 
+		}
+	}
+
+	const amount = storyDom('h2.pledge__amount > span.money').text()
+	const title = storyDom('h3.pledge__title').text().replace(/\n/g,'')
+
+	let backers_count = undefined;
+	if(storyDom('div.pledge__backer-stats').text().includes('backers')) {
+		backers_count = storyDom('div.pledge__backer-stats').text().split(' backers')[0]
+		const idx = backers_count.split('').lastIndexOf('\n')
+		backers_count = backers_count.slice(idx+1)
+	}
+
+	const describe = storyDom('div.pledge__reward-description').text()
+
+	return {
+		amount: amount,
+		title: title,
+		backers_count: backers_count,
+		describe: describe
+	}
 }

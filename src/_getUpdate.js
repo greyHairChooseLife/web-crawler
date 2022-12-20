@@ -18,7 +18,18 @@ const getUpdates = async (motherUrl, projectSlug) => {
 	let endCursor;
 
 	await page.on('request', async request => {
-		if(request.url().includes('/graph') && request.method() === 'POST'){
+		if(request.url().includes('https://api.icy-lake.kickstarter.com/v1/t')) {
+			console.log('catch dispatcher.ts');
+			//console.log(request.headers())
+			request.respond({
+				status: 200,
+				contentType: 'text/plain',
+				headers: request.headers(),
+				body: JSON.stringify({success: true}),
+			})
+			//request.continue();
+		}
+		else if(request.url().includes('/graph') && request.method() === 'POST'){
 			if(!isFirstRequest) {
 				await request.abort();
 			} else {

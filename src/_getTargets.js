@@ -47,7 +47,7 @@ const getTargets = async (subCategoryId) => {
 	const executeAutoScroll = async () => {
 		for(const _ of numberOfScrollJob) {
 			await autoScroll(numberOfScrollJob.length);
-			await page.waitForTimeout(globalVariable.randomTime.halfMin);
+			await page.waitForTimeout(globalVariable.randomTime.fifteenSec);
 		}
 	}
 	await executeAutoScroll();
