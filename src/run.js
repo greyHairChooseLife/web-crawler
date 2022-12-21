@@ -46,8 +46,8 @@ async function crawlSubcategory(sub_category_id) {
 	}
 
 	//	타겟을 불러온다.
-	console.log(chalk.blue('waiting for 15sec'));
-	await waitTime(15 *1000);
+	console.log(chalk.blue('waiting for 1sec'));
+	await waitTime(1 *1000);
 	const {data} = require(`../SCRAPED_RAW_DATA/${POOL.subCategory}/targets`);
 	let TARGETS = data;
 
@@ -87,8 +87,8 @@ async function crawlSubcategory(sub_category_id) {
 			console.time('page job: ')
 			try {
 				console.log(chalk.blue('\npage data가 없습니다. 수집을 시작합니다...\n'));
-				console.log(chalk.blue('waiting for 30sec'));
-				await waitTime(30 * 1000);
+				console.log(chalk.blue('waiting for 1sec'));
+				await waitTime(1 * 1000);
 
 				isVirgin = true;
 				switch(targetData.state) {
@@ -157,8 +157,8 @@ async function crawlSubcategory(sub_category_id) {
 			else {
 				try {
 					console.log(chalk.blue('\ncomment data가 없거나 완성되지 않았습니다. (이어서)수집을 시작합니다...\n'));
-					console.log(chalk.blue('waiting for 30sec'));
-					await waitTime(30 * 1000);
+					console.log(chalk.blue('waiting for 1sec'));
+					await waitTime(1 * 1000);
 
 					let commentableID;
 					let endCursor;
@@ -247,8 +247,8 @@ async function crawlSubcategory(sub_category_id) {
 					console.time('update job: ')
 					try {
 						console.log(chalk.blue('\nupdate data가 없습니다. 수집을 시작합니다...\n'));
-						console.log(chalk.blue('waiting for 30sec'));
-						await waitTime(30 * 1000);
+						console.log(chalk.blue('waiting for 1sec'));
+						await waitTime(1 * 1000);
 
 						updateData = await getUpdates(motherUrl, targetData.slug);
 
@@ -353,7 +353,7 @@ async function crawlSubcategory(sub_category_id) {
 							}
 						}
 
-						await waitTime(30 * 1000);
+						await waitTime(1 * 1000);
 						const commentableID = eachUpdate.node.data.id;
 						let endCursor;
 						let updatedSubCommentData = [];

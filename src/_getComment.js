@@ -12,6 +12,7 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 	const page = await browser.newPage()
 	await page.setUserAgent(userAgent.random().toString());
 	await page.setRequestInterception(true)
+	await page.authenticate({ username: globalVariable.proxyInfo.name, password: globalVariable.proxyInfo.pw });
 
 	let isHitLast = false;
 	let isFirstRequest = false;

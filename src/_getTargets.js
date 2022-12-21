@@ -11,6 +11,7 @@ const getTargets = async (subCategoryId) => {
 	const page = await browser.newPage();
 	await page.setUserAgent(userAgent.random().toString());
 	installMouseHelper(page);
+	await page.authenticate({ username: globalVariable.proxyInfo.name, password: globalVariable.proxyInfo.pw });
 
 	const url = `https://www.kickstarter.com/discover/advanced?category_id=${subCategoryId}&sort=magic&seed=2780996&page=1`;
 

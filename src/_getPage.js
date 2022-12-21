@@ -14,6 +14,7 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 	const page = await browser.newPage();     
 	await page.setUserAgent(userAgent.random().toString());
 	await page.setBypassCSP(true)
+	await page.authenticate({ username: globalVariable.proxyInfo.name, password: globalVariable.proxyInfo.pw });
 
 	try {
 
@@ -36,6 +37,16 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 
 		await page.goto(url, { waitUntil: 'networkidle0', });
 		await solveCaptchar(page);
+
+		//	check and update state 
+		//	state can be changed as time goes by
+		if(projectState === 'live') {
+			const presentState = await page.$eval('#react-project-header', ele => {
+				return JSON.parse(ele.getAttribute('data-initial')).project.state
+			})
+
+			projectState = presentState.toLowerCase();
+		}
 
 		let creatorData;
 		//if(!isSuccessfulProject) {
@@ -133,24 +144,24 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 
 		const contentsOfFAQ =[];	// FAQ가 존재하지 않는다면 빈 배열로 남는다.
 		if(shownNumberOfFAQ !== 0){
-			await page.waitForTimeout(globalVariable.randomTime.fifteenSec);
-			await page.goto(url+'/faqs', { waitUntil: 'networkidle0', });
-			await solveCaptchar(page);
+			const page2 = await browser.newPage();     
+			await page2.goto(url+'/faqs', { waitUntil: 'networkidle0', });
+			await solveCaptchar(page2);
 
-			const listOfFAQ = await page.$$('#project-faqs > div > div > div.grid-row.mb6.flex.flex-row-sm.flex-column-reverse > ul > li');
+			const listOfFAQ = await page2.$$('#project-faqs > div > div > div.grid-row.mb6.flex.flex-row-sm.flex-column-reverse > ul > li');
 			for(eachFAQ of listOfFAQ){
-				contentsOfFAQ.push(await page.evaluate(ele => ele.outerHTML, eachFAQ))
+				contentsOfFAQ.push(await page2.evaluate(ele => ele.outerHTML, eachFAQ))
 			}
 		}
 
 		let community = {};			//	커뮤니티가 존재하지 않는 경우도 있다.
 		if(await page.$('#community-emoji') !== null){		
-			await page.waitForTimeout(globalVariable.randomTime.halfMin);
-			await page.goto(url+'/community', { waitUntil: 'networkidle0', });
-			await solveCaptchar(page);
+			const page3 = await browser.newPage();     
+			await page3.goto(url+'/community', { waitUntil: 'networkidle0', });
+			await solveCaptchar(page3);
 
-			if(await page.$('div.community-section__small_community') === null){
-				const fromCommunityCities = await page.$$eval('div.community-section__locations_cities > div > div > div', eles => {
+			if(await page3.$('div.community-section__small_community') === null){
+				const fromCommunityCities = await page3.$$eval('div.community-section__locations_cities > div > div > div', eles => {
 					return eles.map(ele => {
 						return [
 							ele.querySelector('div.left').textContent.split('\n\n\n')[0].substring(2) + ' ' + ele.querySelector('div.left').textContent.split('\n\n\n')[1].slice(0, -2),
@@ -158,7 +169,7 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 						];
 					})
 				});
-				const fromCommunityCountries = await page.$$eval('div.community-section__locations_countries > div > div > div', eles => {
+				const fromCommunityCountries = await page3.$$eval('div.community-section__locations_countries > div > div > div', eles => {
 					return eles.map(ele => {
 						return [
 							ele.querySelector('div.left').textContent.substring(2).slice(0, -2),
@@ -166,7 +177,7 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 						];
 					})
 				});
-				const numberOfNewBackers = await page.$eval('div.new-backers > div.count', ele => {
+				const numberOfNewBackers = await page3.$eval('div.new-backers > div.count', ele => {
 					function numberize(str) {
 						return Number(str.split('').reduce((prev, curr) => {
 							if(curr.charCodeAt(0) >= 48 && curr.charCodeAt(0) <= 57) return prev+curr
@@ -176,7 +187,7 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 
 					return numberize(ele.textContent) * 1
 				});
-				const numberOfReturningBackers = await page.$eval('div.existing-backers > div.count', ele => {
+				const numberOfReturningBackers = await page3.$eval('div.existing-backers > div.count', ele => {
 					function numberize(str) {
 						return Number(str.split('').reduce((prev, curr) => {
 							if(curr.charCodeAt(0) >= 48 && curr.charCodeAt(0) <= 57) return prev+curr
@@ -271,6 +282,7 @@ const getCreatorData = async (url, slug) => {
 	await page.setUserAgent(userAgent.random().toString());
 	await page.setBypassCSP(true)
 	await page.setRequestInterception(true)
+	await page.authenticate({ username: globalVariable.proxyInfo.name, password: globalVariable.proxyInfo.pw });
 
 	try {
 		let isVirgin = true;	//	한번이면 족하다.

@@ -7,12 +7,12 @@ const {waitTime} = require('./util/my-util');
 const {solveCaptchar} = require('./util/solve-captcha');
 
 const getComments = async (motherUrl, commentableId, givenEndCursor) => {
-	const browser = await puppeteer.launch({...globalVariable.browserOptions, args: ['--disable-web-security']
-}) 
+	const browser = await puppeteer.launch(globalVariable.browserOptions) 
 
 	const page = await browser.newPage()
 	await page.setUserAgent(userAgent.random().toString());
 	await page.setRequestInterception(true)
+	await page.authenticate({ username: globalVariable.proxyInfo.name, password: globalVariable.proxyInfo.pw });
 
 	let isHitLast = false;
 	let isFirstRequest = false;
@@ -163,6 +163,13 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 	})
 
 	try {
+		await page.goto('https://ipinfo.io', {waitUntil: 'networkidle0'});
+
+		const dd = await page.$eval('#ip-string > div > span > span:nth-child(2) > span', ele => ele.textContent)
+		console.log('pp: ', dd)
+
+		await page.waitForTimeout(10 * 1000)
+
 		await page.goto(motherUrl, {waitUntil: 'networkidle0'})
 		await solveCaptchar(page);
 		await page.waitForTimeout(globalVariable.randomTime.fifteenSec /3);
