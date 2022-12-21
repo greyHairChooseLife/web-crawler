@@ -30,7 +30,7 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 			})
 			//request.continue();
 		}
-		else if(request.url().includes('/graph') && request.method() === 'POST'){
+		else if(request.url().includes('/graph') && request.method() === 'POST') {
 			if(!isFirstRequest) {
 				await request.abort();
 			} else {
@@ -126,6 +126,7 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 			}
 		} 
 		else if(request.resourceType() === 'stylesheet' || request.resourceType() === 'image' || request.resourceType() === 'font') {
+			console.log('diet for: ', request.resourceType())
 			request.abort()
 		}else{
 			await request.continue()
@@ -230,18 +231,18 @@ module.exports = {getComments};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//const util = require('util');
-//const motherUrl = globalVariable.motherUrls[Math.floor(Math.random() * globalVariable.motherUrls.length)];
-//
-//(
-//	async () => {
-//	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
-//		const url = motherUrl;
-//		const commentableId = 'UHJvamVjdC02MDQxMDkyMTA=';	//	many roll
-//		const commentableId2 = 'UHJvamVjdC0xNzk0Nzg0MjE5';	//	count number less than 25 (1 roll)
-//
-//		const result = await getComments(url, commentableId, 'WyItMSIsIjIwMjAtMTItMjdUMDc6MTE6MzUuMDAwWiIsMzEwNTYzNTVd');
-//
-//		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
-//	}
-//)()
+const util = require('util');
+const motherUrl = globalVariable.motherUrls[Math.floor(Math.random() * globalVariable.motherUrls.length)];
+
+(
+	async () => {
+	//	const url = 'https://www.kickstarter.com/discover/advanced?category_id=6&woe_id=0&sort=magic&seed=2780996&page=1';
+		const url = motherUrl;
+		const commentableId = 'UHJvamVjdC02MDQxMDkyMTA=';	//	many roll
+		const commentableId2 = 'UHJvamVjdC0xNzk0Nzg0MjE5';	//	count number less than 25 (1 roll)
+
+		const result = await getComments(url, commentableId, 'WyItMSIsIjIwMjAtMTItMjdUMDc6MTE6MzUuMDAwWiIsMzEwNTYzNTVd');
+
+		console.log('final return: ', result.length, util.inspect(result, {depth: null}));
+	}
+)()

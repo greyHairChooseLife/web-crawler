@@ -146,6 +146,9 @@ const getUpdates = async (motherUrl, projectSlug) => {
 					}),
 				})
 			}
+		} 
+		else if(request.resourceType() === 'stylesheet' || request.resourceType() === 'image' || request.resourceType() === 'font') {
+			request.abort()
 		}else{
 			await request.continue()
 		}
