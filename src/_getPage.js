@@ -33,6 +33,10 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 				if(data === undefined || data[0]?.data?.project?.story === undefined) return
 				else fromCampaignGraph = data[0].data.project;
 			}
+			else if(request.resourceType() === 'stylesheet' || request.resourceType() === 'font') {
+				request.abort()
+			}
+
 		})
 
 		await page.goto(url, { waitUntil: 'networkidle0', });
@@ -346,6 +350,9 @@ const getCreatorData = async (url, slug) => {
 				})
 				isVirgin = false;
 			} 
+			else if(request.resourceType() === 'stylesheet' || request.resourceType() === 'font') {
+				request.abort()
+			}
 			else {
 				await request.continue()
 			}
@@ -404,6 +411,9 @@ async function grepSubmitStart(url) {
 				}
 
 				if(data[0]?.data?.project !== undefined) result = data[0]?.data?.project;
+			}
+			else if(request.resourceType() === 'stylesheet' || request.resourceType() === 'font') {
+				request.abort()
 			}
 		})
 
