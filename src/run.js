@@ -11,7 +11,7 @@ const {getComments} = require('./_getComment');
 
 const TOTAL_POOL = data;
 
-async function crawlSubcategory(sub_category_id) {
+async function crawlSubcategory(sub_category_id, range, value) {
 	const POOL = TOTAL_POOL.find(ele => ele.subCategoryID === Number(sub_category_id));
 	const POOL_INDEX = TOTAL_POOL.findIndex(ele => ele.subCategoryID === sub_category_id);
 	
@@ -55,6 +55,11 @@ async function crawlSubcategory(sub_category_id) {
 	let targetIdx = 0;
 	for (const target of TARGETS) {
 		const motherUrl = globalVariable.motherUrls[Math.floor(Math.random() * globalVariable.motherUrls.length)];
+		if(targetIdx %range !== value) {
+			//console.log(chalk.blue('\n\n\n\n[', targetIdx, ']번째 작업을 calcel합니다.\n\n'));
+			targetIdx++;
+			continue;
+		}
 		console.log(chalk.blue('\n\n\n\n[', targetIdx, ']번째 작업을 시작합니다.\n\n'));
 
 		//	공통 사용 변수 선언

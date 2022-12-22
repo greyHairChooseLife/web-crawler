@@ -1,0 +1,361 @@
+{
+  commentableID: 'UHJvamVjdC0xNzMzMzA3NzE1',
+  fromCampaignGraph: {
+    id: 'UHJvamVjdC0xNzMzMzA3NzE1',
+    isSharingProjectBudget: false,
+    risks: 'Team AIP  has worked hard to get ourselves to a place where we are least susceptible to any major risks or challenges. \r\n' +
+      '\r\n' +
+      "Our product is already in existence, tested, and fully functional! With Infinity 3DP proprietary software from one of Taiwan's best 3D printer manufacturers, our model of printer truly is a powerful and precise machine.\r\n" +
+      '\r\n' +
+      "Our main challenges before us are production and shipping costs; this is where Kickstarter comes in! Together, we can help accomplish AIP's goal of changing the way technology is used in our daily life, and to serve the needs of all types of commercial and creative endeavors through 3D design!",
+    story: '<div class="template asset" contenteditable="false" data-alt-text="" data-caption="" data-id="20964574">\n' +
+      '<figure>\n' +
+      '<img alt="" class="fit" src="https://ksr-ugc.imgix.net/assets/020/964/574/6a9040c086d8aaf170fee6225a577002_original.jpg?ixlib=rb-4.0.2&amp;w=680&amp;fit=max&amp;v=1524296837&amp;gif-q=50&amp;q=92&amp;s=3fb94497ad3b263b6fd8eb8a75ad4837">\n' +
+      '</figure>\n' +
+      '\n' +
+      '</div>\n' +
+      '\n' +
+      '\n' +
+      `<p><b>***More Example Print Pictures Below***</b></p><h1 id="h:the-aip-classic" class="page-anchor"><a href="http://americaninfinity.com" target="_blank" rel="noopener">The AIP 'Classic'</a></h1><h1 id="h:our-story-team-aip-t" class="page-anchor">Our Story - Team AIP: The Beginning</h1><div class="template asset" contenteditable="false" data-id="21310274">\n` +
+      '<figure class="page-anchor" id="asset-21310274">\n' +
+      `<div class="video-player" data-video-url="https://v2.kickstarter.com/1671721656-b2N3Dw%2Fy06IqBdXkBe7z91pMaot4RWHVrcNMJDQpCys%3D/assets/021/310/274/2016de1957446de448e9b247296f82ea_h264_high.mp4" data-image="https://d15chbti7ht62o.cloudfront.net/assets/021/310/274/2016de1957446de448e9b247296f82ea_h264_high.jpg?2018" data-dimensions='{"width":680,"height":382}' data-context="Story Description">\n` +
+      '<video class="landscape" preload="none">\n' +
+      `<source src="https://v2.kickstarter.com/1671721656-b2N3Dw%2Fy06IqBdXkBe7z91pMaot4RWHVrcNMJDQpCys%3D/assets/021/310/274/2016de1957446de448e9b247296f82ea_h264_high.mp4" type='video/mp4; codecs="avc1.64001E, mp4a.40.2"'></source>\n` +
+      `<source src="https://v2.kickstarter.com/1671721656-b2N3Dw%2Fy06IqBdXkBe7z91pMaot4RWHVrcNMJDQpCys%3D/assets/021/310/274/2016de1957446de448e9b247296f82ea_h264_base.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></source>\n` +
+      "You'll need an HTML5 capable browser to see this content.\n" +
+      '</video>\n' +
+      '<img class="has_played_hide full-width poster landscape" alt=" project video thumbnail" src="https://d15chbti7ht62o.cloudfront.net/assets/021/310/274/2016de1957446de448e9b247296f82ea_h264_high.jpg?2018">\n' +
+      '<div class="play_button_container absolute-center has_played_hide">\n' +
+      '<button aria-label="Play video" class="play_button_big play_button_dark radius2px" type="button">\n' +
+      '<span class="ksr-icon__play" aria-hidden="true"></span>\n' +
+      'Play\n' +
+      '</button>\n' +
+      '</div>\n' +
+      '<div class="reset-video js-reset-video-once">\n' +
+      '<div class="reset-video__icon">\n' +
+      '<div class="audio-indicator js-autoplay-svg">\n' +
+      '<svg version="1.1" viewbox="0 0 18 17.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">\n' +
+      '<g>\n' +
+      '<!-- / Animation Variables -->\n' +
+      '<!-- / Indicator Bar 1 -->\n' +
+      '<polygon class="audio-indicator-bar" points="0,0 2,0 2,11.5 2,17.2 0,17.2">\n' +
+      '<animate attributename="points" begin="0s" calcmode="spline" dur="1.2s" keysplines="0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99" keytimes="0; 0.3; 0.9; 1" repeatcount="indefinite" values="0,0 2,0 2,11.5 2,17.2 0,17.2;0,2.6 2,2.6 2,8.2 2,17.2 0,17.2;0,12.1 2,12.1 2,14 2,17.2 0,17.2;0,0 2,0 2,11.5 2,17.2 0,17.2"></animate>\n' +
+      '</polygon>\n' +
+      '<!-- / Indicator Bar 2 -->\n' +
+      '<polygon class="audio-indicator-bar" points="4,3.9 6,3.9 6,8.6 6,17.2 4,17.2">\n' +
+      '<animate attributename="points" begin="0s" calcmode="spline" dur="1.2s" keysplines="0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99" keytimes="0; 0.2; 0.6; 1" repeatcount="indefinite" values="4,3.9 6,3.9 6,8.6 6,17.2 4,17.2;4,10.6 6,10.6 6,12.9 6,17.2 4,17.2;4,6.4 6,6.4 6,10.2 6,17.2 4,17.2;4,3.9 6,3.9 6,8.6 6,17.2 4,17.2"></animate>\n' +
+      '</polygon>\n' +
+      '<!-- / Indicator Bar 3 -->\n' +
+      '<polygon class="audio-indicator-bar" points="8,7 10,7 10,8.3 10,17.2 8,17.2">\n' +
+      '<animate attributename="points" begin="0s" calcmode="spline" dur="1.2s" keysplines="0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99" keytimes="0; 0.3; 0.5; 1" repeatcount="indefinite" values="8,7 10,7 10,8.3 10,17.2 8,17.2;8,13.9 10,13.9 10,14.3 10,17.2 8,17.2;8,0 10,0 10,2.3 10,17.2 8,17.2;8,7 10,7 10,8.3 10,17.2 8,17.2"></animate>\n' +
+      '</polygon>\n' +
+      '<!-- / Indicator Bar 4 -->\n' +
+      '<polygon class="audio-indicator-bar" points="12,0 14,0 14,4.3 14,17.2 12,17.2">\n' +
+      '<animate attributename="points" begin="0s" calcmode="spline" dur="1.2s" keysplines="0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99" keytimes="0; 0.3; 0.9; 1" repeatcount="indefinite" values="12,0 14,0 14,4.3 14,17.2 12,17.2;12,6.1 14,6.1 14,8.9 14,17.2 12,17.2;12,10.6 14,10.6 14,12.2 14,17.2 12,17.2;12,0 14,0 14,4.3 14,17.2 12,17.2"></animate>\n' +
+      '</polygon>\n' +
+      '<!-- / Indicator Bar 5 -->\n' +
+      '<polygon class="audio-indicator-bar" points="16,1.9 18,1.9 18,3.9 18,17.2 16,17.2">\n' +
+      '<animate attributename="points" begin="0s" calcmode="spline" dur="1.2s" keysplines="0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99;0.18 0.01 0.37 0.99" keytimes="0; 0.4; 0.6; 1" repeatcount="indefinite" values="16,1.9 18,1.9 18,3.9 18,17.2 16,17.2;16,8.6 18,8.6 18,9.7 18,17.2 16,17.2;16,16.6 18,16.6 18,9.7 18,17.2 16,17.2;16,1.9 18,1.9 18,3.9 18,17.2 16,17.2"></animate>\n' +
+      '</polygon>\n' +
+      '</g>\n' +
+      '</svg>\n' +
+      '</div>\n' +
+      '\n' +
+      '</div>\n' +
+      '<div class="reset-video__label">\n' +
+      'Replay with sound\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '<div class="rewind-video js-reset-video-once">\n' +
+      '<div class="rewind-video__wrapper absolute-center">\n' +
+      '<div class="rewind-video__inner">\n' +
+      '<div class="rewind-video__button">\n' +
+      '<div class="rewind-video__button_inner">\n' +
+      '<div class="rewind-video__icon"></div>\n' +
+      '<div class="rewind-video__label">\n' +
+      'Play with <br> sound\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '<div class="player_controls absolute-bottom mb3 radius2px white bg-green-dark forces-video-controls_hide">\n' +
+      '<div class="left full-height">\n' +
+      '<button class="flex btn btn--with-svg btn--dark-green left playpause play mr2 ml0 full-height keyboard-focusable">\n' +
+      '<svg class="svg-icon__play" aria-hidden="true"><use xlink:href="#play"></use></svg>\n' +
+      '<svg class="svg-icon__pause" aria-hidden="true"><use xlink:href="#pause"></use></svg>\n' +
+      '</button>\n' +
+      '<time class="time current_time left video-time--current">00:00</time>\n' +
+      '</div>\n' +
+      '<div class="right full-height">\n' +
+      '<time class="time total_time left mr2 video-time--total">00:00</time>\n' +
+      '<button class="m0 left button button_icon button_icon_white volume full-height keyboard-focusable">\n' +
+      '<span class="ss-icon ss-volume icon_volume_nudge"></span>\n' +
+      '<span class="ss-icon ss-highvolume"></span>\n' +
+      '</button>\n' +
+      '<div class="volume_container left">\n' +
+      '<div class="progress_bar progress_bar_dark progress_bg">\n' +
+      '<div class="progress_bar_bg"></div>\n' +
+      '<div class="progress progress_bar_progress"></div>\n' +
+      '<div aria-label="Volume" class="progress_handle progress_bar_handle keyboard-focusable" role="slider" tabindex="0"></div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '<button aria-label="Fullscreen" class="m0 left button button_icon button_icon_white fullscreen full-height keyboard-focusable">\n' +
+      '<span class="ss-icon ss-expand"></span>\n' +
+      '<span class="ss-icon ss-delete"></span>\n' +
+      '</button>\n' +
+      '</div>\n' +
+      '<div class="clip">\n' +
+      '<div class="progress_container pr2 pl2">\n' +
+      '<div class="progress_bar progress_bar_dark progress_bg">\n' +
+      '<div class="progress_bar_bg"></div>\n' +
+      '<div class="buffer progress_bar_buffer"></div>\n' +
+      '<div class="progress progress_bar_progress"></div>\n' +
+      '<div aria-label="Played" class="progress_handle progress_bar_handle keyboard-focusable" role="slider" tabindex="0"></div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '<div class="clear"></div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</figure>\n' +
+      '\n' +
+      '</div>\n' +
+      '<p>Since our creation, <b>American Infinity Printing</b> (<i>AIP</i>) wants to do something different with the way that technology can be used in our daily life. Our team has proven that we can combine great design and new technology to serve the needs of all types of commercial and creative endeavors through 3D design.\n' +
+      "Our line of printer from American Infinity Printing, the <b>'</b><i>Classic</i>' is everything you want for a quality 3D printer. Perfect for <b>rapid prototyping designs, making household items</b>, or helping you achieve <b>smooth, professional grade print</b>s. With our range of filaments, our printer is suitable for both<b> industrial and commercial use</b>.\n" +
+      '\n' +
+      'At <i>American Infinity Printing</i>, we know that quality prints come from a quality printer. With<i> Infinity3DP</i> software, our printer is able to <b>print incredible detail</b> while being portable enough to<b> take anywhere you need it.</b></p><div class="template asset" contenteditable="false" data-alt-text="" data-caption="" data-id="20964579">\n' +
+      '<figure>\n' +
+      '<img alt="" class="fit" src="https://ksr-ugc.imgix.net/assets/020/964/579/d2a4dab25fd590d9b460a20d0285baba_original.jpg?ixlib=rb-4.0.2&amp;w=680&amp;fit=max&amp;v=1524296882&amp;gif-q=50&amp;q=92&amp;s=384857e41e404214690269c84ab08ad7">\n' +
+      '</figure>\n' +
+      '\n' +
+      '</div>\n' +
+      '\n' +
+      '\n' +
+      `<p>***More Example Print Pictures Below***</p><h1 id="h:technical-specs" class="page-anchor">Technical Specs:   </h1><p><b>Printer Type</b>: FDM <br><b>Build Height</b>: 210 * 210 * 240 mm (8.26 x 8.26 * 9.44 in) <br><b>Weight</b>: 10 kg (22 lbs) </p><p>Prints more than 6 different materials including: <b>PLA, ABS, TPE, TPU, Polycarbonate (PC), </b>and<b> Nylon!</b></p><h1 id="h:move-your-work-with" class="page-anchor">Move Your Work With You:</h1><p>Our 3D printer has a unique combination of specification. AIP is an industrial quality printer, having the ability to not only print PLA and ABS but Poly-carbonate and Nylon as well as other filaments. AIP Classic is  Our height is taller than that of most printers and has a lightweight open air aluminum alloy frame, making our printer only 22 lbs. </p><p>All this in combination with our printer's <b>portability</b> makes our 3D printer like no other on the market. Yes, that's right, pause your print, unplug your AIP classic printer and take it to a new location, plug back in and resume your print with little to no calibration needed! This same technology makes our printer power surge protected, never lose a half-way finished print again!</p><div class="template asset" contenteditable="false" data-id="21188007">\n` +
+      '<figure class="page-anchor" id="asset-21188007">\n' +
+      '<div class="video-player" data-video-url="https://v2.kickstarter.com/1671721657-P8WgSO1QMUegJuLqQ3buHJ19krUVElUA4J89KfBBObE%3D/assets/021/188/007/7abee2349927797f7bd5aee90d647432_h264_high.mp4" data-image="https://d15chbti7ht62o.cloudfront.net/assets/021/188/007/7abee2349927797f7bd5aee90d647432_h'... 15403 more characters,
+    currency: 'USD',
+    spreadsheet: null,
+    environmentalCommitments: [],
+    __typename: 'Project'
+  },
+  creatorName: 'American Infinity Printing',
+  creatorLocation: 'Louisville, KY',
+  creatorBiography: 'Since our creation, American Infinity Printing (AIP) wants to do something different with the way that technology can be used in our daily life.\r\n' +
+    '\r\n' +
+    'Our team has proven that we can combine great design and new technology to serve the needs of all types of commercial and creative endeavors through 3D design.',
+  creatorImage: 'https://ksr-ugc.imgix.net/assets/020/730/728/28ad8b803834455551f7e6bb575d796a_original.jpg?ixlib=rb-4.0.2&w=160&h=160&fit=crop&v=1524292563&auto=format&frame=1&q=92&s=c5ba2b22b0ea3cce49b14bced3e9d543',
+  creatorUrl: 'https://www.kickstarter.com/profile/1961586067',
+  creatorVerifiedIdentity: 'Joseph Dahmer',
+  creatorLastLogin: 1558193972,
+  creatorIsFacebookConnected: false,
+  creatorNumberOfLauncedProjects: 1,
+  creatorNumberOfBackingProjects: 0,
+  creatorContentsOfCollaborators: [],
+  creatorContentsOfWebsites: [
+    {
+      url: 'http://www.americaninfinity.com',
+      domain: 'americaninfinity.com'
+    },
+    {
+      url: 'https://www.facebook.com/americaninfinityprinting',
+      domain: 'facebook.com'
+    },
+    {
+      url: 'http://www.twitter.com/aip_infinity',
+      domain: 'twitter.com'
+    },
+    {
+      url: 'http://www.instagram.com/americaninfinityprinting',
+      domain: 'instagram.com'
+    }
+  ],
+  allOrNothing: undefined,
+  lastUpdated: 'December 23, 2018',
+  contentsOfSupportOptions: [],
+  start: 'Apr 26 2018',
+  end: 'May 26 2018',
+  duration: 30,
+  shownNumberOfUpdates: '16',
+  shownNumberOfComments: '8',
+  shownNumberOfFAQ: '5',
+  contentsOfFAQ: [
+    '<li class="js-faq bg-white border mb2 shadow-button radius2px hover-bg-grey-200" id="project_faq_246639">\n' +
+      '<div>\n' +
+      '<a class="js-faq-question-toggle block p3 no-outline flex items-center" data-faq_id="246639" href="#project_faq_246639" name="project_faq_246639">\n' +
+      '<span class="type-14 navy-700 medium">\n' +
+      'What exactly differentiates this printer from any other printer?\n' +
+      '</span>\n' +
+      '<span class="navy-600 pl3 ml-auto">\n' +
+      '<div class="js-arrow-icon">\n' +
+      '<svg class="svg-icon__arrow-right svg-icon--sm fill-navy-600" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>\n' +
+      '</div>\n' +
+      '</span>\n' +
+      '</a>\n' +
+      '</div>\n' +
+      '<div class="js-faq-answer hide pl3 pr9">\n' +
+      '<div class="type-14 navy-700 normal">\n' +
+      '<p>Unlike other printers currently available, our nozzle is able to reach temperatures up to 300 degrees, has more height than other printers, and (most importantly) is extremely lightweight with pause &amp; resume print capabilities allowing for simple and easy portability!</p>\n' +
+      '</div>\n' +
+      '<div class="type-12 navy-500 mb3">\n' +
+      'Last updated: <time datetime="2018-04-30T12:56:42-04:00" data-format="llll z" class="js-adjust-time">Tue, May 1 2018 1:56 AM UTC +09:00</time>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</li>',
+    '<li class="js-faq bg-white border mb2 shadow-button radius2px hover-bg-grey-200" id="project_faq_246640">\n' +
+      '<div>\n' +
+      '<a class="js-faq-question-toggle block p3 no-outline flex items-center" data-faq_id="246640" href="#project_faq_246640" name="project_faq_246640">\n' +
+      '<span class="type-14 navy-700 medium">\n' +
+      'Does this printer have difficulty maintaining higher bed and nozzle temp because it’s not enclosed?\n' +
+      '</span>\n' +
+      '<span class="navy-600 pl3 ml-auto">\n' +
+      '<div class="js-arrow-icon">\n' +
+      '<svg class="svg-icon__arrow-right svg-icon--sm fill-navy-600" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>\n' +
+      '</div>\n' +
+      '</span>\n' +
+      '</a>\n' +
+      '</div>\n' +
+      '<div class="js-faq-answer hide pl3 pr9">\n' +
+      '<div class="type-14 navy-700 normal">\n' +
+      '<p>Our printer maintains consistent bed and nozzle temps no matter the duration of your print. Our machines our thoroughly tested, and come with a 1-year limited warranty! Team AIP have even personally printed objects taking up to five days on multiple printers on multiple occasions and suffered no problems!</p>\n' +
+      '</div>\n' +
+      '<div class="type-12 navy-500 mb3">\n' +
+      'Last updated: <time datetime="2018-04-30T12:56:42-04:00" data-format="llll z" class="js-adjust-time">Tue, May 1 2018 1:56 AM UTC +09:00</time>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</li>',
+    '<li class="js-faq bg-white border mb2 shadow-button radius2px hover-bg-grey-200" id="project_faq_246641">\n' +
+      '<div>\n' +
+      '<a class="js-faq-question-toggle block p3 no-outline flex items-center" data-faq_id="246641" href="#project_faq_246641" name="project_faq_246641">\n' +
+      '<span class="type-14 navy-700 medium">\n' +
+      'What sets you apart from other crowd funded printers?\n' +
+      '</span>\n' +
+      '<span class="navy-600 pl3 ml-auto">\n' +
+      '<div class="js-arrow-icon">\n' +
+      '<svg class="svg-icon__arrow-right svg-icon--sm fill-navy-600" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>\n' +
+      '</div>\n' +
+      '</span>\n' +
+      '</a>\n' +
+      '</div>\n' +
+      '<div class="js-faq-answer hide pl3 pr9">\n' +
+      '<div class="type-14 navy-700 normal">\n' +
+      "<p>Our service is un-paralleled across the market. We're in the process of developing a line of instructional and educational videos and website so users of all levels of experience can enjoy our product and services with ease. We do service calls, and offer a 1-year limited warranty, which you do not see very often!</p>\n" +
+      '\n' +
+      '<p>The high quality, ease of use, and portability of our product paired with dedicated customer service sets us above and beyond other crowd funded printers.</p>\n' +
+      '\n' +
+      '<p>We also have a team of designers ready to help you design and print and item or object you could need! We also offer a printing service and will print your design at our HQ here in Louisville.</p>\n' +
+      '</div>\n' +
+      '<div class="type-12 navy-500 mb3">\n' +
+      'Last updated: <time datetime="2018-04-30T12:56:42-04:00" data-format="llll z" class="js-adjust-time">Tue, May 1 2018 1:56 AM UTC +09:00</time>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</li>',
+    '<li class="js-faq bg-white border mb2 shadow-button radius2px hover-bg-grey-200" id="project_faq_246650">\n' +
+      '<div>\n' +
+      '<a class="js-faq-question-toggle block p3 no-outline flex items-center" data-faq_id="246650" href="#project_faq_246650" name="project_faq_246650">\n' +
+      '<span class="type-14 navy-700 medium">\n' +
+      'Where can I find specs for the printer?\n' +
+      '</span>\n' +
+      '<span class="navy-600 pl3 ml-auto">\n' +
+      '<div class="js-arrow-icon">\n' +
+      '<svg class="svg-icon__arrow-right svg-icon--sm fill-navy-600" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>\n' +
+      '</div>\n' +
+      '</span>\n' +
+      '</a>\n' +
+      '</div>\n' +
+      '<div class="js-faq-answer hide pl3 pr9">\n' +
+      '<div class="type-14 navy-700 normal">\n' +
+      '<p>Printer Type: FDM\n' +
+      '<br>Build Height: 210 * 210 * 240 mm (8.26 x 8.26 * 9.44 in) \n' +
+      '<br>Prints over 7  materials including: PLA, ABS, TPE, TPU, Polycarbonate, and Nylon!\n' +
+      '<br>Machine Size: 40x22x46cm\n' +
+      '<br>Print Size: 21x21x24cm\n' +
+      '<br>Precision: 0.02mm-0.4mm\n' +
+      '<br>Printing Materials: PLA, TPE, TPU, Nylon, ABS, PC (Polycarbonate), PETG\n' +
+      '<br>Filament: 1.75mm\n' +
+      '<br>Hot Bed Temp: 0-110°C\n' +
+      '<br>Nozzle Diameter: 0.6mm, 0.4mm, 0.2mm\n' +
+      '<br>Nozzle Temp: 0-300°C\n' +
+      '<br>Cooling Fans: 2 TurboFan + 1 Heat fan\n' +
+      '<br>Platform Calibration: Optical Positioner\n' +
+      '<br>Connectivity: SD Card, USB\n' +
+      '<br>Silcer software: KISSlicer, CURA, Simplify3D, etc.\n' +
+      '<br>Operating Language: English, Chinese\n' +
+      '<br>Machine Material: Aluminium Alloy\n' +
+      '<br>Weight: Only 10kg  ( 22 lbs. )\n' +
+      '<br>Operating Voltage: 110v-240v\n' +
+      '<br>Actual Power: 80-270w</p>\n' +
+      '</div>\n' +
+      '<div class="type-12 navy-500 mb3">\n' +
+      'Last updated: <time datetime="2018-04-30T13:46:57-04:00" data-format="llll z" class="js-adjust-time">Tue, May 1 2018 2:46 AM UTC +09:00</time>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</li>',
+    '<li class="js-faq bg-white border mb2 shadow-button radius2px hover-bg-grey-200" id="project_faq_247827">\n' +
+      '<div>\n' +
+      '<a class="js-faq-question-toggle block p3 no-outline flex items-center" data-faq_id="247827" href="#project_faq_247827" name="project_faq_247827">\n' +
+      '<span class="type-14 navy-700 medium">\n' +
+      'What is the standard price for the AIP Classic?\n' +
+      '</span>\n' +
+      '<span class="navy-600 pl3 ml-auto">\n' +
+      '<div class="js-arrow-icon">\n' +
+      '<svg class="svg-icon__arrow-right svg-icon--sm fill-navy-600" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>\n' +
+      '</div>\n' +
+      '</span>\n' +
+      '</a>\n' +
+      '</div>\n' +
+      '<div class="js-faq-answer hide pl3 pr9">\n' +
+      '<div class="type-14 navy-700 normal">\n' +
+      '<p>The AIP Classic full retail value is 3,199.</p>\n' +
+      '</div>\n' +
+      '<div class="type-12 navy-500 mb3">\n' +
+      'Last updated: <time datetime="2018-05-09T19:53:22-04:00" data-format="llll z" class="js-adjust-time">Thu, May 10 2018 8:53 AM UTC +09:00</time>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</li>'
+  ],
+  topCityL1: 'Butler United States',
+  topCityB1: '3',
+  topCityL2: 'Louisville United States',
+  topCityB2: '3',
+  topCityL3: 'Atlanta United States',
+  topCityB3: '2',
+  topCityL4: 'Gibsonia United States',
+  topCityB4: '2',
+  topCityL5: 'Gatineau Canada',
+  topCityB5: '1',
+  topCityL6: 'Bowling Green United States',
+  topCityB6: '1',
+  topCityL7: 'Chicago United States',
+  topCityB7: '1',
+  topCityL8: 'Lexington United States',
+  topCityB8: '1',
+  topCityL9: 'Madison United States',
+  topCityB9: '1',
+  topCityL10: 'Marietta United States',
+  topCityB10: '1',
+  topCTRYL1: 'United States',
+  topCTRYB1: '19',
+  topCTRYL2: 'Canada',
+  topCTRYB2: '1',
+  topCTRYL3: undefined,
+  topCTRYB3: undefined,
+  topCTRYL4: undefined,
+  topCTRYB4: undefined,
+  topCTRYL5: undefined,
+  topCTRYB5: undefined,
+  topCTRYL6: undefined,
+  topCTRYB6: undefined,
+  topCTRYL7: undefined,
+  topCTRYB7: undefined,
+  topCTRYL8: undefined,
+  topCTRYB8: undefined,
+  topCTRYL9: undefined,
+  topCTRYB9: undefined,
+  topCTRYL10: undefined,
+  topCTRYB10: undefined,
+  number_of_new_backers: 17,
+  number_of_returning_backers: 10
+}

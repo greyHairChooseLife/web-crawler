@@ -3,7 +3,7 @@ exports.globalVariable = {
 		executablePath: '/opt/google/chrome/google-chrome',
 		args: [
 			'--disable-web-security',
-			`--proxy-server=usa.rotating.proxyrack.net:9000`
+			//`--proxy-server=usa.rotating.proxyrack.net:9000`
 		],
 		defaultViewport: {width: 1366 + Math.floor(Math.random() *50), height: 768 + Math.floor(Math.random() *50)},
 		headless: false

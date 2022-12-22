@@ -31,9 +31,10 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 				}
 
 				if(data === undefined || data[0]?.data?.project?.story === undefined) return
-				else fromCampaignGraph = data[0].data.project;
+				else{
+					fromCampaignGraph = data[0].data.project;
+				}
 			}
-
 		})
 
 		const makeCampaignSlug = url => {
@@ -146,7 +147,6 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 				}
 			})
 		}
-
 		const countingDataPot = await page.$('#react-campaign-nav');
 		let shownNumberOfFAQ;
 		let shownNumberOfUpdates;
@@ -158,6 +158,7 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 			shownNumberOfComments = await page.evaluate(ele => JSON.parse(ele.getAttribute('data-campaign')).commentsCount, countingDataPot);
 		} else {
 			const dataPot = await page.$$('#project-nav > div > div > div.project-nav__links > a');
+			//console.log('sex: ', dataPot);
 
 			for(each of dataPot){
 				if(await page.evaluate(ele => ele.getAttribute('data-analytics'), each) === 'faq') shownNumberOfFAQ = await page.evaluate(ele => ele.getAttribute('emoji-data'), each)
@@ -505,7 +506,7 @@ const getCampaignData = async (url, slug) => {
 		return result;
 	}
 	catch(err) {
-		console.log('getPage함수 내에서 실행한 getCampaignData함수의  실행이 실패했습니다.')
+		console.log('getPage함수 내에서 실행한 getCreatorData함수의  실행이 실패했습니다.')
 		console.log()
 		console.error(err)
 	}
@@ -565,20 +566,22 @@ module.exports = {grepLiveSuccessFailCancel, grepSubmitStart};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//(
-//	async () => {
-//		const live_url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
-//		const successful_url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
-//		const submitted_url = `https://www.kickstarter.com/projects/valueselect/mirth-pop-cd`;
-//		const canceled_url = 'https://www.kickstarter.com/projects/1012285011/hand-painted-mugs-that-will-make-you-smile-loveina';
-//		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
-//
-//		const a = await grepLiveSuccessFailCancel(canceled_url, 'canceled', slug);
-//		//const a = await grepSubmitStart('https://www.kickstarter.com/projects/valueselect/mirth-pop-cd', true, slug);
-//
-//		//const a = await getCreatorData(slug)
-//		console.log(util.inspect(a, {depth: null}));
-//
-//	}
-//)()
+
+(
+	async () => {
+		const live_url = `https://www.kickstarter.com/projects/print3dhandsome/jobox`;
+		const successful_url = `https://www.kickstarter.com/projects/mayku/formbox-a-desktop-vacuum-former-that-makes-beautif`;
+		const submitted_url = `https://www.kickstarter.com/projects/valueselect/mirth-pop-cd`;
+		const canceled_url = 'https://www.kickstarter.com/projects/1012285011/hand-painted-mugs-that-will-make-you-smile-loveina';
+		const slug = 'formbox-a-desktop-vacuum-former-that-makes-beautif';
+		const now_ = 'https://www.kickstarter.com/projects/1961586067/the-aip-classic-3d-printer';
+		const now_S = 'the-aip-classic-3d-printer'
+
+		const a = await grepLiveSuccessFailCancel(now_, 'successful', now_S);
+		//const a = await grepSubmitStart('https://www.kickstarter.com/projects/valueselect/mirth-pop-cd', true, slug);
+
+		//const a = await getCreatorData(slug)
+		console.log(util.inspect(a, {depth: null}));
+
+	}
+)()

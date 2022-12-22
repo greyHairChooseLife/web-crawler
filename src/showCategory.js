@@ -1,4 +1,5 @@
-const {categoryPool} = require('./categoryPool');
+const categoryPool = require('./categoryPool').data
+console.log(categoryPool)
 const readline = require('readline');
 const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 
