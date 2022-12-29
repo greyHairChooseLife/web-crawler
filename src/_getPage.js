@@ -293,7 +293,7 @@ async function grepLiveSuccessFailCancel(url, projectState, slugFromTargetData) 
 		console.error(err)
 	}
 	finally {
-		browser.close();	// 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
+		await browser.close();	// 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
 	}
 }
 
@@ -370,7 +370,7 @@ const getCreatorData = async (url, slug) => {
 				})
 				isVirgin = false;
 			} 
-			else if(request.resourceType() === 'stylesheet' || request.resourceType() === 'font') {
+			else if(request.resourceType() === 'image' || request.resourceType() === 'font') {
 				request.abort()
 			}
 			else {
@@ -406,7 +406,7 @@ const getCreatorData = async (url, slug) => {
 		console.error(err)
 	}
 	finally {
-		browser.close(); // 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
+		await browser.close(); // 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
 	}
 }
 
@@ -473,7 +473,7 @@ const getCampaignData = async (url, slug) => {
 				})
 				isVirgin = false;
 			} 
-			else if(request.resourceType() === 'stylesheet' || request.resourceType() === 'font') {
+			else if(request.resourceType() === 'image' || request.resourceType() === 'font') {
 				request.abort()
 			}
 			else {
@@ -510,7 +510,7 @@ const getCampaignData = async (url, slug) => {
 		console.error(err)
 	}
 	finally {
-		browser.close(); // 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
+		await browser.close(); // 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
 	}
 }
 
@@ -550,7 +550,7 @@ async function grepSubmitStart(url) {
 		console.error(err)
 	}
 	finally {
-		browser.close();	// 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
+		await browser.close();	// 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
 	}
 }
 

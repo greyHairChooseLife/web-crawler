@@ -20,8 +20,6 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 
 	await page.on('request', async request => {
 		if(request.url().includes('https://api.icy-lake.kickstarter.com/v1/t')) {
-			console.log('catch dispatcher.ts');
-			//console.log(request.headers())
 			request.respond({
 				status: 200,
 				contentType: 'text/plain',
@@ -125,7 +123,7 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 				})
 			}
 		} 
-		else if(request.resourceType() === 'stylesheet' || request.resourceType() === 'image' || request.resourceType() === 'font') {
+		else if(request.resourceType() === 'image' || request.resourceType() === 'font') {
 			request.abort()
 		}else{
 			await request.continue()
@@ -214,7 +212,7 @@ const getComments = async (motherUrl, commentableId, givenEndCursor) => {
 		console.error(err)
 	}
 	finally {
-		browser.close();	// 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
+		await browser.close();	// 상기 과정에 에러가 발생해도 브라우저는 반드시 종료되도록 한다.
 		return results
 	}
 }

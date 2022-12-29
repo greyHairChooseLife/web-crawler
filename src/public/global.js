@@ -1,23 +1,30 @@
 exports.globalVariable = {
 	browserOptions: {
 		executablePath: '/opt/google/chrome/google-chrome',
+        ignoreHTTPSErrors: true,
 		args: [
 			'--disable-web-security',
-			//`--proxy-server=usa.rotating.proxyrack.net:9000`
+			//'--proxy-server=http://smartproxy.crawlbase.com:8012'
+//			'--disable-gpu', 
+//			'--disable-setuid-sandbox',
+//			'--no-sandbox',
+//			'--no-zygote'
 		],
+
 		defaultViewport: {width: 1366 + Math.floor(Math.random() *50), height: 768 + Math.floor(Math.random() *50)},
 		headless: false
 	},
 	randomTime: {
-		fifteenSec: (Math.floor(Math.random() *10) + 10) *1000,		//	15 sec
-		halfMin: (Math.floor(Math.random() *10) + 25) *1000,		//	30 sec
+		fifteenSec: (Math.floor(Math.random() *10) + 10) *1000 /10,		//	15 sec
+		halfMin: (Math.floor(Math.random() *10) + 25) *1000 /30,		//	30 sec
 		twoMin: (Math.floor(Math.random() *10) + 120) *1000,		//	2  min
 		fiveMin: (Math.floor(Math.random() *10) + 300) *1000,		//	5  min
 		fifteenMin: (Math.floor(Math.random() *10) + 1500) *1000,	//  15 min
 	},
 	proxyInfo: {
-		name: 'sangyeon',
-		pw: 'dc1fef-1a66c2-a9c11c-d84a8b-31b1e5',
+		name: '',
+		pw: '',
+
 	},
 	now: () => {return new Date().toLocaleString()},
 	motherUrls : [

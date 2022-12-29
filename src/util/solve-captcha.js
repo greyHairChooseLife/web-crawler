@@ -1,4 +1,5 @@
 async function solveCaptchar(page, tryCount) {
+	return
 	if(tryCount !== undefined && tryCount > 10) return		//	10회까지만 시도하자. 실패하면 브라우저 종료로 이어진다.
 	if(await page.$('#px-captcha') !== null) {
 		if(tryCount === undefined) tryCount = 2;
